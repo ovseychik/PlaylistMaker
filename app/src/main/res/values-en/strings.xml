@@ -9,4 +9,8 @@
     <string name="write_to_support">Reach support</string>
     <string name="share_app">Share app</string>
     <string name="license_agreement">User agreement</string>
+    <string name="share_link">Check out this cool Android-dev course https://practicum.yandex.ru/android-developer/</string>
+    <string name="support_email_title">[EN] Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="support_message">Best regards to developers for this amazing app.</string>
+    <string name="search_hint">Search</string>
 </resources>

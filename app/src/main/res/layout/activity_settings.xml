@@ -33,7 +33,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin61"
+        android:layout_marginTop="@dimen/margin42"
         android:background="@color/settings_background">
 
         <TextView
@@ -43,14 +43,15 @@
             android:layout_gravity="center_vertical"
             android:text="@string/night_theme" />
 
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_theme"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/switchH12"
             android:layout_gravity="end" />
     </FrameLayout>
 
     <TextView
-        android:id="@+id/btn_reply"
+        android:id="@+id/btn_share"
         style="@style/SettingsStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +69,7 @@
         app:drawableEndCompat="@drawable/ic_support" />
 
     <TextView
-        android:id="@+id/btn_forward"
+        android:id="@+id/btn_legal"
         style="@style/SettingsStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
