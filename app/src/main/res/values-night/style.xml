@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="HeadsImage">
-        <item name="android:src">@drawable/ic_arrow_back_night</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-</resources>
