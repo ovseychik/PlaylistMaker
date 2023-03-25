@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/margin34"
         android:layout_marginEnd="@dimen/margin15"
         android:text="@string/search"
-        app:icon="@drawable/icon_search" />
+        app:icon="@drawable/ic_search" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/margin3"
         android:layout_marginEnd="@dimen/margin15"
         android:text="@string/media_library"
-        app:icon="@drawable/icon_media_library" />
+        app:icon="@drawable/ic_media_library" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_settings"
@@ -52,5 +52,5 @@
         android:layout_marginTop="@dimen/margin3"
         android:layout_marginEnd="@dimen/margin15"
         android:text="@string/settings"
-        app:icon="@drawable/icon_cog" />
+        app:icon="@drawable/ic_cog" />
 </LinearLayout>

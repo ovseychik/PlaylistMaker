@@ -46,11 +46,12 @@
             tools:context=".MainActivity">
 
             <ImageView
+                style="@style/SearchBarImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="13dp"
-                android:src="@drawable/ic_search_inline" />
+                 />
 
             <EditText
                 android:id="@+id/inputSearch"
@@ -67,12 +68,12 @@
                 android:textColorHint="@color/search_hint_text_searchline" />
 
             <ImageView
+                style="@style/ClearSearchField"
                 android:id="@+id/clearTextSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_do_clear_field"
                 android:visibility="gone"
                 tools:visibility="visible" />
 

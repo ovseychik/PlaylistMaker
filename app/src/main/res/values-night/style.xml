@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="HeadsImage">
         <item name="android:src">@drawable/ic_arrow_back_night</item>
-        <item name="android:layout_gravity">center</item>
     </style>
+
+    <style name="SettingsShareStyle">
+        <item name="android:drawableEnd">@drawable/ic_share_night</item>
+    </style>
+
+    <style name="SettingsSupportStyle">
+        <item name="android:drawableEnd">@drawable/ic_support_night</item>
+    </style>
+
+    <style name="SettingsLegalStyle">
+        <item name="android:drawableEnd">@drawable/ic_forward_night</item>
+    </style>
+
+
+    <style name="SearchBarImage">
+        <item name="android:src">@drawable/ic_search_inline_night</item>
+    </style>
+
+    <style name="ClearSearchField">
+        <item name="android:src">@drawable/ic_do_clear_field_night</item>
+    </style>
+
 </resources>

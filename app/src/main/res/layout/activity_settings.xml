@@ -20,6 +20,7 @@
             style="@style/HeadsImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@color/settings_background" />
 
         <TextView
@@ -43,38 +44,36 @@
             android:layout_gravity="center_vertical"
             android:text="@string/night_theme" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_theme"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/switchH12"
-            android:layout_gravity="end" />
+            android:layout_gravity="end"
+            android:theme="@style/SwitchCompatStyle" />
     </FrameLayout>
 
     <TextView
         android:id="@+id/btn_share"
-        style="@style/SettingsStyle"
+        style="@style/SettingsShareStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin42"
-        android:text="@string/share_app"
-        app:drawableEndCompat="@drawable/ic_share" />
+        android:text="@string/share_app" />
 
     <TextView
         android:id="@+id/btn_support"
-        style="@style/SettingsStyle"
+        style="@style/SettingsSupportStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin42"
-        android:text="@string/write_to_support"
-        app:drawableEndCompat="@drawable/ic_support" />
+        android:text="@string/write_to_support" />
 
     <TextView
         android:id="@+id/btn_legal"
-        style="@style/SettingsStyle"
+        style="@style/SettingsLegalStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin42"
-        android:text="@string/license_agreement"
-        app:drawableEndCompat="@drawable/ic_forward" />
+        android:text="@string/license_agreement" />
 
 </LinearLayout>

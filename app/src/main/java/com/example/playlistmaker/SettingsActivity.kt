@@ -5,9 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-//import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,14 +17,14 @@ class SettingsActivity : AppCompatActivity() {
         val buttonSupport = findViewById<TextView>(R.id.btn_support)
         val buttonLegal = findViewById<TextView>(R.id.btn_legal)
 
-        buttonShare.setOnClickListener() {
+        buttonShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_link))
             intent.type = "text/plain"
             startActivity(intent)
         }
 
-        buttonSupport.setOnClickListener() {
+        buttonSupport.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:")
             intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
@@ -35,13 +33,12 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        buttonLegal.setOnClickListener() {
+        buttonLegal.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.legal_link)))
             startActivity(intent)
         }
 
-        buttonBack.setOnClickListener() {
-            //val backIntent = Intent(this, MainActivity::class.java)
+        buttonBack.setOnClickListener {
             finish()
         }
     }
