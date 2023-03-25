@@ -15,34 +15,34 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_LINE = "SEARCH_LINE"
     }
 
-    private lateinit var textSearch: EditText
+    private lateinit var searchEditText: EditText
     private var searchTextString = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        textSearch = findViewById(R.id.inputSearch)
+        searchEditText = findViewById(R.id.inputSearch)
         val btnClearText = findViewById<ImageView>(R.id.clearTextSearch)
 
         btnClearText.setOnClickListener {
-            textSearch.setText("")
+            searchEditText.setText("")
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(textSearch.windowToken, 0)
+            inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
 
         val searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                searchTextString = textSearch.text.toString()
+                searchTextString = searchEditText.text.toString()
                 btnClearText.visibility = visibilityView(p0)
             }
 
             override fun afterTextChanged(p0: Editable?) {}
         }
 
-        textSearch.addTextChangedListener(searchTextWatcher)
+        searchEditText.addTextChangedListener(searchTextWatcher)
 
         val buttonBack = findViewById<ImageView>(R.id.btn_back)
         buttonBack.setOnClickListener {
@@ -65,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        textSearch.setText(savedInstanceState.getString(SEARCH_LINE))
+        searchEditText.setText(savedInstanceState.getString(SEARCH_LINE))
     }
 }
 
