@@ -15,6 +15,7 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_LINE = "SEARCH_LINE"
     }
 
+    //comment
     private lateinit var searchEditText: EditText
     private var searchTextString = ""
 
