@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin16">16dp</dimen>
+    <dimen name="margin17">17dp</dimen>
+    <dimen name="margin34">34dp</dimen>
+    <dimen name="margin15">15dp</dimen>
+    <dimen name="radius16">16dp</dimen>
+    <dimen name="margin3">3dp</dimen>
+    <dimen name="margin25">25dp</dimen>
+    <dimen name="head_margin_start_image">4dp</dimen>
+    <dimen name="head_margin_top_image">20dp</dimen>
+    <dimen name="head_margin_title">28dp</dimen>
+    <dimen name="margin61">61dp</dimen>
+    <dimen name="switchH12">12dp</dimen>
+    <dimen name="margin42">42dp</dimen>
+    <dimen name="head_text">22sp</dimen>
+    <dimen name="text16">16sp</dimen>
+    <dimen name="padding16">16dp</dimen>
+    <dimen name="padding14">14dp</dimen>
+    <dimen name="padding22">22dp</dimen>
+    <dimen name="album_image">45dp</dimen>
+    <dimen name="track_margin8">8dp</dimen>
+    <dimen name="track_margin23">8dp</dimen>
+</resources>

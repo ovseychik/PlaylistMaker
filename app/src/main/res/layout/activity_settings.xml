@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/settings_background"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/padding16"
+    android:paddingEnd="@dimen/padding16">
+
+    <LinearLayout
+        style="@style/HeadsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/settings_background">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            style="@style/HeadsImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/settings_background" />
+
+        <TextView
+            style="@style/HeadsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/settings_background"
+            android:text="@string/settings" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin42"
+        android:background="@color/settings_background">
+
+        <TextView
+            style="@style/SettingsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/night_theme" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/switchH12"
+            android:layout_gravity="end"
+            android:theme="@style/SwitchCompatStyle" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/btn_share"
+        style="@style/SettingsShareStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin42"
+        android:text="@string/share_app" />
+
+    <TextView
+        android:id="@+id/btn_support"
+        style="@style/SettingsSupportStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin42"
+        android:text="@string/write_to_support" />
+
+    <TextView
+        android:id="@+id/btn_legal"
+        style="@style/SettingsLegalStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin42"
+        android:text="@string/license_agreement" />
+
+</LinearLayout>
