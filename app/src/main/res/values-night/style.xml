@@ -26,4 +26,12 @@
         <item name="android:src">@drawable/ic_do_clear_field_night</item>
     </style>
 
+    <style name="ForwardIconStyle">
+        <item name="android:drawableEnd">@drawable/ic_forward_night</item>
+    </style>
+
+    <style name="SeparatorEllipse">
+        <item name="android:src">@drawable/separator_ellipse_night</item>
+    </style>
+
 </resources>
