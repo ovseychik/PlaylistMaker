@@ -8,12 +8,13 @@
 
     <ImageView
         android:id="@+id/artWork"
-        android:layout_width="@dimen/album_image"
-        android:layout_height="@dimen/album_image"
+        android:layout_width="@dimen/album_cover"
+        android:layout_height="@dimen/album_cover"
         android:layout_marginTop="@dimen/track_margin8"
         android:layout_marginEnd="@dimen/track_margin8"
+        android:layout_marginBottom="@dimen/track_margin8"
         tools:layout_marginStart="13dp"
-        tools:src="@drawable/ic_albumart_placeholder" />
+        tools:src="@drawable/ic_album_cover_placeholder" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,9 +25,11 @@
             android:id="@+id/trackName"
             style="@style/TrackName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/track_margin8"
+            android:layout_height="0dp"
             android:layout_marginTop="14dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
             tools:text="Всё идёт по плану" />
 
         <LinearLayout
@@ -39,8 +42,10 @@
                 style="@style/TrackBandAndDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/track_margin8"
                 android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
                 tools:text="Лето в Омске" />
 
             <ImageView
@@ -49,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="6dp"
-                 />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/trackDuration"
@@ -58,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="1dp"
+                android:maxLines="1"
                 tools:text="2:55" />
 
         </LinearLayout>
@@ -69,7 +75,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/track_margin16"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="@dimen/track_margin16" />
+
+    <!--
+    Это был вариант с добавлением пустого view. Я так понял, это плохая практика.
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            style="@style/ForwardIconStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/track_margin16"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="@dimen/track_margin16"
+            android:src="@drawable/ic_forward_day" />
+    -->
 
 </LinearLayout>

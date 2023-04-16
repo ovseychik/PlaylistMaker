@@ -20,12 +20,16 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         artWorkView = itemView.findViewById(R.id.artWork)
     }
 
+
     fun bind(track: Track) {
         trackNameView.text = track.trackName
         artistNameView.text = track.artistName
         trackTimeView.text = track.trackTime
-        Glide.with(itemView).load(track.artWorkUrl).centerCrop().transform(RoundedCorners(10))
-            .placeholder(R.drawable.ic_albumart_placeholder).into(artWorkView)
+
+        val round =itemView.context.resources.getDimensionPixelSize(R.dimen.album_cover_round)
+
+        Glide.with(itemView).load(track.artWorkUrl).centerCrop().transform(RoundedCorners(round))
+            .placeholder(R.drawable.ic_album_cover_placeholder).into(artWorkView)
     }
 
 }
