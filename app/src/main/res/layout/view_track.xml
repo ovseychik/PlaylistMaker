@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/artWork"
+        android:layout_width="@dimen/album_cover"
+        android:layout_height="@dimen/album_cover"
+        android:layout_marginTop="@dimen/track_margin8"
+        android:layout_marginEnd="@dimen/track_margin8"
+        android:layout_marginBottom="@dimen/track_margin8"
+        tools:layout_marginStart="13dp"
+        tools:src="@drawable/ic_album_cover_placeholder" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/trackName"
+                style="@style/TrackName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="28dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                tools:text="Всё идёт по плану" />
+
+            <TextView
+                style="@style/ForwardIconStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/track_margin16"
+                android:layout_marginEnd="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/artistName"
+                style="@style/TrackBandAndDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Лето в Омске" />
+
+            <ImageView
+                style="@style/SeparatorEllipse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:id="@+id/trackDuration"
+                style="@style/TrackBandAndDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="28dp"
+                android:maxLines="1"
+                tools:text="2:55" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
