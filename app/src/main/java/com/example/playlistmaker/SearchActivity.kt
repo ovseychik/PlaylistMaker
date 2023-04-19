@@ -106,7 +106,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    fun showResults(text: String) {
+    fun showPlaceholder(text: String) {
         when (text) {
             TRACK_NOT_FOUND -> placeholderNoResult.visibility = View.VISIBLE
             else -> placeholderNoNetwork.visibility = View.VISIBLE
@@ -153,16 +153,16 @@ class SearchActivity : AppCompatActivity() {
                                 adapter.notifyDataSetChanged()
                             }
                             if (tracks.isEmpty()) {
-                                showResults(TRACK_NOT_FOUND)
+                                showPlaceholder(TRACK_NOT_FOUND)
                             } else {
-                                showResults(CHECK_NETWORK)
+                                showPlaceholder(CHECK_NETWORK)
                             }
                         }
 
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        showResults(CHECK_NETWORK)
+                        showPlaceholder(CHECK_NETWORK)
                     }
                 })
 
