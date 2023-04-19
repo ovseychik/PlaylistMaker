@@ -34,4 +34,12 @@
         <item name="android:src">@drawable/separator_ellipse_night</item>
     </style>
 
+    <style name="search_placeholder_network_image">
+        <item name="android:src">@drawable/no_internet_night</item>
+    </style>
+
+    <style name="search_placeholder_no_result_image">
+        <item name="android:src">@drawable/nothing_found_night</item>
+    </style>
+
 </resources>

@@ -94,5 +94,13 @@
         <item name="android:src">@drawable/separator_ellipse</item>
     </style>
 
+    <style name="search_placeholder_network_image">
+        <item name="android:src">@drawable/no_internet_day</item>
+    </style>
+
+    <style name="search_placeholder_no_result_image">
+        <item name="android:src">@drawable/nothing_found_day</item>
+    </style>
+
 
 </resources>
