@@ -9,13 +9,13 @@
     <string name="share_app">Поделиться приложением</string>
     <string name="license_agreement">Пользовательское соглашение</string>
     <string name="share_link">Смотри, какой классный курс по Android-разработке https://practicum.yandex.ru/android-developer/</string>
-    <string name="support_email">ovseychik.s@yandex.ru</string>
+    <string name="support_email" translatable="false">ovseychik.s@yandex.ru</string>
     <string name="support_email_title">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="support_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
-    <string name="legal_link">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="legal_link" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
     <string name="search_hint">Поиск</string>
     <string name="nothing_found">Ничего не нашлось</string>
-    <string name="check_network_lvl1">Проблемы со связью</string>
+    <string name="check_network">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="check_network_lvl2">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="refresh_button_text">Обновить</string>
 </resources>

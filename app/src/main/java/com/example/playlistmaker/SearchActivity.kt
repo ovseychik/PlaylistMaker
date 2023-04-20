@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -58,6 +59,12 @@ class SearchActivity : AppCompatActivity() {
         // Действие по кнопке очистки строки поиска
         btnClearText.setOnClickListener {
             queryInput.setText("")
+            tracks.clear()
+            adapter.notifyDataSetChanged()
+            // и не забыть спрятать плейсхолдер
+            placeholderNoNetwork.visibility = View.GONE
+            placeholderNoResult.visibility = View.GONE
+
             val inputMethodManager =
                 getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
@@ -106,10 +113,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    fun showPlaceholder(text: String) {
+    private fun showPlaceholder(text: String) {
         when (text) {
             TRACK_NOT_FOUND -> placeholderNoResult.visibility = View.VISIBLE
-            else -> placeholderNoNetwork.visibility = View.VISIBLE
+            CHECK_NETWORK -> placeholderNoNetwork.visibility = View.VISIBLE
         }
     }
 
@@ -154,9 +161,9 @@ class SearchActivity : AppCompatActivity() {
                             }
                             if (tracks.isEmpty()) {
                                 showPlaceholder(TRACK_NOT_FOUND)
-                            } else {
+                            } /*else {
                                 showPlaceholder(CHECK_NETWORK)
-                            }
+                            }*/
                         }
 
                     }
