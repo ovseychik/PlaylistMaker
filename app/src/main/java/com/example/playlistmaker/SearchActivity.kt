@@ -1,6 +1,5 @@
 package com.example.playlistmaker
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,14 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
-        const val CHECK_NETWORK = "CHECK NETWORK"
-        const val TRACK_NOT_FOUND = "NO RESULT"
     }
 
     private lateinit var queryInput: EditText
-    private lateinit var placeholderNoNetwork: LinearLayout
+    private lateinit var placeholder: LinearLayout
+    private lateinit var placeholderText: TextView
+    private lateinit var placeholderImage: ImageView
     private lateinit var placeholderNoNetworkButton: Button
-    private lateinit var placeholderNoResult: LinearLayout
 
     private var searchTextString = ""
 
@@ -41,9 +40,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
 
     private val itunesService = retrofit.create(ItunesApi::class.java)
-
     private val tracks = ArrayList<Track>()
-
     private val adapter = TrackAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,20 +48,16 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         queryInput = findViewById(R.id.inputSearch)
-        placeholderNoNetwork = findViewById(R.id.placeHolderNoInternet)
-        placeholderNoResult = findViewById(R.id.placeHolderNothingFound)
+        placeholder = findViewById(R.id.placeHolder)
+        placeholderText = findViewById(R.id.searchPlaceholderText)
+        placeholderImage = findViewById(R.id.searchPlaceHolderImage)
 
+
+        // Кнопка очистки строки поиска
         val btnClearText = findViewById<ImageView>(R.id.clearTextSearch)
-
-        // Действие по кнопке очистки строки поиска
         btnClearText.setOnClickListener {
             queryInput.setText("")
-            tracks.clear()
-            adapter.notifyDataSetChanged()
-            // и не забыть спрятать плейсхолдер
-            placeholderNoNetwork.visibility = View.GONE
-            placeholderNoResult.visibility = View.GONE
-
+            flushView()
             val inputMethodManager =
                 getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
@@ -113,10 +106,23 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPlaceholder(text: String) {
-        when (text) {
-            TRACK_NOT_FOUND -> placeholderNoResult.visibility = View.VISIBLE
-            CHECK_NETWORK -> placeholderNoNetwork.visibility = View.VISIBLE
+    //Попытка реализации обработки ошибок через Enum
+    private enum class Results(val message: String) {
+        //Для 200 не реализовывал, потому что не требуется по логике searchTrack()
+        //SUCCESS("OK 200"),
+        CHECK_NETWORK("CHECK NETWORK"),
+        NOTHING_FOUND("NO RESULT")
+    }
+
+    private fun showPlaceholder(result: Results) {
+        placeholder.visibility = View.VISIBLE
+        if (result == Results.NOTHING_FOUND) {
+            placeholderImage.setImageResource(R.drawable.nothing_found)
+            placeholderText.text = getString(R.string.nothing_found)
+        } else if (result == Results.CHECK_NETWORK) {
+            placeholderImage.setImageResource(R.drawable.no_internet)
+            placeholderText.text = getString(R.string.check_network)
+            placeholderNoNetworkButton.visibility = View.VISIBLE
         }
     }
 
@@ -139,13 +145,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchTrack() {
-        // Скроем сообщения об ошибках, если они были перед этим запуском поиска
-        placeholderNoNetwork.visibility = View.GONE
-        placeholderNoResult.visibility = View.GONE
-        // И очистим список треков в RecyclerView, если поиск выполняется второй раз на экране
-        tracks.clear()
-        adapter.notifyDataSetChanged()
-
+        flushView()
         if (queryInput.text.isNotEmpty()) {
             itunesService.search(queryInput.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
@@ -160,20 +160,27 @@ class SearchActivity : AppCompatActivity() {
                                 adapter.notifyDataSetChanged()
                             }
                             if (tracks.isEmpty()) {
-                                showPlaceholder(TRACK_NOT_FOUND)
-                            } /*else {
-                                showPlaceholder(CHECK_NETWORK)
-                            }*/
+                                showPlaceholder(Results.NOTHING_FOUND)
+                            }
                         }
 
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        showPlaceholder(CHECK_NETWORK)
+                        showPlaceholder(Results.CHECK_NETWORK)
                     }
                 })
 
         }
+    }
+
+    //Очистка экрана от лишних view при новом поиске: плейсхолдеры и результаты поиска
+    private fun flushView() {
+        placeholder.visibility = View.GONE
+        // Это если попадем сюда после плейсхолдера "Нет сети"
+        placeholderNoNetworkButton.visibility = View.GONE
+        tracks.clear()
+        adapter.notifyDataSetChanged()
     }
 
 }
