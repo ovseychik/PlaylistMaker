@@ -19,6 +19,8 @@
     <color name="search_hint_text_searchline">#1A1B22</color>
     <color name="search_text_searchline">#1A1B22</color>
 
+    <color name="error_placeholder">#FFFFFF</color>
+
     <color name="track_name">#FFFFFF</color>
     <color name="band_name">#FFFFFF</color>
 

@@ -13,4 +13,8 @@
     <string name="support_email_title">[EN] Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="support_message">Best regards to developers for this amazing app.</string>
     <string name="search_hint">Search</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="check_network">Network issues\n\nFailed to fetch data. Please, check your network</string>
+    <string name="check_network_lvl2">Failed to fetch data. Please, check your network</string>
+    <string name="refresh_button_text">Refresh</string>
 </resources>
