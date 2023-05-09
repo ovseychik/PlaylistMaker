@@ -36,19 +36,12 @@
         android:layout_marginTop="@dimen/margin42"
         android:background="@color/settings_background">
 
-        <TextView
-            style="@style/SettingsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_gravity="start"
             android:text="@string/night_theme" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_theme"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/switchH12"
-            android:layout_gravity="end"
-            android:theme="@style/SwitchCompatStyle" />
     </FrameLayout>
 
     <TextView

@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
+        const val SEARCH_PREFERENCES = "SEARCH_PREFERENCES"
     }
 
     private lateinit var queryInput: EditText
@@ -30,6 +33,14 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderText: TextView
     private lateinit var placeholderImage: ImageView
     private lateinit var placeholderNoNetworkButton: Button
+    private lateinit var trackRecycler: RecyclerView
+    private lateinit var historyClearTracks: Button
+    private lateinit var searchSharedPrefs: SharedPreferences
+    private lateinit var searchHistory: SearchHistory
+    private lateinit var adapter: TrackAdapter
+    private lateinit var historyAdapter: TrackAdapter
+    private lateinit var historyTrackRecycler: RecyclerView
+    private lateinit var historySearched: LinearLayout
 
     private var searchTextString = ""
 
@@ -41,7 +52,8 @@ class SearchActivity : AppCompatActivity() {
 
     private val itunesService = retrofit.create(ItunesApi::class.java)
     private val tracks = ArrayList<Track>()
-    private val adapter = TrackAdapter()
+
+    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +63,12 @@ class SearchActivity : AppCompatActivity() {
         placeholder = findViewById(R.id.placeHolder)
         placeholderText = findViewById(R.id.searchPlaceholderText)
         placeholderImage = findViewById(R.id.searchPlaceHolderImage)
+        searchSharedPrefs = getSharedPreferences(SEARCH_PREFERENCES, MODE_PRIVATE)
+        searchHistory = SearchHistory(searchSharedPrefs, gson)
+        historyClearTracks = findViewById(R.id.historyClear)
+        historySearched = findViewById(R.id.searchHistory)
+        historyTrackRecycler = findViewById(R.id.historyTrackList)
+        trackRecycler = findViewById(R.id.trackList)
 
 
         // Кнопка очистки строки поиска
@@ -63,12 +81,49 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
         }
 
+        historyAdapter = TrackAdapter {}
+        historyTrackRecycler.adapter = historyAdapter
+        historyTrackRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        refreshHistory()
+
+        historyClearTracks.setOnClickListener() {
+            searchHistory.clearHistory()
+            historySearched.visibility = View.GONE
+            refreshHistory()
+        }
+
+        adapter = TrackAdapter {
+            searchHistory.addTrack(it)
+            refreshHistory()
+        }
+
+        trackRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        trackRecycler.adapter = adapter
+        adapter.tracks = tracks
+
+
         // Кнопка обновить при ошибке сети
-        placeholderNoNetworkButton = findViewById(R.id.placeHolderNoInternetRefreshButton)
+        placeholderNoNetworkButton = findViewById(R.id.placeholderRefreshButton)
         placeholderNoNetworkButton.setOnClickListener {
             searchTrack()
         }
 
+        queryInput.setOnFocusChangeListener() { view, hasFocus ->
+            historySearched.visibility =
+                if (hasFocus && queryInput.text.isEmpty() == true && searchHistory.getHistory()
+                        .isEmpty() == false
+                ) {
+                    placeholder.visibility = View.GONE
+                    refreshHistory()
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+        }
+
+
+        // по нажитию Enter на клавиатуре
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchTrack()
@@ -77,8 +132,8 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
+
         // инициализируем recyclerview
-        val trackRecycler = findViewById<RecyclerView>(R.id.trackList)
 
         adapter.tracks = tracks
         trackRecycler.layoutManager = LinearLayoutManager(this)
@@ -91,6 +146,10 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(seq: CharSequence?, start: Int, count: Int, after: Int) {
+                historySearched.visibility =
+                    if (queryInput.hasFocus() && seq?.isEmpty() == true && searchHistory.getHistory()
+                            ?.isEmpty() == false
+                    ) View.VISIBLE else View.GONE
                 searchTextString = queryInput.text.toString()
                 btnClearText.visibility = visibilityView(seq)
             }
@@ -106,12 +165,12 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    //Попытка реализации обработки ошибок через Enum
-    private enum class Results(val message: String) {
+    //Обработка ошибок через Enum
+    private enum class Results {
         //Для 200 не реализовывал, потому что не требуется по логике searchTrack()
-        //SUCCESS("OK 200"),
-        CHECK_NETWORK("CHECK NETWORK"),
-        NOTHING_FOUND("NO RESULT")
+        //SUCCESS,
+        CHECK_NETWORK,
+        NOTHING_FOUND
     }
 
     private fun showPlaceholder(result: Results) {
@@ -122,6 +181,9 @@ class SearchActivity : AppCompatActivity() {
         } else if (result == Results.CHECK_NETWORK) {
             placeholderImage.setImageResource(R.drawable.no_internet)
             placeholderText.text = getString(R.string.check_network)
+            //TODO: посмотреть, как можно повесить intent на кнопку в зависимости от контекста.
+            // Очень направшивается, т.к. кнопка одна для отправки запроса при отсутствии сети и при очистке истории
+            placeholderNoNetworkButton.text = getString((R.string.refresh_button_text))
             placeholderNoNetworkButton.visibility = View.VISIBLE
         }
     }
@@ -172,6 +234,15 @@ class SearchActivity : AppCompatActivity() {
                 })
 
         }
+    }
+
+    private fun refreshHistory() {
+        if (searchHistory.getHistory()?.isEmpty() == true) {
+            historyAdapter.notifyDataSetChanged()
+            return
+        }
+        historyAdapter.tracks = searchHistory.getHistory() as ArrayList<Track>
+        historyAdapter.notifyDataSetChanged()
     }
 
     //Очистка экрана от лишних view при новом поиске: плейсхолдеры и результаты поиска
