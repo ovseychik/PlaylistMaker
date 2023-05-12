@@ -17,4 +17,6 @@
     <string name="check_network">Network issues\n\nFailed to fetch data. Please, check your network</string>
     <string name="check_network_lvl2">Failed to fetch data. Please, check your network</string>
     <string name="refresh_button_text">Refresh</string>
+    <string name="clear_history_button_text">Clear history</string>
+    <string name="you_searched">You\'ve searched</string>
 </resources>

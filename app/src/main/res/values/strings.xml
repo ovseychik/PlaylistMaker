@@ -18,4 +18,6 @@
     <string name="check_network">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="check_network_lvl2">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="refresh_button_text">Обновить</string>
+    <string name="clear_history_button_text">Очистить историю</string>
+    <string name="you_searched">Вы искали</string>
 </resources>

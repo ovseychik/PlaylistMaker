@@ -1,6 +1,8 @@
 package com.example.playlistmaker
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -9,19 +11,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val trackNameView: TextView
-    private val artistNameView: TextView
-    private val trackTimeView: TextView
-    private val artWorkView: ImageView
-
-    init {
-        trackNameView = itemView.findViewById(R.id.trackName)
-        artistNameView = itemView.findViewById(R.id.artistName)
-        trackTimeView = itemView.findViewById(R.id.trackDuration)
-        artWorkView = itemView.findViewById(R.id.artWork)
-    }
-
+class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_track,parent,false)) {
+    private val trackNameView: TextView = itemView.findViewById(R.id.trackName)
+    private val artistNameView: TextView = itemView.findViewById(R.id.artistName)
+    private val trackTimeView: TextView = itemView.findViewById(R.id.trackDuration)
+    private val artWorkView: ImageView = itemView.findViewById(R.id.artWork)
 
     fun bind(track: Track) {
         trackNameView.text = track.trackName
