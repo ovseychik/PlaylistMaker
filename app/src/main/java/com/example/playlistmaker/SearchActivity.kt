@@ -111,8 +111,8 @@ class SearchActivity : AppCompatActivity() {
 
         queryInput.setOnFocusChangeListener() { view, hasFocus ->
             historySearched.visibility =
-                if (hasFocus && queryInput.text.isEmpty() == true && searchHistory.getHistory()
-                        .isEmpty() == false
+                if (hasFocus && queryInput.text.isEmpty() == true &&
+                    searchHistory.getHistory().isEmpty() == false
                 ) {
                     placeholder.visibility = View.GONE
                     refreshHistory()
@@ -181,8 +181,6 @@ class SearchActivity : AppCompatActivity() {
         } else if (result == Results.CHECK_NETWORK) {
             placeholderImage.setImageResource(R.drawable.no_internet)
             placeholderText.text = getString(R.string.check_network)
-            //TODO: посмотреть, как можно повесить intent на кнопку в зависимости от контекста.
-            // Очень направшивается, т.к. кнопка одна для отправки запроса при отсутствии сети и при очистке истории
             placeholderNoNetworkButton.text = getString((R.string.refresh_button_text))
             placeholderNoNetworkButton.visibility = View.VISIBLE
         }

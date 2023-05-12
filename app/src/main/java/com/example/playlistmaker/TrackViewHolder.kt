@@ -12,18 +12,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_track,parent,false)) {
-    private val trackNameView: TextView
-    private val artistNameView: TextView
-    private val trackTimeView: TextView
-    private val artWorkView: ImageView
-
-    init {
-        trackNameView = itemView.findViewById(R.id.trackName)
-        artistNameView = itemView.findViewById(R.id.artistName)
-        trackTimeView = itemView.findViewById(R.id.trackDuration)
-        artWorkView = itemView.findViewById(R.id.artWork)
-    }
-
+    private val trackNameView: TextView = itemView.findViewById(R.id.trackName)
+    private val artistNameView: TextView = itemView.findViewById(R.id.artistName)
+    private val trackTimeView: TextView = itemView.findViewById(R.id.trackDuration)
+    private val artWorkView: ImageView = itemView.findViewById(R.id.artWork)
 
     fun bind(track: Track) {
         trackNameView.text = track.trackName
