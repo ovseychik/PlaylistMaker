@@ -19,7 +19,16 @@
     <dimen name="padding14">14dp</dimen>
     <dimen name="padding22">22dp</dimen>
     <dimen name="album_cover">45dp</dimen>
-    <dimen name="album_cover_round">2dp</dimen>
+    <dimen name="album_cover_round_list">2dp</dimen>
+    <dimen name="album_cover_round_player">8dp</dimen>
     <dimen name="track_margin8">8dp</dimen>
     <dimen name="track_margin16">16dp</dimen>
+    <dimen name="player_attributes_textize">12sp</dimen>
+    <dimen name="player_small_button">52dp</dimen>
+    <dimen name="player_big_button">84dp</dimen>
+    <dimen name="player_height_attributes">32dp</dimen>
+    <dimen name="guide_line24">24dp</dimen>
+    <dimen name="guide_line16">16dp</dimen>
+    <dimen name="player_artist_text_size">22sp</dimen>
+    <dimen name="player_song_text_size">14sp</dimen>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.playlistmaker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -23,10 +22,14 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflate
         trackTimeView.text =
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis).toString()
 
-        val round = itemView.context.resources.getDimensionPixelSize(R.dimen.album_cover_round)
+        val round = itemView.context.resources.getDimensionPixelSize(R.dimen.album_cover_round_list)
 
-        Glide.with(itemView).load(track.artworkUrl100).centerCrop().transform(RoundedCorners(round))
-            .placeholder(R.drawable.ic_album_cover_placeholder).into(artWorkView)
+        Glide.with(itemView)
+            .load(track.artworkUrl100)
+            .centerCrop()
+            .transform(RoundedCorners(round))
+            .placeholder(R.drawable.ic_album_cover_placeholder)
+            .into(artWorkView)
     }
 
 }
