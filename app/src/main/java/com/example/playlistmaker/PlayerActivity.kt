@@ -11,6 +11,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
+    companion object {
+        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
+    }
+
     private lateinit var trackName: TextView
     private lateinit var artistName: TextView
     private lateinit var timeAttributes: TextView
@@ -27,16 +31,14 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
 
-        val track = gson.fromJson(
-            intent.getStringExtra(SearchActivity.TRACKS_FOR_PLAYER),
-            Track::class.java
-        )
+        val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
 
         initViews()
-        fillViewWith(track)
+        if (track != null) {
+            fillViewWith(track)
+        } else finish()
 
         buttonBack.setOnClickListener {
-            // Ждем спринт по coroutines, чтобы не убить проигрывание музыки?
             finish()
         }
     }
@@ -63,7 +65,7 @@ class PlayerActivity : AppCompatActivity() {
         genreAttributes.text = track.primaryGenreName
         countryAttributes.text = track.country
         currentTime.text = millisFormat(track)
-        Glide.with(applicationContext)
+        Glide.with(this)
             .load(track.getCoverArtwork())
             .centerCrop()
             .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.album_cover_round_player)))
@@ -72,7 +74,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
 
-    private fun releaseYear(string: String): String = string.removeRange(4 until string.length)
+    private fun releaseYear(string: String?): String? = string?.removeRange(4 until string.length)
 
     private fun millisFormat(track: Track): String =
         SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)

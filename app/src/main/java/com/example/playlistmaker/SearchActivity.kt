@@ -27,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
         const val SEARCH_PREFERENCES = "SEARCH_PREFERENCES"
-        const val TRACKS_FOR_PLAYER = "TRACKS_FOR_PLAYER"
+        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
     }
 
     private lateinit var queryInput: EditText
@@ -84,7 +84,7 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
         }
 
-        historyAdapter = TrackAdapter {
+        historyAdapter = TrackAdapter { it ->
             startPlayerActivity(it)
         }
 
@@ -118,8 +118,7 @@ class SearchActivity : AppCompatActivity() {
 
         queryInput.setOnFocusChangeListener() { view, hasFocus ->
             historySearched.visibility =
-                if (hasFocus && queryInput.text.isEmpty() == true &&
-                    searchHistory.getHistory().isEmpty() == false
+                if (hasFocus && queryInput.text.isEmpty() && searchHistory.getHistory().isNotEmpty()
                 ) {
                     placeholder.visibility = View.GONE
                     refreshHistory()
@@ -250,7 +249,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun startPlayerActivity(track: Track) {
         val intent = Intent(this, PlayerActivity::class.java)
-        intent.putExtra(TRACKS_FOR_PLAYER, gson.toJson(track))
+        intent.putExtra(TRACK_FOR_PLAYER, track)
         startActivity(intent)
     }
 
