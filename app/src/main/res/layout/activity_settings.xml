@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/settings_background"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/padding16">
+    android:paddingHorizontal="@dimen/padding16"
+    tools:context=".SettingsActivity">
 
     <LinearLayout
         style="@style/HeadsLayout"

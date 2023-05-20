@@ -20,4 +20,14 @@
     <string name="refresh_button_text">Обновить</string>
     <string name="clear_history_button_text">Очистить историю</string>
     <string name="you_searched">Вы искали</string>
+    <string name="player_attributes_length">Длительность</string>
+    <string name="player_attributes_album">Альбом</string>
+    <string name="player_attributes_year">Год</string>
+    <string name="player_attributes_genre">Жанр</string>
+    <string name="player_attributes_country">Страна</string>
+    <string name="description_player_add_to_playlist">Добавить в плейлист</string>
+    <string name="description_player_play">Воспроизвести</string>
+    <string name="description_player_like_button">Отметить как понравившееся</string>
+    <string name="description_button_back">Кнопка назад</string>
+    <string name="description_album_artwork">Здесь отображается обложка альбома</string>
 </resources>

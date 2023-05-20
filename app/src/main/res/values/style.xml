@@ -94,5 +94,36 @@
         <item name="android:src">@drawable/separator_ellipse</item>
     </style>
 
+    <style name="PlayerTrackName">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/player_track_and_album_name</item>
+    </style>
+
+    <style name="PlayerArtistName">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/player_track_and_album_name</item>
+    </style>
+
+    <style name="PlayerBigButton">
+        <item name="tint">@color/player_button_play_outside</item>
+        <item name="backgroundTint">@color/player_button_play_inside</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="PlayerCurrentTime">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/player_current_time</item>
+    </style>
+
+    <style name="PlayerAttributesNames">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/player_attributes_names</item>
+    </style>
+
+    <style name="PlayerAttributesValues">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/player_attributes_values</item>
+    </style>
+
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -26,6 +27,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
         const val SEARCH_PREFERENCES = "SEARCH_PREFERENCES"
+        const val TRACKS_FOR_PLAYER = "TRACKS_FOR_PLAYER"
     }
 
     private lateinit var queryInput: EditText
@@ -41,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var historyTrackRecycler: RecyclerView
     private lateinit var historySearched: LinearLayout
+    private lateinit var buttonBack: ImageView
 
     private var searchTextString = ""
 
@@ -81,7 +84,10 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(queryInput.windowToken, 0)
         }
 
-        historyAdapter = TrackAdapter {}
+        historyAdapter = TrackAdapter {
+            startPlayerActivity(it)
+        }
+
         historyTrackRecycler.adapter = historyAdapter
         historyTrackRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -95,6 +101,7 @@ class SearchActivity : AppCompatActivity() {
 
         adapter = TrackAdapter {
             searchHistory.addTrack(it)
+            startPlayerActivity(it)
             refreshHistory()
         }
 
@@ -147,8 +154,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(seq: CharSequence?, start: Int, count: Int, after: Int) {
                 historySearched.visibility =
-                    if (queryInput.hasFocus() && seq?.isEmpty() == true && searchHistory.getHistory()
-                            ?.isEmpty() == false
+                    if (queryInput.hasFocus() && seq?.isEmpty() == true
+                        && searchHistory.getHistory()?.isEmpty() == false
                     ) View.VISIBLE else View.GONE
                 searchTextString = queryInput.text.toString()
                 btnClearText.visibility = visibilityView(seq)
@@ -159,7 +166,7 @@ class SearchActivity : AppCompatActivity() {
 
         queryInput.addTextChangedListener(searchTextWatcher)
 
-        val buttonBack = findViewById<ImageView>(R.id.btn_back)
+        buttonBack = findViewById(R.id.btn_back)
         buttonBack.setOnClickListener {
             finish()
         }
@@ -167,8 +174,6 @@ class SearchActivity : AppCompatActivity() {
 
     //Обработка ошибок через Enum
     private enum class Results {
-        //Для 200 не реализовывал, потому что не требуется по логике searchTrack()
-        //SUCCESS,
         CHECK_NETWORK,
         NOTHING_FOUND
     }
@@ -181,7 +186,7 @@ class SearchActivity : AppCompatActivity() {
         } else if (result == Results.CHECK_NETWORK) {
             placeholderImage.setImageResource(R.drawable.no_internet)
             placeholderText.text = getString(R.string.check_network)
-            placeholderNoNetworkButton.text = getString((R.string.refresh_button_text))
+            placeholderNoNetworkButton.text = getString(R.string.refresh_button_text)
             placeholderNoNetworkButton.visibility = View.VISIBLE
         }
     }
@@ -241,6 +246,12 @@ class SearchActivity : AppCompatActivity() {
         }
         historyAdapter.tracks = searchHistory.getHistory() as ArrayList<Track>
         historyAdapter.notifyDataSetChanged()
+    }
+
+    private fun startPlayerActivity(track: Track) {
+        val intent = Intent(this, PlayerActivity::class.java)
+        intent.putExtra(TRACKS_FOR_PLAYER, gson.toJson(track))
+        startActivity(intent)
     }
 
     //Очистка экрана от лишних view при новом поиске: плейсхолдеры и результаты поиска
