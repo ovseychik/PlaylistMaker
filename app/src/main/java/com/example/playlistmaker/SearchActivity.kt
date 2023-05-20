@@ -186,7 +186,7 @@ class SearchActivity : AppCompatActivity() {
         } else if (result == Results.CHECK_NETWORK) {
             placeholderImage.setImageResource(R.drawable.no_internet)
             placeholderText.text = getString(R.string.check_network)
-            placeholderNoNetworkButton.text = getString((R.string.refresh_button_text))
+            placeholderNoNetworkButton.text = getString(R.string.refresh_button_text)
             placeholderNoNetworkButton.visibility = View.VISIBLE
         }
     }
