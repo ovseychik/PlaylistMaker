@@ -1,12 +1,14 @@
 package com.example.playlistmaker
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.gson.Gson
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -25,7 +27,6 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var currentTime: TextView
     private lateinit var songArtwork: ImageView
     private lateinit var buttonBack: ImageView
-    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,10 @@ class PlayerActivity : AppCompatActivity() {
         initViews()
         if (track != null) {
             fillViewWith(track)
-        } else finish()
+        } else {
+            Snackbar.make(View(this), R.string.snackbar_error_message, LENGTH_LONG)
+                .show()
+        }
 
         buttonBack.setOnClickListener {
             finish()
@@ -74,7 +78,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
 
-    private fun releaseYear(string: String?): String? = string?.removeRange(4 until string.length)
+    private fun releaseYear(string: String): String = string.removeRange(4 until string.length)
 
     private fun millisFormat(track: Track): String =
         SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)

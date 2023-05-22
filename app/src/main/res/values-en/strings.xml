@@ -19,7 +19,7 @@
     <string name="refresh_button_text">Refresh</string>
     <string name="clear_history_button_text">Clear history</string>
     <string name="you_searched">You\'ve searched</string>
-    <string name="player_attributes_length">Lenght</string>
+    <string name="player_attributes_length">Length</string>
     <string name="player_attributes_album">Album</string>
     <string name="player_attributes_year">Release Year</string>
     <string name="player_attributes_genre">Genre</string>
@@ -29,4 +29,5 @@
     <string name="description_player_like_button">Mark as liked</string>
     <string name="description_button_back">Back button</string>
     <string name="description_album_artwork">Album artwork is displayed here</string>
+    <string name="snackbar_error_message">Something went wrong</string>
 </resources>
