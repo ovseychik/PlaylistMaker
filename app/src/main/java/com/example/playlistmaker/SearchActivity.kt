@@ -144,7 +144,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // по нажитию Enter на клавиатуре.
-        // В постановке не ббббббыло явно указано убрать. Оставил для нетерпеливых.
+        // В постановке не было явно указано убрать. Оставил для нетерпеливых.
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchTrack()
