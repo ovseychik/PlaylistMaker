@@ -3,6 +3,8 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +31,8 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_LINE = "SEARCH LINE"
         const val SEARCH_PREFERENCES = "SEARCH_PREFERENCES"
         const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
+        const val CLICK_DEBOUNCE_DELAY = 1_000L
+        const val SEARCH_DEBOUNCE_DELAY = 2_000L
     }
 
     private lateinit var queryInput: EditText
@@ -44,6 +49,16 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyTrackRecycler: RecyclerView
     private lateinit var historySearched: LinearLayout
     private lateinit var buttonBack: ImageView
+    private lateinit var progressBarScreen: LinearLayout
+    private lateinit var progressBar: ProgressBar
+
+    // Debounce поискового запроса
+    private val searchRunnable = Runnable { searchTrack() }
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
 
     private var searchTextString = ""
 
@@ -72,7 +87,8 @@ class SearchActivity : AppCompatActivity() {
         historySearched = findViewById(R.id.searchHistory)
         historyTrackRecycler = findViewById(R.id.historyTrackList)
         trackRecycler = findViewById(R.id.trackList)
-
+        progressBarScreen = findViewById(R.id.progressBarScreen)
+        progressBar = findViewById(R.id.progressBar)
 
         // Кнопка очистки строки поиска
         val btnClearText = findViewById<ImageView>(R.id.clearTextSearch)
@@ -109,7 +125,6 @@ class SearchActivity : AppCompatActivity() {
         trackRecycler.adapter = adapter
         adapter.tracks = tracks
 
-
         // Кнопка обновить при ошибке сети
         placeholderNoNetworkButton = findViewById(R.id.placeholderRefreshButton)
         placeholderNoNetworkButton.setOnClickListener {
@@ -128,8 +143,8 @@ class SearchActivity : AppCompatActivity() {
                 }
         }
 
-
-        // по нажитию Enter на клавиатуре
+        // по нажитию Enter на клавиатуре.
+        // В постановке не ббббббыло явно указано убрать. Оставил для нетерпеливых.
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchTrack()
@@ -158,6 +173,7 @@ class SearchActivity : AppCompatActivity() {
                     ) View.VISIBLE else View.GONE
                 searchTextString = queryInput.text.toString()
                 btnClearText.visibility = visibilityView(seq)
+                searchDebounce()
             }
 
             override fun afterTextChanged(start: Editable?) {}
@@ -211,12 +227,14 @@ class SearchActivity : AppCompatActivity() {
     private fun searchTrack() {
         flushView()
         if (queryInput.text.isNotEmpty()) {
+            progressBarScreen.visibility = View.VISIBLE
             itunesService.search(queryInput.text.toString())
                 .enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
                         call: Call<TrackResponse>,
                         response: Response<TrackResponse>
                     ) {
+                        progressBarScreen.visibility = View.GONE
                         if (response.code() == 200) {
                             tracks.clear()
                             if (response.body()?.results?.isNotEmpty() == true) {
@@ -247,10 +265,25 @@ class SearchActivity : AppCompatActivity() {
         historyAdapter.notifyDataSetChanged()
     }
 
+    // Реализация Debounce
+    private var isClickAllowed = true
+    private var handler = Handler(Looper.getMainLooper())
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     private fun startPlayerActivity(track: Track) {
-        val intent = Intent(this, PlayerActivity::class.java)
-        intent.putExtra(TRACK_FOR_PLAYER, track)
-        startActivity(intent)
+        if (clickDebounce()) {
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra(TRACK_FOR_PLAYER, track)
+            startActivity(intent)
+        }
     }
 
     //Очистка экрана от лишних view при новом поиске: плейсхолдеры и результаты поиска
