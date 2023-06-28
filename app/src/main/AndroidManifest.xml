@@ -30,7 +30,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".presentation.SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
@@ -40,7 +40,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".PlayerActivity"
+            android:name=".presentation.PlayerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

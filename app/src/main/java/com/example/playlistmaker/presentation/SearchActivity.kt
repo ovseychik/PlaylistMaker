@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -19,6 +19,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
+import com.example.playlistmaker.SearchHistory
+import com.example.playlistmaker.TrackAdapter
+import com.example.playlistmaker.data.dto.TrackDto
+import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.data.network.ItunesApi
+import com.example.playlistmaker.data.network.TrackResponse
 import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.Call
@@ -54,6 +61,10 @@ class SearchActivity : AppCompatActivity() {
 
     // Debounce поискового запроса
     private val searchRunnable = Runnable { searchTrack() }
+
+    // Debounce для нажатий пользователя
+    private var isClickAllowed = true
+    private var handler = Handler(Looper.getMainLooper())
 
     private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
@@ -266,9 +277,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     // Реализация Debounce
-    private var isClickAllowed = true
-    private var handler = Handler(Looper.getMainLooper())
-
     private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
