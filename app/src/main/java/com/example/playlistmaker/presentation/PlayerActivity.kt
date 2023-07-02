@@ -44,34 +44,6 @@ class PlayerActivity : AppCompatActivity() {
     private var playerState = PlayerState.STATE_DEFAULT
     private var mainThreadHandler = Handler(Looper.getMainLooper())
 
-    private val runThread = object : Runnable {
-        override fun run() {
-            currentTime.text =
-                SimpleDateFormat(
-                    "mm:ss",
-                    Locale.getDefault()
-                ).format(playerInteractor.getCurrentPosition())
-
-            mainThreadHandler.postDelayed(
-                this,
-                REFRESH_TRACK_PROGRESS
-            )
-        }
-    }
-
-    private fun currentTimeControl() {
-        when (playerState) {
-            PlayerState.STATE_PLAYING, PlayerState.STATE_PREPARED -> {
-                mainThreadHandler.postDelayed(
-                    runThread,
-                    REFRESH_TRACK_PROGRESS
-                )
-            }
-
-            else -> {}
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
@@ -89,7 +61,6 @@ class PlayerActivity : AppCompatActivity() {
                     PlayerState.STATE_PREPARED -> {
                         buttonPlay.isEnabled = true
                         buttonPlay.setImageResource(R.drawable.ic_button_play)
-                        //mainThreadHandler?.removeCallbacks(runThread)
                     }
 
                     else -> {}
@@ -97,19 +68,16 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             buttonPlay.setOnClickListener {
-                //playbackControl()
-                currentTimeControl()
-                //runThread
                 playerInteractor.controlPlayerState { state ->
                     when (state) {
-                        PlayerState.STATE_PAUSED -> {
+                        PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> {
                             buttonPlay.setImageResource(R.drawable.ic_button_play)
-                            mainThreadHandler.removeCallbacks(runThread)
+                            mainThreadHandler?.removeCallbacks(runThread)
                         }
 
-                        PlayerState.STATE_PLAYING, PlayerState.STATE_PREPARED -> {
+                        PlayerState.STATE_PLAYING -> {
                             buttonPlay.setImageResource(R.drawable.ic_pause)
-                            //mainThreadHandler?.removeCallbacks(runThread)
+                            currentTimeControl()
                         }
 
                         else -> {}
@@ -132,10 +100,10 @@ class PlayerActivity : AppCompatActivity() {
         mainThreadHandler?.removeCallbacks(runThread)
     }
 
-    override fun onPause() {
+/*    override fun onPause() {
         super.onPause()
         playerInteractor.pausePlayer()
-    }
+    }*/
 
     private fun initViews() {
         trackName = findViewById(R.id.trackName)
@@ -172,31 +140,31 @@ class PlayerActivity : AppCompatActivity() {
     private fun millisFormat(track: Track): String =
         SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
-    /*
-        private fun startPlayer() {
-            playerInteractor.startPlayer()
-            buttonPlay.setImageResource(R.drawable.ic_pause)
-            playerState = PlayerState.STATE_PLAYING
+    private val runThread = object : Runnable {
+        override fun run() {
+            currentTime.text =
+                SimpleDateFormat(
+                    "mm:ss",
+                    Locale.getDefault()
+                ).format(playerInteractor.getCurrentPosition())
+
+            mainThreadHandler.postDelayed(
+                this,
+                REFRESH_TRACK_PROGRESS
+            )
         }
-    */
+    }
 
-    /*    private fun pausePlayer() {
-            playerInteractor.pausePlayer()
-            buttonPlay.setImageResource(R.drawable.ic_button_play)
-            playerState = PlayerState.STATE_PAUSED
-        }*//*
-
-    private fun playbackControl() {
-        when (playerState) {
+    private fun currentTimeControl() {
+        when (this.playerState) {
             PlayerState.STATE_PLAYING -> {
-                pausePlayer()
-            }
-
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
-                startPlayer()
+                mainThreadHandler.postDelayed(
+                    runThread,
+                    REFRESH_TRACK_PROGRESS
+                )
             }
 
             else -> {}
         }
-    }*/
+    }
 }

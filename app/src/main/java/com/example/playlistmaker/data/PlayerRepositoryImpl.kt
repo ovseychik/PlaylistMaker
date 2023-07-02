@@ -29,7 +29,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
 
     override fun getCurrentPosition(): Int {
-        return mediaPlayer.currentPosition
+        return this.mediaPlayer.currentPosition
     }
 
     override fun pausePlayer() {
@@ -43,8 +43,8 @@ class PlayerRepositoryImpl : PlayerRepository {
 
     override fun controlPlayerState(onStateChangedTo: (s: PlayerState) -> Unit) {
         when (playerState) {
-            PlayerState.STATE_PLAYING -> pausePlayer()
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> startPlayer()
+            PlayerState.STATE_PLAYING -> this.pausePlayer()
+            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> this.startPlayer()
             else -> {}
         }
     }
