@@ -1,6 +1,5 @@
 package com.example.playlistmaker.presentation
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -41,7 +40,6 @@ class PlayerActivity : AppCompatActivity() {
 
     private val playerInteractor: PlayerInteractor = Creator.providePlayerInteractor()
 
-    private var playerState = PlayerState.STATE_DEFAULT
     private var mainThreadHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,20 +68,27 @@ class PlayerActivity : AppCompatActivity() {
             buttonPlay.setOnClickListener {
                 playerInteractor.controlPlayerState { state ->
                     when (state) {
-                        PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> {
+                        PlayerState.STATE_PAUSED -> {
                             buttonPlay.setImageResource(R.drawable.ic_button_play)
-                            mainThreadHandler?.removeCallbacks(runThread)
+                            mainThreadHandler.removeCallbacks(runThread)
                         }
 
                         PlayerState.STATE_PLAYING -> {
                             buttonPlay.setImageResource(R.drawable.ic_pause)
-                            currentTimeControl()
+                            postCurrentTimeControl()
+                        }
+
+                        PlayerState.STATE_PREPARED -> {
+                            buttonPlay.setImageResource(R.drawable.ic_button_play)
+                            currentTime.text = "00:00"
+                            mainThreadHandler.removeCallbacks(runThread)
                         }
 
                         else -> {}
                     }
                 }
             }
+
         } else {
             Snackbar.make(View(this), R.string.snackbar_error_message, LENGTH_LONG)
                 .show()
@@ -99,11 +104,6 @@ class PlayerActivity : AppCompatActivity() {
         playerInteractor.releasePlayer()
         mainThreadHandler?.removeCallbacks(runThread)
     }
-
-/*    override fun onPause() {
-        super.onPause()
-        playerInteractor.pausePlayer()
-    }*/
 
     private fun initViews() {
         trackName = findViewById(R.id.trackName)
@@ -155,16 +155,10 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun currentTimeControl() {
-        when (this.playerState) {
-            PlayerState.STATE_PLAYING -> {
-                mainThreadHandler.postDelayed(
-                    runThread,
-                    REFRESH_TRACK_PROGRESS
-                )
-            }
-
-            else -> {}
-        }
+    private fun postCurrentTimeControl() {
+        mainThreadHandler.postDelayed(
+            runThread,
+            REFRESH_TRACK_PROGRESS
+        )
     }
 }

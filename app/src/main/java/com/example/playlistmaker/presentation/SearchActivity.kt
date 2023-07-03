@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.SearchHistory
 import com.example.playlistmaker.TrackAdapter
-import com.example.playlistmaker.data.dto.TrackDto
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.data.network.ItunesApi
 import com.example.playlistmaker.data.network.TrackResponse

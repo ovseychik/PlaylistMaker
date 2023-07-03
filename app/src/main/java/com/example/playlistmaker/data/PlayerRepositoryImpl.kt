@@ -43,8 +43,18 @@ class PlayerRepositoryImpl : PlayerRepository {
 
     override fun controlPlayerState(onStateChangedTo: (s: PlayerState) -> Unit) {
         when (playerState) {
-            PlayerState.STATE_PLAYING -> this.pausePlayer()
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> this.startPlayer()
+            PlayerState.STATE_PLAYING -> {
+                pausePlayer()
+                playerState = PlayerState.STATE_PAUSED
+                onStateChangedTo(PlayerState.STATE_PAUSED)
+            }
+
+            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
+                startPlayer()
+                playerState = PlayerState.STATE_PLAYING
+                onStateChangedTo(PlayerState.STATE_PLAYING)
+            }
+
             else -> {}
         }
     }
