@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -28,7 +28,7 @@ data class Track(
         
     }
 
-    fun getCoverArtwork() = artworkUrl100?.replaceAfterLast("/", "512x512bb.jpg")
+    fun getCoverArtwork() = artworkUrl100.replaceAfterLast("/", "512x512bb.jpg")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(trackName)
