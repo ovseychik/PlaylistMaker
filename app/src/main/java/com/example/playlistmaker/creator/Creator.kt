@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.creator
 
 import com.example.playlistmaker.data.PlayerRepositoryImpl
 import com.example.playlistmaker.data.network.RetrofitNetworkClient

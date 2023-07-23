@@ -1,3 +1,20 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+*.iml
+.gradle
+.gradle/
+/local.properties
+/.idea/aws.xml
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
