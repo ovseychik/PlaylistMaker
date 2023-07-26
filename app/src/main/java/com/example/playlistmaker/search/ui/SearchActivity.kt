@@ -1,4 +1,4 @@
-package com.example.playlistmaker.presentation
+package com.example.playlistmaker.search.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -25,6 +25,7 @@ import com.example.playlistmaker.TrackAdapter
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.data.network.ItunesApi
 import com.example.playlistmaker.data.network.TrackResponse
+import com.example.playlistmaker.player.ui.PlayerActivity
 import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.Call

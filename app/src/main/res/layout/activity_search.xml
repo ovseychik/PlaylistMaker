@@ -7,7 +7,7 @@
     android:background="@color/search_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".presentation.SearchActivity">
+    tools:context=".search.ui.SearchActivity">
 
     <LinearLayout
         style="@style/HeadsLayout"
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            tools:context=".MainActivity">
+            tools:context=".main.ui.activity.MainActivity">
 
             <ImageView
                 style="@style/SearchBarImage"

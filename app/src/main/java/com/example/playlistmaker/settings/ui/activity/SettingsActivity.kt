@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.settings.ui.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.playlistmaker.util.App
+import com.example.playlistmaker.R
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 const val SETTINGS_PREFERENCES = "settings_preferences"
