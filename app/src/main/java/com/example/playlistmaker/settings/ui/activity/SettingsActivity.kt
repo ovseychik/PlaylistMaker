@@ -1,68 +1,55 @@
 package com.example.playlistmaker.settings.ui.activity
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.util.App
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
-import com.google.android.material.switchmaterial.SwitchMaterial
-
-const val SETTINGS_PREFERENCES = "settings_preferences"
-const val SWITCH_DARK_THEME = "switch_dark_theme"
+import com.example.playlistmaker.databinding.ActivitySettingsBinding
+import com.example.playlistmaker.settings.ui.viewmodel.SettingsViewModel
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var viewModel: SettingsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
-        val buttonBack = findViewById<ImageView>(R.id.btn_back)
-        val buttonShare = findViewById<TextView>(R.id.btn_share)
-        val buttonSupport = findViewById<TextView>(R.id.btn_support)
-        val buttonLegal = findViewById<TextView>(R.id.btn_legal)
-        val sharedPrefsSettings = getSharedPreferences(SETTINGS_PREFERENCES, MODE_PRIVATE)
+        //viewModel = SettingsViewModel.getViewModelFactory().create(SettingsViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            SettingsViewModel.getViewModelFactory()
+        )[SettingsViewModel::class.java]
 
-        //Переключатель темы
-        themeSwitcher.isChecked = sharedPrefsSettings.getBoolean(SWITCH_DARK_THEME, false)
-
-        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
-            (applicationContext as App).switchTheme(checked)
-            sharedPrefsSettings.edit()
-                .putBoolean(SWITCH_DARK_THEME, checked)
-                .apply()
-        }
-
-        //Кнопка поделиться
-        buttonShare.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_link))
-            intent.type = "text/plain"
-            startActivity(intent)
-        }
-
-        //Кнопка связаться с поддержкой
-        buttonSupport.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("mailto:")
-            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
-            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_email_title))
-            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.support_message))
-            startActivity(intent)
-        }
-
-        //Ссылка на пользовательское соглашение
-        buttonLegal.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.legal_link)))
-            startActivity(intent)
-        }
-
-        //Кнопка назад
-        buttonBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             finish()
         }
+
+        binding.btnShare.setOnClickListener {
+            viewModel.shareApp(getString(R.string.share_link))
+        }
+
+        binding.btnSupport.setOnClickListener {
+            viewModel.contactSupport(
+                getString(R.string.support_email),
+                getString(R.string.support_email_title),
+                getString(R.string.support_message)
+            )
+        }
+
+        binding.btnLegal.setOnClickListener {
+            viewModel.openLegal(getString(R.string.legal_link))
+        }
+
+        viewModel.themeSettingsLiveData.observe(this) { themeToggle ->
+            binding.themeSwitcher.isChecked = themeToggle.darkTheme
+        }
+
+        binding.themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            viewModel.updateThemeSettings(checked)
+        }
+
     }
 
 }

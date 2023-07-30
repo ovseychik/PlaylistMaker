@@ -2,6 +2,7 @@ package com.example.playlistmaker.sharing.domain.impl
 
 import com.example.playlistmaker.sharing.data.repository.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.interactor.SharingInteractor
+import com.example.playlistmaker.sharing.domain.model.EmailFields
 
 class SharingInteractorImpl(
     private val externalNavigator: ExternalNavigator
@@ -12,15 +13,25 @@ class SharingInteractorImpl(
     }
 
     override fun shareApp(url: String) {
-        TODO("Not yet implemented")
+        externalNavigator.shareApp(getShareLink(url))
+    }
+
+    private fun getLegalLink(urlLegal: String): String {
+        return urlLegal
     }
 
     override fun openLegal(urlLegal: String) {
-        TODO("Not yet implemented")
+        externalNavigator.openLegal(getLegalLink(urlLegal))
     }
 
     override fun contactSupport(email: String, subject: String, body: String) {
-        TODO("Not yet implemented")
+        externalNavigator.contactSupport(
+            EmailFields(
+                email,
+                subject,
+                body
+            )
+        )
     }
 
 }

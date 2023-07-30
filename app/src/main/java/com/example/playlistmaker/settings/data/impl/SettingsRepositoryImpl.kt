@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.settings.data.repository.SettingsRepository
 import com.example.playlistmaker.settings.domain.model.ThemeToggle
 
-class SettingsRepositoryImpl(val context: Context) : SettingsRepository {
+class SettingsRepositoryImpl(context: Context) : SettingsRepository {
     companion object {
         private const val SETTINGS_PREFERENCES = "settings_preferences"
         private const val SWITCH_DARK_THEME = "switch_dark_theme"
