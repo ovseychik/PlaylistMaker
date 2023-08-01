@@ -27,8 +27,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivitySearchBinding
-
     private lateinit var tracksSearchViewModel: SearchViewModel
+
     private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private var textWatcher: TextWatcher? = null
@@ -197,13 +197,13 @@ class SearchActivity : AppCompatActivity() {
     private fun showLoading() {
         binding.trackList.visibility = View.GONE
         binding.placeHolder.visibility = View.GONE
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBarScreen.visibility = View.VISIBLE
     }
 
     private fun showError(errorMessage: String) {
         binding.trackList.visibility = View.GONE
         binding.placeHolder.visibility = View.VISIBLE
-        binding.progressBar.visibility = View.GONE
+        binding.progressBarScreen.visibility = View.GONE
         binding.searchPlaceholderText.text = errorMessage
         trackList.clear()
         trackAdapter.notifyDataSetChanged()
@@ -217,7 +217,7 @@ class SearchActivity : AppCompatActivity() {
     private fun showContent(trackList: List<Track>) {
         binding.trackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
+        binding.progressBarScreen.visibility = View.GONE
         binding.searchHistory.visibility = View.GONE
         binding.historyClear.visibility = View.GONE
         trackAdapter.trackList.clear()
