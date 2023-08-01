@@ -16,7 +16,6 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //viewModel = SettingsViewModel.getViewModelFactory().create(SettingsViewModel::class.java)
         viewModel = ViewModelProvider(
             this,
             SettingsViewModel.getViewModelFactory()

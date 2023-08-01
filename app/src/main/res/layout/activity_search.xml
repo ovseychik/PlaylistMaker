@@ -7,7 +7,7 @@
     android:background="@color/search_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".search.ui.SearchActivity">
+    tools:context=".search.ui.activity.SearchActivity">
 
     <LinearLayout
         style="@style/HeadsLayout"
@@ -90,8 +90,6 @@
         android:visibility="visible"
         tools:visibility="gone" />
 
-    <!-- В макете был слишком большой отступ от поисковой строки поэтому отцентровал по
-    родительскому view, чтобы не уплыло за границу экрана на устройствах с низким разрешением -->
     <LinearLayout
         android:id="@+id/progressBarScreen"
         android:layout_width="match_parent"
@@ -99,7 +97,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
@@ -165,7 +163,7 @@
         android:layout_marginTop="32dp"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"

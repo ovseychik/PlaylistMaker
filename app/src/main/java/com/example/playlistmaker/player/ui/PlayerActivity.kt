@@ -13,7 +13,7 @@ import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.PlayerState
 import com.example.playlistmaker.domain.api.player.PlayerInteractor
-import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.search.domain.model.Track
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar

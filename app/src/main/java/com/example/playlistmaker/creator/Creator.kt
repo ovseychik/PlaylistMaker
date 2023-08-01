@@ -2,14 +2,15 @@ package com.example.playlistmaker.creator
 
 import android.content.Context
 import com.example.playlistmaker.data.PlayerRepositoryImpl
-import com.example.playlistmaker.data.network.RetrofitNetworkClient
-import com.example.playlistmaker.data.network.TrackRepositoryImpl
-import com.example.playlistmaker.domain.api.TrackInteractor
-import com.example.playlistmaker.domain.api.TrackRepository
+import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
+import com.example.playlistmaker.search.data.impl.TrackRepositoryImpl
+import com.example.playlistmaker.search.domain.TrackInteractor
+import com.example.playlistmaker.search.data.repository.TrackRepository
 import com.example.playlistmaker.domain.api.player.PlayerInteractor
 import com.example.playlistmaker.domain.api.player.PlayerRepository
 import com.example.playlistmaker.domain.impl.PlayerInteractorImpl
-import com.example.playlistmaker.domain.impl.TrackInteractorImpl
+import com.example.playlistmaker.search.data.device_storage.SearchHistorySharedPrefs
+import com.example.playlistmaker.search.domain.impl.TrackInteractorImpl
 import com.example.playlistmaker.settings.data.impl.SettingsRepositoryImpl
 import com.example.playlistmaker.settings.data.repository.SettingsRepository
 import com.example.playlistmaker.settings.domain.impl.SettingsInteractorImpl
@@ -19,12 +20,12 @@ import com.example.playlistmaker.sharing.domain.impl.SharingInteractorImpl
 import com.example.playlistmaker.sharing.domain.interactor.SharingInteractor
 
 object Creator {
-    private fun getTrackRepository(): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient())
+    private fun getTrackRepository(context: Context): TrackRepository {
+        return TrackRepositoryImpl(RetrofitNetworkClient(context), SearchHistorySharedPrefs(context))
     }
 
-    fun provideTrackInteractor(): TrackInteractor {
-        return TrackInteractorImpl(getTrackRepository())
+    fun provideTrackInteractor(context: Context): TrackInteractor {
+        return TrackInteractorImpl(getTrackRepository(context))
     }
 
     private fun getPlayerRepository(): PlayerRepository {
