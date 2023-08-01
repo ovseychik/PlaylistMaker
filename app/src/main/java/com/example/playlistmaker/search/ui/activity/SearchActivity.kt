@@ -2,48 +2,27 @@ package com.example.playlistmaker.search.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.method.TextKeyListener.clear
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchHistory
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.search.ui.TrackAdapter
-import com.example.playlistmaker.search.domain.model.Track
-import com.example.playlistmaker.search.data.network.ItunesApi
-import com.example.playlistmaker.search.data.network.TrackResponse
 import com.example.playlistmaker.player.ui.PlayerActivity
-import com.example.playlistmaker.player.ui.PlayerActivity.Companion.TRACK_FOR_PLAYER
+import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
+import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
-import com.google.gson.Gson
-import retrofit2.Retrofit
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
-        const val TRACK_FOR_PLAYER= "TRACK FOR PLAYER"
+        const val TRACK_FOR_PLAYER = "TRACK FOR PLAYER"
         const val CLICK_DEBOUNCE_DELAY = 1_000L
     }
 
@@ -110,7 +89,7 @@ class SearchActivity : AppCompatActivity() {
                 if (!s.isNullOrEmpty()) {
                     binding.trackList.visibility = View.VISIBLE
                     trackList.clear()
-                    trackAdapter.tracks = trackList
+                    trackAdapter.trackList = trackList
                     hideHistoryScreen()
                 }
 
@@ -204,9 +183,9 @@ class SearchActivity : AppCompatActivity() {
     private fun showHistoryScreen() {
         binding.searchHistory.visibility = View.VISIBLE
         binding.historyClear.visibility = View.VISIBLE
-        binding.trackList.visibility = View.VISIBLE
+        binding.historyTrackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
-        trackAdapter.tracks = searchHistoryList
+        trackAdapter.trackList = searchHistoryList
         trackAdapter.notifyDataSetChanged()
     }
 
@@ -241,8 +220,8 @@ class SearchActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
         binding.searchHistory.visibility = View.GONE
         binding.historyClear.visibility = View.GONE
-        trackAdapter.tracks.clear()
-        trackAdapter.tracks.addAll(trackList)
+        trackAdapter.trackList.clear()
+        trackAdapter.trackList.addAll(trackList)
         trackAdapter.notifyDataSetChanged()
     }
 

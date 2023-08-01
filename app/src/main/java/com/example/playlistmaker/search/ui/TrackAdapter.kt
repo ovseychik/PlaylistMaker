@@ -10,17 +10,15 @@ class TrackAdapter(
 ) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
-    var tracks = ArrayList<Track>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder =
         TrackViewHolder(parent)
 
-    override fun getItemCount(): Int = tracks.size
+    override fun getItemCount(): Int = trackList.size
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
-            onClick.invoke(tracks[position])
+            onClick.invoke(trackList[position])
         }
     }
 

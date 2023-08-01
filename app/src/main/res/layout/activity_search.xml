@@ -42,8 +42,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:context=".main.ui.activity.MainActivity">
+            android:orientation="horizontal">
 
             <ImageView
                 style="@style/SearchBarImage"
@@ -88,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:visibility="visible"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/progressBarScreen"
@@ -163,7 +162,7 @@
         android:layout_marginTop="32dp"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"

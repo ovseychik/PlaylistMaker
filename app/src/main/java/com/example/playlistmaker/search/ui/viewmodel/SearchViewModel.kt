@@ -39,11 +39,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private val tracksInteractor = Creator.provideTrackInteractor(getApplication())
     private val handler = Handler(Looper.getMainLooper())
 
-    // Состояние поиска
     private val _searchStateLiveData = MutableLiveData<SearchScreenState>()
     val searchStateLiveData: LiveData<SearchScreenState> = _searchStateLiveData
 
-    // Состояние истории
     private val _historyLiveData = MutableLiveData<ArrayList<Track>>()
     val historyLiveData: LiveData<ArrayList<Track>> = _historyLiveData
     fun stateObserver(): LiveData<SearchScreenState> = mediatorStateLiveData

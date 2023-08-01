@@ -12,8 +12,11 @@ import com.example.playlistmaker.search.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(
-    R.layout.view_track,parent,false)) {
+class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(
+        R.layout.view_track, parent, false
+    )
+) {
     private val trackNameView: TextView = itemView.findViewById(R.id.trackName)
     private val artistNameView: TextView = itemView.findViewById(R.id.artistName)
     private val trackTimeView: TextView = itemView.findViewById(R.id.trackDuration)
