@@ -1,8 +1,8 @@
-package com.example.playlistmaker.data
+package com.example.playlistmaker.player.data.impl
 
 import android.media.MediaPlayer
-import com.example.playlistmaker.domain.PlayerState
-import com.example.playlistmaker.domain.api.player.PlayerRepository
+import com.example.playlistmaker.player.domain.model.PlayerState
+import com.example.playlistmaker.player.data.repository.PlayerRepository
 
 class PlayerRepositoryImpl : PlayerRepository {
     private var playerState = PlayerState.STATE_DEFAULT

@@ -22,8 +22,6 @@ import com.example.playlistmaker.search.ui.SearchScreenState
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2_000L
-
-        //private const val CLICK_DEBOUNCE_DELAY = 1_000L
         private const val MAX_SEARCH_HISTORY = 10
         private val SEARCH_REQUEST_TOKEN = Any()
 

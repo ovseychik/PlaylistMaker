@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.player.ui.PlayerActivity
+import com.example.playlistmaker.player.ui.activity.PlayerActivity
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 import com.example.playlistmaker.search.ui.TrackAdapter
@@ -56,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
             SearchViewModel.getViewModelFactory()
         )[SearchViewModel::class.java]
 
-        binding.trackList.adapter = trackAdapter
+        binding.recyclerTrackList.adapter = trackAdapter
 
         tracksSearchViewModel.stateObserver().observe(this) {
             render(it)
@@ -87,7 +87,7 @@ class SearchActivity : AppCompatActivity() {
                     changedText = s?.toString() ?: ""
                 )
                 if (!s.isNullOrEmpty()) {
-                    binding.trackList.visibility = View.VISIBLE
+                    binding.recyclerTrackList.visibility = View.VISIBLE
                     trackList.clear()
                     trackAdapter.trackList = trackList
                     hideHistoryScreen()
@@ -98,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
                 if (s?.isEmpty() == true && searchHistoryList.isNotEmpty()) {
                     showHistoryScreen()
                 } else {
-                    binding.trackList.visibility = View.GONE
+                    binding.recyclerTrackList.visibility = View.GONE
                     binding.placeHolder.visibility = View.GONE
                 }
             }
@@ -131,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.historyClear.setOnClickListener {
             hideHistoryScreen()
-            binding.trackList.visibility = View.VISIBLE
+            binding.recyclerTrackList.visibility = View.VISIBLE
             trackAdapter.notifyDataSetChanged()
             tracksSearchViewModel.clearHistory()
         }
@@ -181,27 +181,27 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showHistoryScreen() {
-        binding.searchHistory.visibility = View.VISIBLE
+        binding.searchHistoryHeader.visibility = View.VISIBLE
         binding.historyClear.visibility = View.VISIBLE
-        binding.historyTrackList.visibility = View.VISIBLE
+        binding.recyclerTrackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
         trackAdapter.trackList = searchHistoryList
         trackAdapter.notifyDataSetChanged()
     }
 
     private fun hideHistoryScreen() {
-        binding.searchHistory.visibility = View.GONE
+        binding.searchHistoryHeader.visibility = View.GONE
         binding.historyClear.visibility = View.GONE
     }
 
     private fun showLoading() {
-        binding.trackList.visibility = View.GONE
+        binding.recyclerTrackList.visibility = View.GONE
         binding.placeHolder.visibility = View.GONE
         binding.progressBarScreen.visibility = View.VISIBLE
     }
 
     private fun showError(errorMessage: String) {
-        binding.trackList.visibility = View.GONE
+        binding.recyclerTrackList.visibility = View.GONE
         binding.placeHolder.visibility = View.VISIBLE
         binding.progressBarScreen.visibility = View.GONE
         binding.searchPlaceholderText.text = errorMessage
@@ -215,10 +215,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showContent(trackList: List<Track>) {
-        binding.trackList.visibility = View.VISIBLE
+        binding.recyclerTrackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
         binding.progressBarScreen.visibility = View.GONE
-        binding.searchHistory.visibility = View.GONE
+        binding.searchHistoryHeader.visibility = View.GONE
         binding.historyClear.visibility = View.GONE
         trackAdapter.trackList.clear()
         trackAdapter.trackList.addAll(trackList)
