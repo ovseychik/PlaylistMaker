@@ -3,7 +3,7 @@ package com.example.playlistmaker.settings.data.impl
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.settings.data.repository.SettingsRepository
+import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.settings.domain.model.ThemeToggle
 
 class SettingsRepositoryImpl(context: Context) : SettingsRepository {

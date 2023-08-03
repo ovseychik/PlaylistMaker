@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.data.repository
+package com.example.playlistmaker.settings.domain
 
 import com.example.playlistmaker.settings.domain.model.ThemeToggle
 

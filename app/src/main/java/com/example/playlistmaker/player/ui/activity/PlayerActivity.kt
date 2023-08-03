@@ -9,7 +9,6 @@ import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.domain.model.Track
-import com.example.playlistmaker.search.ui.activity.SearchActivity.Companion.TRACK_FOR_PLAYER
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -35,45 +34,39 @@ class PlayerActivity : AppCompatActivity() {
             PlayerViewModel.getViewModelFactory()
         )[PlayerViewModel::class.java]
 
-        viewModel.getStatePlayerLiveData().observe(this) { state ->
+        viewModel.statePlayerLiveData().observe(this) { state ->
             changeState(state)
-        }
-
-        viewModel.getCurrentTimerLiveData().observe(this) { currentTimer ->
-            changeTimer(currentTimer)
         }
 
         viewModel.preparePlayer(url)
 
 
         binding.btnPlay.setOnClickListener {
-            viewModel.changePlayerState()
+            viewModel.controlPlayerState()
         }
 
         binding.btnBackPlayer.setOnClickListener {
             finish()
         }
 
-        initVIews(track)
+        initViews(track)
 
     }
+
 
     override fun onPause() {
         viewModel.onPause()
         super.onPause()
-
     }
 
     override fun onResume() {
         viewModel.onResume()
         super.onResume()
-
     }
 
     override fun onDestroy() {
         viewModel.onDestroy()
         super.onDestroy()
-
     }
 
     private fun changeState(state: PlayerState) {
@@ -82,22 +75,20 @@ class PlayerActivity : AppCompatActivity() {
         }
         if (state == PlayerState.STATE_PLAYING) {
             binding.btnPlay.setImageResource(R.drawable.ic_pause)
+            binding.currentTime.text = viewModel.getCurrentPosition()
         }
         if (state == PlayerState.STATE_PREPARED) {
+            binding.btnPlay.setImageResource(R.drawable.ic_button_play)
+        }
+        if (state == PlayerState.STATE_DEFAULT) {
             binding.btnPlay.setImageResource(R.drawable.ic_button_play)
             binding.currentTime.text = "00:00"
         }
     }
 
-    private fun changeTimer(currentTimer: Int) {
-        binding.currentTime.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentTimer)
-    }
-
-
-    private fun initVIews(track: Track) {
+    private fun initViews(track: Track) {
         binding.apply {
-            binding.currentTime.text = "00:00"
+            currentTime.text = millisFormat(track)
             trackName.text = track.trackName
             artistName.text = track.artistName
             time.text = millisFormat(track)

@@ -5,14 +5,14 @@ import com.example.playlistmaker.player.data.impl.PlayerRepositoryImpl
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.search.data.impl.TrackRepositoryImpl
 import com.example.playlistmaker.search.domain.TrackInteractor
-import com.example.playlistmaker.search.data.repository.TrackRepository
+import com.example.playlistmaker.search.domain.TrackRepository
 import com.example.playlistmaker.player.domain.model.PlayerInteractor
-import com.example.playlistmaker.player.data.repository.PlayerRepository
+import com.example.playlistmaker.player.domain.PlayerRepository
 import com.example.playlistmaker.player.domain.impl.PlayerInteractorImpl
 import com.example.playlistmaker.search.data.device_storage.SearchHistorySharedPrefs
 import com.example.playlistmaker.search.domain.impl.TrackInteractorImpl
 import com.example.playlistmaker.settings.data.impl.SettingsRepositoryImpl
-import com.example.playlistmaker.settings.data.repository.SettingsRepository
+import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.settings.domain.impl.SettingsInteractorImpl
 import com.example.playlistmaker.settings.domain.interactor.SettingsInteractor
 import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl

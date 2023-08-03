@@ -12,6 +12,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.model.PlayerState
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
@@ -28,78 +30,80 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
 
-    private var statePlayerLiveData = MutableLiveData(PlayerState.STATE_PREPARED)
-
-    fun getStatePlayerLiveData(): LiveData<PlayerState> = statePlayerLiveData
-
-    private var currentTimerLiveData = MutableLiveData(0)
-
-    fun getCurrentTimerLiveData(): LiveData<Int> = currentTimerLiveData
-
+    private var _statePlayerLiveData = MutableLiveData<PlayerState>()
+    fun statePlayerLiveData(): LiveData<PlayerState> = _statePlayerLiveData
 
     fun preparePlayer(url: String) {
         playerInteractor.preparePlayer(url) { state ->
             when (state) {
                 PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
-                    statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
                     mainThreadHandler.removeCallbacks(runnable)
                 }
+
                 else -> Unit
             }
         }
     }
 
-    fun postCurrentTimeControl(): Runnable {
+    private fun postCurrentTimeControl(): Runnable {
         return object : Runnable {
             override fun run() {
-                var currentTimerPosition = playerInteractor.getCurrentPosition()
+                getCurrentPosition()
+                _statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
                 mainThreadHandler.postDelayed(this, REFRESH_TRACK_PROGRESS)
-                currentTimerLiveData.postValue(currentTimerPosition)
             }
-
         }
     }
 
 
-    fun changePlayerState() {
+    fun controlPlayerState() {
         playerInteractor.controlPlayerState { state ->
             when (state) {
                 PlayerState.STATE_PLAYING -> {
-                    mainThreadHandler.removeCallbacks(runnable)
+                    getCurrentPosition()
                     mainThreadHandler.post(runnable)
-                    statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
-                }
-                PlayerState.STATE_PAUSED -> {
-                    mainThreadHandler.removeCallbacks(runnable)
-                    statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
-                }
-                PlayerState.STATE_PREPARED -> {
-                    mainThreadHandler.removeCallbacks(runnable)
-                    mainThreadHandler.post(runnable)
-                    statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
                 }
 
-                else -> Unit
+                PlayerState.STATE_PAUSED -> {
+                    mainThreadHandler.removeCallbacks(runnable)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+                }
+
+                PlayerState.STATE_PREPARED -> {
+                    mainThreadHandler.removeCallbacks(runnable)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
+                }
+
+                PlayerState.STATE_DEFAULT -> {
+                    mainThreadHandler.removeCallbacks(runnable)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_DEFAULT)
+                }
             }
         }
     }
 
     fun onPause() {
         mainThreadHandler.removeCallbacks(runnable)
-        statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+        _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
         playerInteractor.pausePlayer()
-
     }
 
     fun onDestroy() {
         mainThreadHandler.removeCallbacks(runnable)
-
     }
 
     fun onResume() {
         mainThreadHandler.removeCallbacks(runnable)
-        statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+        _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+    }
 
+    fun getCurrentPosition(): String {
+        return SimpleDateFormat(
+            "mm:ss",
+            Locale.getDefault()
+        ).format(playerInteractor.getCurrentPosition())
     }
 
 }
