@@ -17,7 +17,7 @@ import java.util.Locale
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
-        private const val REFRESH_TRACK_PROGRESS = 100L
+        private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
 
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -51,7 +51,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             override fun run() {
                 getCurrentPosition()
                 _statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
-                mainThreadHandler.postDelayed(this, REFRESH_TRACK_PROGRESS)
+                mainThreadHandler.postDelayed(this, REFRESH_TRACK_PROGRESS_MILLIS)
             }
         }
     }
