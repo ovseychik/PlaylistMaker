@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
         const val TRACK_FOR_PLAYER = "TRACK FOR PLAYER"
-        const val CLICK_DEBOUNCE_DELAY = 1_000L
+        const val CLICK_DEBOUNCE_DELAY_MILLIS = 1_000L
     }
 
     private lateinit var binding: ActivitySearchBinding
@@ -63,10 +63,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         tracksSearchViewModel.fillHistory()
-
-        tracksSearchViewModel.historyLiveData.observe(this) { historyTrackList ->
-            searchHistoryList = historyTrackList
-        }
 
         binding.inputSearch.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus && binding.inputSearch.text.isEmpty() && searchHistoryList.isNotEmpty()) {
@@ -155,7 +151,7 @@ class SearchActivity : AppCompatActivity() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
         }
         return current
     }
@@ -177,6 +173,12 @@ class SearchActivity : AppCompatActivity() {
                 binding.searchPlaceHolderImage.setImageResource(R.drawable.nothing_found)
                 binding.placeholderRefreshButton.visibility = View.GONE
             }
+
+            is SearchScreenState.History -> {
+                showHistoryScreen()
+                showContent(state.history)
+            }
+
         }
     }
 

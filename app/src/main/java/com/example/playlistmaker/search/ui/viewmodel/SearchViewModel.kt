@@ -21,7 +21,7 @@ import com.example.playlistmaker.search.ui.SearchScreenState
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2_000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
         private const val MAX_SEARCH_HISTORY = 10
         private val SEARCH_REQUEST_TOKEN = Any()
 
@@ -41,13 +41,10 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private val _searchStateLiveData = MutableLiveData<SearchScreenState>()
     val searchStateLiveData: LiveData<SearchScreenState> = _searchStateLiveData
 
-    private val _historyLiveData = MutableLiveData<ArrayList<Track>>()
-    val historyLiveData: LiveData<ArrayList<Track>> = _historyLiveData
     fun stateObserver(): LiveData<SearchScreenState> = mediatorStateLiveData
 
     init {
         trackSearchHistory.addAll(tracksInteractor.getSearchHistory())
-        _historyLiveData.postValue(trackSearchHistory)
     }
 
     private fun renderState(state: SearchScreenState) {
@@ -58,6 +55,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         liveData.addSource(_searchStateLiveData) { screenState ->
             liveData.value = when (screenState) {
                 is SearchScreenState.Success -> SearchScreenState.Success(screenState.data)
+                is SearchScreenState.History -> SearchScreenState.History(screenState.history)
                 is SearchScreenState.Loading -> screenState
                 is SearchScreenState.Error -> screenState
                 is SearchScreenState.Empty -> screenState
@@ -79,7 +77,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         }
         trackSearchHistory.add(0, track)
         tracksInteractor.putSearchHistory(trackSearchHistory)
-        _historyLiveData.postValue(trackSearchHistory)
     }
 
     fun searchDebounce(changedText: String) {
@@ -92,7 +89,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
         val searchRunnable = Runnable { searchTrack(changedText) }
 
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
+        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY_MILLIS
         handler.postAtTime(
             searchRunnable,
             SEARCH_REQUEST_TOKEN,
@@ -113,7 +110,15 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun fillHistory() {
         trackSearchHistory.clear()
         trackSearchHistory.addAll(tracksInteractor.getSearchHistory())
-        _historyLiveData.postValue(trackSearchHistory)
+        renderState(
+            SearchScreenState.History(
+                history = trackSearchHistory
+            )
+        )
+    }
+
+    fun setScreenToRenderHistory() {
+
     }
 
     fun searchTrack(newSearchText: String) {
