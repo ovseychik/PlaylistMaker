@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayerActivity">
+    tools:context=".player.ui.activity.PlayerActivity">
 
     <ImageView
         android:id="@+id/btn_back_player"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintStart_toStartOf="@id/leftBorder"
         app:layout_constraintTag="imageSongTag"
-        tools:text="Yesterday" />
+        tools:text="Everything goes as planned" />
 
     <TextView
         android:id="@+id/artistName"
@@ -92,7 +92,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnPlay"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintStart_toStartOf="@id/leftBorder"
-        tools:text="Beatles" />
+        tools:text="Summer in Omsk" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addToPlaylist"

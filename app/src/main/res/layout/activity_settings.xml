@@ -7,7 +7,7 @@
     android:background="@color/settings_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".SettingsActivity">
+    tools:context=".settings.ui.activity.SettingsActivity">
 
     <LinearLayout
         style="@style/HeadsLayout"
