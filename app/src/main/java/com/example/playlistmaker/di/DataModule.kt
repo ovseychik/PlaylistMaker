@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val dataModule = module {
     single<ItunesApi> {
         Retrofit.Builder()
-            .baseUrl("http://itunes.apple.com")
+            .baseUrl("https://itunes.apple.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ItunesApi::class.java)

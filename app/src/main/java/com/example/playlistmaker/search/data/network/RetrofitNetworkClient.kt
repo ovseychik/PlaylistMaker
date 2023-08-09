@@ -5,8 +5,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitNetworkClient(
     private val iTunesService: ItunesApi,
