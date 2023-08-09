@@ -1,32 +1,29 @@
 package com.example.playlistmaker.player.ui.viewmodel
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.creator.Creator
+import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.player.domain.model.PlayerInteractor
 import com.example.playlistmaker.player.domain.model.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(application: Application) : AndroidViewModel(application) {
+class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
     companion object {
         private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
 
+/*
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 PlayerViewModel(this[APPLICATION_KEY] as Application)
             }
         }
+*/
     }
 
-    private val playerInteractor = Creator.providePlayerInteractor()
+    //private val playerInteractor = Creator.providePlayerInteractor()
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
 

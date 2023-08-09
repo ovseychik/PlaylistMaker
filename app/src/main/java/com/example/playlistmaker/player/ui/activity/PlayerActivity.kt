@@ -2,13 +2,13 @@ package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.domain.model.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -18,7 +18,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPlayerBinding
-    private lateinit var viewModel: PlayerViewModel
+    //private lateinit var viewModel: PlayerViewModel
+    private val viewModel by viewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -29,10 +30,12 @@ class PlayerActivity : AppCompatActivity() {
         val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
         val url = track!!.previewUrl
 
+/*
         viewModel = ViewModelProvider(
             this,
             PlayerViewModel.getViewModelFactory()
         )[PlayerViewModel::class.java]
+*/
 
         viewModel.statePlayerLiveData().observe(this) { state ->
             changeState(state)

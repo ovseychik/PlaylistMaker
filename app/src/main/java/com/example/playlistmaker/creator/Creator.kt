@@ -20,6 +20,7 @@ import com.example.playlistmaker.sharing.domain.impl.SharingInteractorImpl
 import com.example.playlistmaker.sharing.domain.interactor.SharingInteractor
 
 object Creator {
+/*
     private fun getTrackRepository(context: Context): TrackRepository {
         return TrackRepositoryImpl(RetrofitNetworkClient(context), SearchHistorySharedPrefs(context))
     }
@@ -47,4 +48,5 @@ object Creator {
     fun provideSettingsInteractor(context: Context): SettingsInteractor {
         return SettingsInteractorImpl(getSettingsRepository(context))
     }
+*/
 }

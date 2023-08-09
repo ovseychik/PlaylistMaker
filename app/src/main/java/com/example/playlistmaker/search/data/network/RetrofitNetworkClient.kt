@@ -8,7 +8,12 @@ import androidx.annotation.RequiresApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context) : NetworkClient {
+class RetrofitNetworkClient(
+    private val iTunesService: ItunesApi,
+    private val context: Context
+) :
+    NetworkClient {
+/*
     private val iTunesBaseUrl = "https://itunes.apple.com"
 
     private val retrofit = Retrofit.Builder()
@@ -17,6 +22,7 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
         .build()
 
     private val iTunesService = retrofit.create(ItunesApi::class.java)
+*/
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun doRequest(dto: Any): Response {
@@ -36,7 +42,7 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M) // По рекомендации AS
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE

@@ -1,24 +1,22 @@
 package com.example.playlistmaker.settings.data.impl
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.settings.domain.model.ThemeToggle
 
-class SettingsRepositoryImpl(context: Context) : SettingsRepository {
+class SettingsRepositoryImpl(private val sharedPrefsSettings: SharedPreferences) : SettingsRepository {
     companion object {
-        private const val SETTINGS_PREFERENCES = "settings_preferences"
+        const val SETTINGS_PREFERENCES = "settings_preferences"
         private const val SWITCH_DARK_THEME = "switch_dark_theme"
     }
 
-    val sharedPrefsSettings = context.getSharedPreferences(
+/*    val sharedPrefsSettings = context.getSharedPreferences(
         SETTINGS_PREFERENCES,
         AppCompatActivity.MODE_PRIVATE
-    )
+    )*/
 
     val darkTheme = sharedPrefsSettings.getBoolean(SWITCH_DARK_THEME, false)
-
 
     override fun getThemeToggle(): ThemeToggle {
         return ThemeToggle(darkTheme)
