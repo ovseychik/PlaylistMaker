@@ -11,16 +11,6 @@ class RetrofitNetworkClient(
     private val context: Context
 ) :
     NetworkClient {
-/*
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val iTunesService = retrofit.create(ItunesApi::class.java)
-*/
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun doRequest(dto: Any): Response {

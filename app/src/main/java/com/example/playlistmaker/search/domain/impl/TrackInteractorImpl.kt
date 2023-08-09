@@ -6,6 +6,7 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.util.Resource
 import java.util.concurrent.Executors
 
+//TODO: rename class to SearchInteractorImpl during hiatus
 class TrackInteractorImpl(private val repository: TrackRepository) : TrackInteractor {
 
     private val executor = Executors.newCachedThreadPool()

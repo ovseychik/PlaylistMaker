@@ -18,7 +18,6 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPlayerBinding
-    //private lateinit var viewModel: PlayerViewModel
     private val viewModel by viewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +28,6 @@ class PlayerActivity : AppCompatActivity() {
 
         val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
         val url = track!!.previewUrl
-
-/*
-        viewModel = ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory()
-        )[PlayerViewModel::class.java]
-*/
 
         viewModel.statePlayerLiveData().observe(this) { state ->
             changeState(state)

@@ -8,7 +8,6 @@ class PlayerRepositoryImpl (private val mediaPlayer: MediaPlayer) : PlayerReposi
     private var playerState = PlayerState.STATE_DEFAULT
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
-        //mediaPlayer = MediaPlayer()
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
@@ -19,7 +18,6 @@ class PlayerRepositoryImpl (private val mediaPlayer: MediaPlayer) : PlayerReposi
             playerState = PlayerState.STATE_PREPARED
             onStateChangedTo(PlayerState.STATE_PREPARED)
         }
-        //this.mediaPlayer = mediaPlayer
     }
 
     override fun startPlayer() {
@@ -56,10 +54,6 @@ class PlayerRepositoryImpl (private val mediaPlayer: MediaPlayer) : PlayerReposi
 
             else -> {}
         }
-    }
-
-    override fun destroy() {
-        TODO("Not yet implemented")
     }
 
 }

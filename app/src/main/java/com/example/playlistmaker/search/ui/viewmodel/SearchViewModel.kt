@@ -8,12 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.lifecycle.viewmodel.initializer
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.TrackInteractor
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
@@ -24,18 +19,10 @@ class SearchViewModel(application: Application, private val trackInteractor: Tra
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
         private const val MAX_SEARCH_HISTORY = 10
         private val SEARCH_REQUEST_TOKEN = Any()
-
-
-/*        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }*/
     }
 
     private var trackSearchHistory = ArrayList<Track>()
     private var recentSearchExpression: String? = null
-    //private val tracksInteractor = Creator.provideTrackInteractor(getApplication())
     private val handler = Handler(Looper.getMainLooper())
 
     private val _searchStateLiveData = MutableLiveData<SearchScreenState>()

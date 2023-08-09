@@ -9,6 +9,7 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.data.network.TrackResponse
 import com.example.playlistmaker.util.Resource
 
+//TODO: rename class to SearchRepositoryImpl during hiatus
 class TrackRepositoryImpl(
     private val networkClient: NetworkClient,
     private val searchHistory: SearchHistory

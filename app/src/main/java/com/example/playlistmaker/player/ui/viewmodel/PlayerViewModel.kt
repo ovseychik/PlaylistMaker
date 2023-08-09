@@ -13,17 +13,8 @@ import java.util.Locale
 class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
     companion object {
         private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
-
-/*
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayerViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
-*/
     }
 
-    //private val playerInteractor = Creator.providePlayerInteractor()
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
 
@@ -52,7 +43,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
             }
         }
     }
-
 
     fun controlPlayerState() {
         playerInteractor.controlPlayerState { state ->
