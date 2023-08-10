@@ -11,11 +11,6 @@ class SettingsRepositoryImpl(private val sharedPrefsSettings: SharedPreferences)
         private const val SWITCH_DARK_THEME = "switch_dark_theme"
     }
 
-/*    val sharedPrefsSettings = context.getSharedPreferences(
-        SETTINGS_PREFERENCES,
-        AppCompatActivity.MODE_PRIVATE
-    )*/
-
     val darkTheme = sharedPrefsSettings.getBoolean(SWITCH_DARK_THEME, false)
 
     override fun getThemeToggle(): ThemeToggle {

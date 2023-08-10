@@ -30,4 +30,5 @@
     <string name="description_button_back">Back button</string>
     <string name="description_album_artwork">Album artwork is displayed here</string>
     <string name="snackbar_error_message">Something went wrong</string>
+    <string name="error_server_error">Server-side error</string>
 </resources>

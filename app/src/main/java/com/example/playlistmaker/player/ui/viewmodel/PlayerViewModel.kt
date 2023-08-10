@@ -93,4 +93,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
         ).format(playerInteractor.getCurrentPosition())
     }
 
+    fun getCoverArtWork(url: String) = url.replaceAfterLast('/', "512x512bb.jpg")
+
 }

@@ -35,7 +35,6 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.preparePlayer(url)
 
-
         binding.btnPlay.setOnClickListener {
             viewModel.controlPlayerState()
         }
@@ -47,7 +46,6 @@ class PlayerActivity : AppCompatActivity() {
         initViews(track)
 
     }
-
 
     override fun onPause() {
         viewModel.onPause()
@@ -82,13 +80,13 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun initViews(track: Track) {
-        binding.apply {
+        with(binding) {
             currentTime.text = millisFormat(track)
             trackName.text = track.trackName
             artistName.text = track.artistName
             time.text = millisFormat(track)
             Glide.with(songArtwork)
-                .load(track.artworkUrl100)
+                .load(viewModel.getCoverArtWork(track.artworkUrl100))
                 .placeholder(R.drawable.ic_album_cover_placeholder_hires)
                 .into(songArtwork)
             country.text = track.country

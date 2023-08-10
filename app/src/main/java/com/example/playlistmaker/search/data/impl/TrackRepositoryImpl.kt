@@ -43,7 +43,7 @@ class TrackRepositoryImpl(
             }
 
             else -> {
-                Resource.Error("Ошибка сервера")
+                Resource.Error(R.string.error_server_error.toString())
             }
         }
     }
