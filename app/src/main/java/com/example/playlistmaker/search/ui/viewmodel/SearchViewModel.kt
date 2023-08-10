@@ -13,8 +13,8 @@ import com.example.playlistmaker.search.domain.TrackInteractor
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 
-
-class SearchViewModel(application: Application, private val trackInteractor: TrackInteractor) : AndroidViewModel(application) {
+class SearchViewModel(application: Application, private val trackInteractor: TrackInteractor) :
+    AndroidViewModel(application) {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
         private const val MAX_SEARCH_HISTORY = 10
@@ -119,7 +119,7 @@ class SearchViewModel(application: Application, private val trackInteractor: Tra
                         errorMessage != null -> {
                             renderState(
                                 SearchScreenState.Error(
-                                    message = getApplication<Application>().getString(R.string.check_network),
+                                    message = R.string.check_network.toString()
                                 )
                             )
                         }
@@ -127,7 +127,7 @@ class SearchViewModel(application: Application, private val trackInteractor: Tra
                         trackList.isEmpty() -> {
                             renderState(
                                 SearchScreenState.Empty(
-                                    message = getApplication<Application>().getString(R.string.nothing_found),
+                                    message = R.string.nothing_found.toString()
                                 )
                             )
                         }
