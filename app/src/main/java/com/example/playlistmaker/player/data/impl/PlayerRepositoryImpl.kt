@@ -4,19 +4,25 @@ import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.PlayerRepository
 
-class PlayerRepositoryImpl (private val mediaPlayer: MediaPlayer) : PlayerRepository {
+class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerRepository {
     private var playerState = PlayerState.STATE_DEFAULT
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            playerState = PlayerState.STATE_PREPARED
-            onStateChangedTo(PlayerState.STATE_PREPARED)
-        }
-        mediaPlayer.setOnCompletionListener {
-            playerState = PlayerState.STATE_PREPARED
-            onStateChangedTo(PlayerState.STATE_PREPARED)
+        if (url.isNotEmpty()) {
+            mediaPlayer.apply {
+                setDataSource(url)
+                prepareAsync()
+                setOnPreparedListener {
+                    playerState = PlayerState.STATE_PREPARED
+                    onStateChangedTo(PlayerState.STATE_PREPARED)
+                }
+                setOnCompletionListener {
+                    playerState = PlayerState.STATE_PREPARED
+                    onStateChangedTo(PlayerState.STATE_PREPARED)
+                }
+            }
+        } else {
+            Unit
         }
     }
 

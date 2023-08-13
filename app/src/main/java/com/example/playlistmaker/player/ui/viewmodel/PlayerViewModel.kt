@@ -79,6 +79,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
 
     fun onDestroy() {
         mainThreadHandler.removeCallbacks(runnable)
+        playerInteractor.releasePlayer()
     }
 
     fun onResume() {
