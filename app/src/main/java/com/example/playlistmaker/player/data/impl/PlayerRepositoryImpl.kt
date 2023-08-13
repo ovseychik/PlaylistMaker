@@ -22,7 +22,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
                 }
             }
         } else {
-            Unit
+            Unit // do nothing
         }
     }
 
