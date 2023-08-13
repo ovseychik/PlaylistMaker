@@ -21,29 +21,36 @@ class PlayerActivity : AppCompatActivity() {
     private val viewModel by viewModel<PlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-        val url = track!!.previewUrl
 
         viewModel.statePlayerLiveData().observe(this) { state ->
             changeState(state)
         }
 
-        viewModel.preparePlayer(url)
+        try {
+            val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
 
-        binding.btnPlay.setOnClickListener {
-            viewModel.controlPlayerState()
+
+            val url = track?.previewUrl
+
+
+            viewModel.preparePlayer(url!!)
+
+
+            binding.btnPlay.setOnClickListener {
+                viewModel.controlPlayerState()
+            }
+            initViews(track)
+        } catch (e: NullPointerException) {
+            finish()
         }
 
         binding.btnBackPlayer.setOnClickListener {
             finish()
         }
 
-        initViews(track)
 
     }
 

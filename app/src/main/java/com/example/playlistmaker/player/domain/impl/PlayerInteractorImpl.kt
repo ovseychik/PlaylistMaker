@@ -5,7 +5,6 @@ import com.example.playlistmaker.player.domain.model.PlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerRepository
 
 class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : PlayerInteractor {
-    var state = PlayerState.STATE_DEFAULT
     override fun preparePlayer(url: String, onStateChanged: (s: PlayerState) -> Unit) {
         playerRepository.preparePlayer(url, onStateChanged)
     }

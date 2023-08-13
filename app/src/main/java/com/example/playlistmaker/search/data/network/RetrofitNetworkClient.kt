@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 
 class RetrofitNetworkClient(
@@ -12,7 +13,6 @@ class RetrofitNetworkClient(
 ) :
     NetworkClient {
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1 }
@@ -30,13 +30,17 @@ class RetrofitNetworkClient(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
         val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            } else {
+                Log.e("RetrofitNetworkClient", "User is below Android M, skipping network check. Advise to upgrade.") //At least we don't break the app.
+                return true
+            }
         if (capabilities != null) {
             when {
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true

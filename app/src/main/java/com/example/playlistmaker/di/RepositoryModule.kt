@@ -18,7 +18,7 @@ val repositoryModule = module {
         TrackRepositoryImpl(networkClient = get(), searchHistory = get())
     }
 
-    factory<PlayerRepository> {
+    single<PlayerRepository> {
         PlayerRepositoryImpl(mediaPlayer = get())
     }
 
