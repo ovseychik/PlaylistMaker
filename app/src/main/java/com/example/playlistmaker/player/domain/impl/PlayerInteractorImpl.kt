@@ -1,5 +1,6 @@
 package com.example.playlistmaker.player.domain.impl
 
+import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.PlayerInteractor
 import com.example.playlistmaker.player.domain.PlayerRepository
@@ -29,4 +30,11 @@ class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : Pla
         playerRepository.controlPlayerState(onStateChanged)
     }
 
+    override fun getPlayer(): MediaPlayer {
+        return playerRepository.getPlayer()
+    }
+
+    override fun resetPlayer() {
+        playerRepository.resetPlayer()
+    }
 }

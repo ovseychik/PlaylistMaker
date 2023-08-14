@@ -1,5 +1,6 @@
 package com.example.playlistmaker.player.domain
 
+import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.model.PlayerState
 
 interface PlayerRepository {
@@ -9,4 +10,6 @@ interface PlayerRepository {
     fun pausePlayer()
     fun releasePLayer()
     fun controlPlayerState(onStateChangedTo: (s: PlayerState) -> Unit)
+    fun getPlayer(): MediaPlayer
+    fun resetPlayer()
 }

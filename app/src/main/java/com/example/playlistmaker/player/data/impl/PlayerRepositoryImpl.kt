@@ -9,6 +9,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
         if (url.isNotEmpty()) {
+            //mediaPlayer?.reset()
             mediaPlayer.apply {
                 setDataSource(url)
                 prepareAsync()
@@ -24,6 +25,10 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         } else {
             Unit // do nothing.
         }
+    }
+
+    override fun resetPlayer() {
+        this.mediaPlayer.reset()
     }
 
     override fun startPlayer() {
@@ -60,6 +65,10 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
             else -> {}
         }
+    }
+
+    override fun getPlayer(): MediaPlayer {
+        return this.mediaPlayer
     }
 
 }

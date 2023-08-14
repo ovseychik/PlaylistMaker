@@ -74,7 +74,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun onPause() {
         mainThreadHandler.removeCallbacks(runnable)
         _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
-        playerInteractor.pausePlayer()
+        playerInteractor.resetPlayer()
     }
 
     fun onDestroy() {
@@ -85,6 +85,12 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun onResume() {
         mainThreadHandler.removeCallbacks(runnable)
         _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mainThreadHandler.removeCallbacks(runnable)
+        playerInteractor.releasePlayer()
     }
 
     fun getCurrentPosition(): String {
