@@ -15,7 +15,7 @@ val interactorModule = module {
         PlayerInteractorImpl(playerRepository = get())
     }
 
-    single<TrackInteractor> {
+    factory<TrackInteractor> {
         TrackInteractorImpl(repository = get())
     }
 
