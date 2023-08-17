@@ -28,7 +28,6 @@ data class TrackDto(
         parcel.readString().toString(),
         parcel.readString().toString()
     ) {
-
     }
 
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast("/", "512x512bb.jpg")

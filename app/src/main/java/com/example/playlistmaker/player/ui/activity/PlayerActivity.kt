@@ -1,7 +1,6 @@
 package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
@@ -20,6 +19,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
+    private var bundledProgressTime: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +30,15 @@ class PlayerActivity : AppCompatActivity() {
             changeState(state)
         }
 
-        try {
-            val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-            val url = track?.previewUrl
+        val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
+        val url = track?.previewUrl
 
-            viewModel.preparePlayer(url!!)
+        viewModel.preparePlayer(url!!)
 
-            binding.btnPlay.setOnClickListener {
-                viewModel.controlPlayerState()
-            }
-            initViews(track)
-        } catch (e: NullPointerException) {
-            finish()
-        }
+        binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
+
+        initViews(track)
+
 
         binding.btnBackPlayer.setOnClickListener {
             finish()
@@ -53,12 +49,14 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(TRACK_FOR_PLAYER, intent.getParcelableExtra(TRACK_FOR_PLAYER))
+        outState.putCharSequence("position player", viewModel.getCurrentPosition())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val track = savedInstanceState.getParcelable<Track>(TRACK_FOR_PLAYER)
+        bundledProgressTime = savedInstanceState
+            .getCharSequence("position player")
+            .toString()
     }
 
     override fun onPause() {

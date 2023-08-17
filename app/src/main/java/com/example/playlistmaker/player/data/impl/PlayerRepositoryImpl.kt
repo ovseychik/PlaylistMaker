@@ -9,10 +9,14 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
         if (url.isNotEmpty()) {
-            //mediaPlayer?.reset()
             mediaPlayer.apply {
-                setDataSource(url)
-                prepareAsync()
+                try {
+                    reset()
+                    setDataSource(url)
+                    prepareAsync()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 setOnPreparedListener {
                     playerState = PlayerState.STATE_PREPARED
                     onStateChangedTo(PlayerState.STATE_PREPARED)
