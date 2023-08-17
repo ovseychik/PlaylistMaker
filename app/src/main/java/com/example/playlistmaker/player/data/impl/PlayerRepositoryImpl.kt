@@ -11,6 +11,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         if (playerState == PlayerState.STATE_PLAYING) {
             this.mediaPlayer.pause()
             playerState = PlayerState.STATE_PAUSED
+            this.mediaPlayer.reset()
         }
         mediaPlayer.apply {
             setDataSource(url)
