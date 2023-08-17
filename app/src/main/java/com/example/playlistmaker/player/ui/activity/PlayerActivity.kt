@@ -31,17 +31,20 @@ class PlayerActivity : AppCompatActivity() {
             changeState(state)
         }
 
+        bundledTrack = savedInstanceState?.getParcelable(TRACK_FOR_PLAYER)
 
-        val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-        bundledTrack = track
-
-        val url = if (track != null) track.previewUrl else bundledTrack?.previewUrl
-
-        viewModel.preparePlayer(url!!)
+        if (bundledTrack != null) {
+            val url = bundledTrack?.previewUrl
+            viewModel.preparePlayer(url!!)
+            initViews(bundledTrack!!)
+        } else {
+            val bundledTrack = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
+            val url = bundledTrack?.previewUrl
+            viewModel.preparePlayer(url!!)
+            initViews(bundledTrack!!)
+        }
 
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
-
-        initViews(bundledTrack!!)
 
         binding.btnBackPlayer.setOnClickListener {
             viewModel.onDestroy()

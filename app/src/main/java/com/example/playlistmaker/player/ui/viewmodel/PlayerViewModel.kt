@@ -17,12 +17,13 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
 
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
+    private var isPlayerCreated = false
 
     private var _statePlayerLiveData = MutableLiveData<PlayerState>()
     fun statePlayerLiveData(): LiveData<PlayerState> = _statePlayerLiveData
 
     fun preparePlayer(url: String) {
-        playerInteractor.preparePlayer(url) { state ->
+        if (!isPlayerCreated) playerInteractor.preparePlayer(url) { state ->
             when (state) {
                 PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
                     _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
@@ -32,6 +33,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
                 else -> Unit
             }
         }
+        isPlayerCreated = true
     }
 
     private fun postCurrentTimeControl(): Runnable {
@@ -94,7 +96,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
 
     override fun onCleared() {
         mainThreadHandler.removeCallbacks(runnable)
-        playerInteractor.releasePlayer()
+        //playerInteractor.releasePlayer()
     }
 
     fun getCurrentPosition(): String {
