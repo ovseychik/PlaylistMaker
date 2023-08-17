@@ -11,7 +11,6 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         if (playerState == PlayerState.STATE_PLAYING) {
             this.mediaPlayer.pause()
             playerState = PlayerState.STATE_PAUSED
-            mediaPlayer.reset()
         }
         mediaPlayer.apply {
             setDataSource(url)
@@ -26,18 +25,6 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
             }
         }
     }
-
-    /*
-        override fun resetPlayer(url: String) {
-            if (playerState == PlayerState.STATE_PLAYING) {
-                this.mediaPlayer.pause()
-                playerState = PlayerState.STATE_PAUSED
-            }
-            this.mediaPlayer.reset()
-            this.mediaPlayer.setDataSource(url)
-            this.mediaPlayer.prepareAsync()
-        }
-    */
 
     override fun startPlayer() {
         this.mediaPlayer.start()
