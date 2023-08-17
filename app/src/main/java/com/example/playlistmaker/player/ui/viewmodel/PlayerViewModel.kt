@@ -67,14 +67,19 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
                     mainThreadHandler.removeCallbacks(runnable)
                     _statePlayerLiveData.postValue(PlayerState.STATE_DEFAULT)
                 }
+
+                PlayerState.STATE_IDLE -> {
+                    mainThreadHandler.removeCallbacks(runnable)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_DEFAULT)
+                }
             }
         }
     }
 
     fun onPause() {
         mainThreadHandler.removeCallbacks(runnable)
-        _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
-        playerInteractor.resetPlayer()
+        _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
+        playerInteractor.pausePlayer()
     }
 
     fun onDestroy() {
@@ -88,7 +93,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     }
 
     override fun onCleared() {
-        super.onCleared()
         mainThreadHandler.removeCallbacks(runnable)
         playerInteractor.releasePlayer()
     }

@@ -34,7 +34,9 @@ class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : Pla
         return playerRepository.getPlayer()
     }
 
-    override fun resetPlayer() {
-        playerRepository.resetPlayer()
+/*
+    override fun resetPlayer(url: String) {
+        playerRepository.resetPlayer(url)
     }
+*/
 }

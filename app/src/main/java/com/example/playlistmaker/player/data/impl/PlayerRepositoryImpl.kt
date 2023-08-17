@@ -8,32 +8,36 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
     private var playerState = PlayerState.STATE_DEFAULT
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
-        if (url.isNotEmpty()) {
-            mediaPlayer.apply {
-                try {
-                    reset()
-                    setDataSource(url)
-                    prepareAsync()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                setOnPreparedListener {
-                    playerState = PlayerState.STATE_PREPARED
-                    onStateChangedTo(PlayerState.STATE_PREPARED)
-                }
-                setOnCompletionListener {
-                    playerState = PlayerState.STATE_PREPARED
-                    onStateChangedTo(PlayerState.STATE_PREPARED)
-                }
+        if (playerState == PlayerState.STATE_PLAYING) {
+            this.mediaPlayer.pause()
+            playerState = PlayerState.STATE_PAUSED
+            mediaPlayer.reset()
+        }
+        mediaPlayer.apply {
+            setDataSource(url)
+            prepareAsync()
+            setOnPreparedListener {
+                playerState = PlayerState.STATE_PREPARED
+                onStateChangedTo(PlayerState.STATE_PREPARED)
             }
-        } else {
-            Unit // do nothing.
+            setOnCompletionListener {
+                playerState = PlayerState.STATE_PREPARED
+                onStateChangedTo(PlayerState.STATE_PREPARED)
+            }
         }
     }
 
-    override fun resetPlayer() {
-        this.mediaPlayer.reset()
-    }
+    /*
+        override fun resetPlayer(url: String) {
+            if (playerState == PlayerState.STATE_PLAYING) {
+                this.mediaPlayer.pause()
+                playerState = PlayerState.STATE_PAUSED
+            }
+            this.mediaPlayer.reset()
+            this.mediaPlayer.setDataSource(url)
+            this.mediaPlayer.prepareAsync()
+        }
+    */
 
     override fun startPlayer() {
         this.mediaPlayer.start()

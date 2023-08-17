@@ -20,6 +20,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
     private var bundledProgressTime: String = ""
+    private var bundledTrack: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,33 +31,32 @@ class PlayerActivity : AppCompatActivity() {
             changeState(state)
         }
 
+
         val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-        val url = track?.previewUrl
+        bundledTrack = track
+
+        val url = if (track != null) track.previewUrl else bundledTrack?.previewUrl
 
         viewModel.preparePlayer(url!!)
 
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
 
-        initViews(track)
-
+        initViews(bundledTrack!!)
 
         binding.btnBackPlayer.setOnClickListener {
-            finish()
+            viewModel.onDestroy()
+            super.finish()
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putCharSequence("position player", viewModel.getCurrentPosition())
+        outState.putParcelable(TRACK_FOR_PLAYER, bundledTrack)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        bundledProgressTime = savedInstanceState
-            .getCharSequence("position player")
-            .toString()
+        bundledTrack = savedInstanceState.getParcelable(TRACK_FOR_PLAYER)
     }
 
     override fun onPause() {

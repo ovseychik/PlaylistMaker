@@ -10,5 +10,5 @@ interface PlayerInteractor {
     fun getCurrentPosition(): Int
     fun controlPlayerState(onStateChanged: (s: PlayerState) -> Unit)
     fun getPlayer(): MediaPlayer
-    fun resetPlayer()
+//    fun resetPlayer(url: String)
 }

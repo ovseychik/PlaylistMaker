@@ -11,5 +11,7 @@ interface PlayerRepository {
     fun releasePLayer()
     fun controlPlayerState(onStateChangedTo: (s: PlayerState) -> Unit)
     fun getPlayer(): MediaPlayer
-    fun resetPlayer()
+/*
+    fun resetPlayer(url: String)
+*/
 }
