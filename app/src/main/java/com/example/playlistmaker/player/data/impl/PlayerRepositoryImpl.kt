@@ -34,8 +34,14 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
     }
 
     override fun pausePlayer() {
-        this.mediaPlayer.pause()
-        playerState = PlayerState.STATE_PAUSED
+        try {
+            this.mediaPlayer.pause()
+            playerState = PlayerState.STATE_PAUSED
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+            releasePLayer()
+        }
+
     }
 
     override fun releasePLayer() {
