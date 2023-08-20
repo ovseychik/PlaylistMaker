@@ -11,7 +11,7 @@ import com.example.playlistmaker.sharing.domain.interactor.SharingInteractor
 import org.koin.dsl.module
 
 val interactorModule = module {
-    factory <PlayerInteractor> {
+    single <PlayerInteractor> {
         PlayerInteractorImpl(playerRepository = get())
     }
 

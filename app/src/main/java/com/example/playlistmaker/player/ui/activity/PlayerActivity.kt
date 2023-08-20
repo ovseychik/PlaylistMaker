@@ -19,7 +19,6 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
-    private var bundledProgressTime: String = ""
     private var bundledTrack: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

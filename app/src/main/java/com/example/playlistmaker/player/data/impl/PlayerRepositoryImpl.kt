@@ -8,21 +8,18 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
     private var playerState = PlayerState.STATE_DEFAULT
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
-        if (playerState == PlayerState.STATE_PLAYING) {
-            this.mediaPlayer.pause()
-            playerState = PlayerState.STATE_PAUSED
-            this.mediaPlayer.reset()
-        }
-        mediaPlayer.apply {
-            setDataSource(url)
-            prepareAsync()
-            setOnPreparedListener {
-                playerState = PlayerState.STATE_PREPARED
-                onStateChangedTo(PlayerState.STATE_PREPARED)
-            }
-            setOnCompletionListener {
-                playerState = PlayerState.STATE_PREPARED
-                onStateChangedTo(PlayerState.STATE_PREPARED)
+        if (playerState == PlayerState.STATE_DEFAULT) {
+            mediaPlayer.apply {
+                setDataSource(url)
+                prepareAsync()
+                setOnPreparedListener {
+                    playerState = PlayerState.STATE_PREPARED
+                    onStateChangedTo(PlayerState.STATE_PREPARED)
+                }
+                setOnCompletionListener {
+                    playerState = PlayerState.STATE_PREPARED
+                    onStateChangedTo(PlayerState.STATE_PREPARED)
+                }
             }
         }
     }
@@ -49,13 +46,11 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         when (playerState) {
             PlayerState.STATE_PLAYING -> {
                 pausePlayer()
-                playerState = PlayerState.STATE_PAUSED
                 onStateChangedTo(PlayerState.STATE_PAUSED)
             }
 
             PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
                 startPlayer()
-                playerState = PlayerState.STATE_PLAYING
                 onStateChangedTo(PlayerState.STATE_PLAYING)
             }
 
