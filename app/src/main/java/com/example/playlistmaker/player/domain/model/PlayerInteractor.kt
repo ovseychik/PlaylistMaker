@@ -9,5 +9,4 @@ interface PlayerInteractor {
     fun releasePlayer()
     fun getCurrentPosition(): Int
     fun controlPlayerState(onStateChanged: (s: PlayerState) -> Unit)
-    fun getPlayer(): MediaPlayer
 }

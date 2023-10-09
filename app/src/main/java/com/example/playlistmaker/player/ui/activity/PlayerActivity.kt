@@ -46,8 +46,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
 
         binding.btnBackPlayer.setOnClickListener {
-            viewModel.onDestroy()
-            super.finish()
+            finish()
         }
     }
 
@@ -104,7 +103,7 @@ class PlayerActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_album_cover_placeholder_hires)
                 .into(songArtwork)
             country.text = track.country
-            year.text = releaseYear(track.releaseDate)
+            year.text = releaseYear(track.releaseDate ?: R.string.no_info.toString())
             genre.text = track.primaryGenreName
             albumName.text = track.collectionName
         }

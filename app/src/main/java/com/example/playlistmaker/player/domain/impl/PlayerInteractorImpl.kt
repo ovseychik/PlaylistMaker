@@ -30,8 +30,4 @@ class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : Pla
         playerRepository.controlPlayerState(onStateChanged)
     }
 
-    override fun getPlayer(): MediaPlayer {
-        return playerRepository.getPlayer()
-    }
-
 }

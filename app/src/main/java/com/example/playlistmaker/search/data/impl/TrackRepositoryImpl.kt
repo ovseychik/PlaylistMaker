@@ -18,6 +18,7 @@ class TrackRepositoryImpl(
         private const val ERROR_NO_NETWORK = 0
         private const val SEARCH_SUCCESS = 200
     }
+
     override fun searchTrack(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TrackRequest(expression))
         return when (response.resultCode) {

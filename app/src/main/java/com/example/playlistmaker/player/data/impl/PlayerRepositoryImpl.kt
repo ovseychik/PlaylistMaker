@@ -1,15 +1,15 @@
 package com.example.playlistmaker.player.data.impl
 
 import android.media.MediaPlayer
-import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.PlayerRepository
+import com.example.playlistmaker.player.domain.model.PlayerState
 
 class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerRepository {
     private var playerState = PlayerState.STATE_DEFAULT
 
     override fun preparePlayer(url: String, onStateChangedTo: (s: PlayerState) -> Unit) {
         if (playerState == PlayerState.STATE_DEFAULT) {
-            mediaPlayer.apply {
+            with(mediaPlayer) {
                 setDataSource(url)
                 prepareAsync()
                 setOnPreparedListener {
@@ -45,6 +45,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
     override fun releasePLayer() {
         this.mediaPlayer.release()
+        playerState = PlayerState.STATE_DEFAULT
     }
 
     override fun controlPlayerState(onStateChangedTo: (s: PlayerState) -> Unit) {
@@ -61,10 +62,6 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
             else -> {}
         }
-    }
-
-    override fun getPlayer(): MediaPlayer {
-        return this.mediaPlayer
     }
 
 }
