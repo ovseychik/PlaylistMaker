@@ -2,13 +2,13 @@ package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.domain.model.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -18,41 +18,47 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPlayerBinding
-    private lateinit var viewModel: PlayerViewModel
+    private val viewModel by viewModel<PlayerViewModel>()
+    private var bundledTrack: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val track = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-        val url = track!!.previewUrl
-
-        viewModel = ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory()
-        )[PlayerViewModel::class.java]
 
         viewModel.statePlayerLiveData().observe(this) { state ->
             changeState(state)
         }
 
-        viewModel.preparePlayer(url)
+        bundledTrack = savedInstanceState?.getParcelable(TRACK_FOR_PLAYER)
 
-
-        binding.btnPlay.setOnClickListener {
-            viewModel.controlPlayerState()
+        if (bundledTrack != null) {
+            val url = bundledTrack?.previewUrl
+            viewModel.preparePlayer(url!!)
+            initViews(bundledTrack!!)
+        } else {
+            val bundledTrack = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
+            val url = bundledTrack?.previewUrl
+            viewModel.preparePlayer(url!!)
+            initViews(bundledTrack!!)
         }
+
+        binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
 
         binding.btnBackPlayer.setOnClickListener {
             finish()
         }
-
-        initViews(track)
-
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(TRACK_FOR_PLAYER, bundledTrack)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        bundledTrack = savedInstanceState.getParcelable(TRACK_FOR_PLAYER)
+    }
 
     override fun onPause() {
         viewModel.onPause()
@@ -87,17 +93,17 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun initViews(track: Track) {
-        binding.apply {
+        with(binding) {
             currentTime.text = millisFormat(track)
             trackName.text = track.trackName
             artistName.text = track.artistName
             time.text = millisFormat(track)
             Glide.with(songArtwork)
-                .load(track.artworkUrl100)
+                .load(viewModel.getCoverArtWork(track.artworkUrl100))
                 .placeholder(R.drawable.ic_album_cover_placeholder_hires)
                 .into(songArtwork)
             country.text = track.country
-            year.text = releaseYear(track.releaseDate)
+            year.text = releaseYear(track.releaseDate ?: R.string.no_info.toString())
             genre.text = track.primaryGenreName
             albumName.text = track.collectionName
         }

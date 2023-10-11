@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.activity.PlayerActivity
@@ -18,6 +17,7 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
     companion object {
@@ -27,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var tracksSearchViewModel: SearchViewModel
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
@@ -38,7 +38,7 @@ class SearchActivity : AppCompatActivity() {
     private var searchHistoryList = ArrayList<Track>()
 
     private val trackAdapter = TrackAdapter(trackList) {
-        tracksSearchViewModel.putTrackToHistory(it)
+        searchViewModel.putTrackToHistory(it)
         if (clickDebounce()) {
             val playerIntent = Intent(this, PlayerActivity::class.java)
             playerIntent.putExtra(PlayerActivity.TRACK_FOR_PLAYER, it)
@@ -51,18 +51,13 @@ class SearchActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        tracksSearchViewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
-
         binding.recyclerTrackList.adapter = trackAdapter
 
-        tracksSearchViewModel.stateObserver().observe(this) {
+        searchViewModel.stateObserver().observe(this) {
             render(it)
         }
 
-        tracksSearchViewModel.fillHistory()
+        searchViewModel.fillHistory()
 
         binding.inputSearch.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus && binding.inputSearch.text.isEmpty() && searchHistoryList.isNotEmpty()) {
@@ -79,7 +74,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchText = binding.inputSearch.text.toString()
                 binding.clearTextSearch.visibility = clearButtonVisibility(s)
-                tracksSearchViewModel.searchDebounce(
+                searchViewModel.searchDebounce(
                     changedText = s?.toString() ?: ""
                 )
                 if (!s.isNullOrEmpty()) {
@@ -89,7 +84,7 @@ class SearchActivity : AppCompatActivity() {
                     hideHistoryScreen()
                 }
 
-                tracksSearchViewModel.fillHistory()
+                searchViewModel.fillHistory()
 
                 if (s?.isEmpty() == true && searchHistoryList.isNotEmpty()) {
                     showHistoryScreen()
@@ -122,14 +117,14 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.placeholderRefreshButton.setOnClickListener {
-            tracksSearchViewModel.searchTrack(searchText)
+            searchViewModel.searchTrack(searchText)
         }
 
         binding.historyClear.setOnClickListener {
             hideHistoryScreen()
             binding.recyclerTrackList.visibility = View.VISIBLE
             trackAdapter.notifyDataSetChanged()
-            tracksSearchViewModel.clearHistory()
+            searchViewModel.clearHistory()
         }
 
     }

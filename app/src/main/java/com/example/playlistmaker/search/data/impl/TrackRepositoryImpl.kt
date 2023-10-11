@@ -9,6 +9,7 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.data.network.TrackResponse
 import com.example.playlistmaker.util.Resource
 
+//TODO: rename class to SearchRepositoryImpl during hiatus
 class TrackRepositoryImpl(
     private val networkClient: NetworkClient,
     private val searchHistory: SearchHistory
@@ -17,6 +18,7 @@ class TrackRepositoryImpl(
         private const val ERROR_NO_NETWORK = 0
         private const val SEARCH_SUCCESS = 200
     }
+
     override fun searchTrack(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TrackRequest(expression))
         return when (response.resultCode) {
@@ -42,7 +44,7 @@ class TrackRepositoryImpl(
             }
 
             else -> {
-                Resource.Error("Ошибка сервера")
+                Resource.Error(R.string.error_server_error.toString())
             }
         }
     }

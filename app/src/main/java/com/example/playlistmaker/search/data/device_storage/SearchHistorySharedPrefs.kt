@@ -1,20 +1,22 @@
 package com.example.playlistmaker.search.data.device_storage
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.example.playlistmaker.search.domain.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistorySharedPrefs(context: Context) : SearchHistory {
+class SearchHistorySharedPrefs(
+    private val sharedPrefs: SharedPreferences,
+    private val gson: Gson
+) : SearchHistory {
     companion object {
-        private const val SEARCH_HISTORY = "search_history_key"
+        const val SEARCH_HISTORY = "search_history_key"
     }
 
-    val sharedPrefs = context.getSharedPreferences(SEARCH_HISTORY, Context.MODE_PRIVATE)
     override fun getSearchHistory(): List<Track> {
         val json = sharedPrefs.getString(SEARCH_HISTORY, null) ?: return ArrayList()
         val type = object : TypeToken<List<Track>>() {}.type
-        return Gson().fromJson(json, type)
+        return gson.fromJson(json, type)
     }
 
     override fun putSearchHistory(tracks: List<Track>) {
@@ -22,7 +24,7 @@ class SearchHistorySharedPrefs(context: Context) : SearchHistory {
             .edit()
             .putString(
                 SEARCH_HISTORY,
-                Gson().toJson(tracks)
+                gson.toJson(tracks)
             )
             .apply()
     }

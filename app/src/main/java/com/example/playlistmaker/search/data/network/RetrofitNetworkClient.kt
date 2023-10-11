@@ -4,21 +4,15 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val context: Context) : NetworkClient {
-    private val iTunesBaseUrl = "https://itunes.apple.com"
+class RetrofitNetworkClient(
+    private val iTunesService: ItunesApi,
+    private val context: Context
+) :
+    NetworkClient {
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val iTunesService = retrofit.create(ItunesApi::class.java)
-
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1 }
@@ -36,13 +30,17 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M) // По рекомендации AS
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
         val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            } else {
+                Log.e("RetrofitNetworkClient", "User is below Android M, skipping network check. Advise to upgrade.") //At least we don't break the app.
+                return true
+            }
         if (capabilities != null) {
             when {
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true

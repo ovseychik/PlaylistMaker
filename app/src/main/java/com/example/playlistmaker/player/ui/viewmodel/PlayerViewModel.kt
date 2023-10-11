@@ -1,40 +1,29 @@
 package com.example.playlistmaker.player.ui.viewmodel
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.creator.Creator
+import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.player.domain.model.PlayerInteractor
 import com.example.playlistmaker.player.domain.model.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(application: Application) : AndroidViewModel(application) {
+class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
     companion object {
         private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayerViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
     }
 
-    private val playerInteractor = Creator.providePlayerInteractor()
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
+    private var isPlayerCreated = false
 
     private var _statePlayerLiveData = MutableLiveData<PlayerState>()
     fun statePlayerLiveData(): LiveData<PlayerState> = _statePlayerLiveData
 
     fun preparePlayer(url: String) {
-        playerInteractor.preparePlayer(url) { state ->
+        if (!isPlayerCreated) playerInteractor.preparePlayer(url) { state ->
             when (state) {
                 PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
                     _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
@@ -44,6 +33,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
                 else -> Unit
             }
         }
+        isPlayerCreated = true
     }
 
     private fun postCurrentTimeControl(): Runnable {
@@ -55,7 +45,6 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
-
 
     fun controlPlayerState() {
         playerInteractor.controlPlayerState { state ->
@@ -80,6 +69,11 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
                     mainThreadHandler.removeCallbacks(runnable)
                     _statePlayerLiveData.postValue(PlayerState.STATE_DEFAULT)
                 }
+
+                PlayerState.STATE_IDLE -> {
+                    mainThreadHandler.removeCallbacks(runnable)
+                    _statePlayerLiveData.postValue(PlayerState.STATE_IDLE)
+                }
             }
         }
     }
@@ -87,16 +81,22 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     fun onPause() {
         mainThreadHandler.removeCallbacks(runnable)
         _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
-        playerInteractor.pausePlayer()
     }
 
     fun onDestroy() {
         mainThreadHandler.removeCallbacks(runnable)
+        playerInteractor.releasePlayer()
     }
 
     fun onResume() {
         mainThreadHandler.removeCallbacks(runnable)
         _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mainThreadHandler.removeCallbacks(runnable)
+        playerInteractor.releasePlayer()
     }
 
     fun getCurrentPosition(): String {
@@ -105,5 +105,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             Locale.getDefault()
         ).format(playerInteractor.getCurrentPosition())
     }
+
+    fun getCoverArtWork(url: String) = url.replaceAfterLast('/', "512x512bb.jpg")
 
 }

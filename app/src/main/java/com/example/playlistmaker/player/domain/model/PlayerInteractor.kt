@@ -1,5 +1,7 @@
 package com.example.playlistmaker.player.domain.model
 
+import android.media.MediaPlayer
+
 interface PlayerInteractor {
     fun preparePlayer(url: String, onStateChanged: (s: PlayerState) -> Unit)
     fun startPlayer()
@@ -7,5 +9,4 @@ interface PlayerInteractor {
     fun releasePlayer()
     fun getCurrentPosition(): Int
     fun controlPlayerState(onStateChanged: (s: PlayerState) -> Unit)
-
 }

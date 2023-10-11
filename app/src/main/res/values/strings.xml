@@ -31,4 +31,6 @@
     <string name="description_button_back">Кнопка назад</string>
     <string name="description_album_artwork">Здесь отображается обложка альбома</string>
     <string name="snackbar_error_message">Что-то пошло не так</string>
+    <string name="error_server_error">Ошибка сервера</string>
+    <string name="no_info">Нет сведений</string>
 </resources>
