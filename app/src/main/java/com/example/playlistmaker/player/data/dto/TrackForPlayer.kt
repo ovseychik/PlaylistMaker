@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.data.dto
+package com.example.playlistmaker.player.data.dto
 
 import android.os.Parcel
 import android.os.Parcelable
