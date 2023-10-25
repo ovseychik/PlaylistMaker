@@ -6,6 +6,10 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
+    <style name="HeadsImageConstraint">
+        <item name="android:src">@drawable/ic_arrow_back_night</item>
+    </style>
+
     <style name="SettingsShareStyle">
         <item name="android:textColor">@color/settings_text_list</item>
         <item name="android:textSize">16sp</item>

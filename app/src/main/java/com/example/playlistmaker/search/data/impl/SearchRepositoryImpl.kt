@@ -2,7 +2,7 @@ package com.example.playlistmaker.search.data.impl
 
 import com.example.playlistmaker.R
 import com.example.playlistmaker.search.data.network.TrackRequest
-import com.example.playlistmaker.search.data.device_storage.SearchHistory
+import com.example.playlistmaker.search.data.devicestorage.SearchHistory
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.model.Track

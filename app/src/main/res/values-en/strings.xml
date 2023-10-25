@@ -32,4 +32,6 @@
     <string name="snackbar_error_message">Something went wrong</string>
     <string name="error_server_error">Server-side error</string>
     <string name="no_info">No info</string>
+    <string name="tab_favorite_track">Favorite tracks</string>
+    <string name="tab_playlists">Playlists</string>
 </resources>

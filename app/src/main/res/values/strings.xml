@@ -33,4 +33,6 @@
     <string name="snackbar_error_message">Что-то пошло не так</string>
     <string name="error_server_error">Ошибка сервера</string>
     <string name="no_info">Нет сведений</string>
+    <string name="tab_favorite_track">Избранные треки</string>
+    <string name="tab_playlists">Плейлисты</string>
 </resources>
