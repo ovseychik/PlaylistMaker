@@ -38,7 +38,7 @@ class RetrofitNetworkClient(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             } else {
-                Log.e("RetrofitNetworkClient", "User is below Android M, skipping network check. Advise to upgrade.") //At least we don't break the app.
+                Log.i("RetrofitNetworkClient", "User is below Android M, skipping network check. Advise to upgrade.") //At least we don't break the app.
                 return true
             }
         if (capabilities != null) {
