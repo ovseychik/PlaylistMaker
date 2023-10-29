@@ -35,9 +35,10 @@ class MediaLibraryActivity : AppCompatActivity() {
         val adapter = ViewPageMediaLibraryAdapter(this, fragmentList)
         binding.viewPagerLibrary.adapter = adapter
 
-        tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPagerLibrary) { tab, position ->
-            tab.text = fragmentListTitles[position]
-        }
+        tabMediator =
+            TabLayoutMediator(binding.tabLayout, binding.viewPagerLibrary) { tab, position ->
+                tab.text = fragmentListTitles[position]
+            }
         tabMediator.attach()
 
         binding.btnBack.setOnClickListener {

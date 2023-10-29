@@ -32,6 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_create_new_playlist" />
 
+        <!--TODO: move attributes to style source since it's identical to search screen placeholder -->
         <TextView
             android:id="@+id/text_placeholder"
             android:layout_width="match_parent"
