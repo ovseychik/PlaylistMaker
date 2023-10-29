@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.playlistmaker.databinding.FragmentFavoritePlaylistsBinding
 import com.example.playlistmaker.library.ui.viewmodel.FavoritePlaylistsFragmentViewModel
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritePlaylistsFragment : Fragment() {
     companion object {
         fun newInstance() = FavoritePlaylistsFragment()
     }
 
-    private val favoritePlaylistsFragmentViewModel: FavoritePlaylistsFragmentViewModel by activityViewModel()
-
+    private val viewModel by viewModel<FavoritePlaylistsFragmentViewModel>()
 
     private var _binding: FragmentFavoritePlaylistsBinding? = null
     private val binding get() = _binding!!
