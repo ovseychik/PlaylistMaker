@@ -34,4 +34,7 @@
     <string name="no_info">No info</string>
     <string name="tab_favorite_track">Favorite tracks</string>
     <string name="tab_playlists">Playlists</string>
+    <string name="placeholder_no_favorite_tracks">Your library is empty</string>
+    <string name="placeholder_no_playlists_yet">You haven\'t created any playlists yet</string>
+    <string name="button_new_playlist">New playlist</string>
 </resources>
