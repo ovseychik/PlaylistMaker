@@ -21,7 +21,7 @@
 
         <!--TODO: move attributes to style source since it's identical to search screen placeholder -->
         <TextView
-            android:id="@+id/textPlaceholder"
+            android:id="@+id/text_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

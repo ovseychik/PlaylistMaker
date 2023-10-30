@@ -41,6 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header"
         app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="true"
         app:tabInlineLabel="true"
         app:tabTextAppearance="@style/TextTabLayout">
 

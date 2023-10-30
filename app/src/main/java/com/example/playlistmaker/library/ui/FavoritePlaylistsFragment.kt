@@ -10,9 +10,6 @@ import com.example.playlistmaker.library.ui.viewmodel.FavoritePlaylistsFragmentV
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritePlaylistsFragment : Fragment() {
-    companion object {
-        fun newInstance() = FavoritePlaylistsFragment()
-    }
 
     private val viewModel by viewModel<FavoritePlaylistsFragmentViewModel>()
 
@@ -30,5 +27,9 @@ class FavoritePlaylistsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+    }
+
+    companion object {
+        fun newInstance() = FavoritePlaylistsFragment()
     }
 }

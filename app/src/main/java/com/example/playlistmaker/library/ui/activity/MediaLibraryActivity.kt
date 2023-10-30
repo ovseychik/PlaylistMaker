@@ -23,11 +23,6 @@ class MediaLibraryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        fragmentListTitles = listOf(
-            getString(R.string.tab_favorite_track),
-            getString(R.string.tab_playlists)
-        )
-
         super.onCreate(savedInstanceState)
         binding = ActivityMediaLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -37,7 +32,10 @@ class MediaLibraryActivity : AppCompatActivity() {
 
         tabMediator =
             TabLayoutMediator(binding.tabLayout, binding.viewPagerLibrary) { tab, position ->
-                tab.text = fragmentListTitles[position]
+                tab.text = when (position) {
+                    0 -> getString(R.string.tab_favorite_track)
+                    else -> getString(R.string.tab_playlists)
+                }
             }
         tabMediator.attach()
 
