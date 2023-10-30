@@ -36,7 +36,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".library.ui.MediaLibraryActivity"
+            android:name=".library.ui.activity.MediaLibraryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

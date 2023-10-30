@@ -4,8 +4,8 @@ import android.content.Context
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.data.impl.PlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.PlayerRepository
-import com.example.playlistmaker.search.data.impl.TrackRepositoryImpl
-import com.example.playlistmaker.search.domain.TrackRepository
+import com.example.playlistmaker.search.data.impl.SearchRepositoryImpl
+import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.settings.data.impl.SettingsRepositoryImpl
 import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl
@@ -14,8 +14,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<TrackRepository> {
-        TrackRepositoryImpl(networkClient = get(), searchHistory = get())
+    single<SearchRepository> {
+        SearchRepositoryImpl(networkClient = get(), searchHistory = get())
     }
 
     factory<PlayerRepository> {

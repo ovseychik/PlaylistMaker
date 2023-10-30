@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.data.device_storage
+package com.example.playlistmaker.search.data.devicestorage
 
 import android.content.SharedPreferences
 import com.example.playlistmaker.search.domain.model.Track

@@ -6,6 +6,10 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
+    <style name="HeadsImageConstraint">
+        <item name="android:src">@drawable/ic_arrow_back_night</item>
+    </style>
+
     <style name="SettingsShareStyle">
         <item name="android:textColor">@color/settings_text_list</item>
         <item name="android:textSize">16sp</item>
@@ -47,5 +51,32 @@
         <item name="android:src">@drawable/separator_ellipse_night</item>
     </style>
 
+    <style name="button_create_new_playlist">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cornerRadius">54dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Media library tabs style -->
+    <style name="tab_indicator" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabInlineLabel">true</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="TextTabLayout">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
+    </style>
 
 </resources>

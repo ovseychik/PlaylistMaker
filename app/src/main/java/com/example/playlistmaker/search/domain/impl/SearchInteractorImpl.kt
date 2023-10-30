@@ -1,16 +1,15 @@
 package com.example.playlistmaker.search.domain.impl
 
-import com.example.playlistmaker.search.domain.TrackInteractor
-import com.example.playlistmaker.search.domain.TrackRepository
+import com.example.playlistmaker.search.domain.SearchInteractor
+import com.example.playlistmaker.search.domain.SearchRepository
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.util.Resource
 import java.util.concurrent.Executors
 
-//TODO: rename class to SearchInteractorImpl during hiatus
-class TrackInteractorImpl(private val repository: TrackRepository) : TrackInteractor {
+class SearchInteractorImpl(private val repository: SearchRepository) : SearchInteractor {
 
     private val executor = Executors.newCachedThreadPool()
-    override fun searchTrack(expression: String, consumer: TrackInteractor.TracksConsumer) {
+    override fun searchTrack(expression: String, consumer: SearchInteractor.TracksConsumer) {
         executor.execute {
             when (val resource = repository.searchTrack(expression)) {
                 is Resource.Success -> {

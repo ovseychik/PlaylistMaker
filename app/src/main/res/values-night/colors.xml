@@ -33,5 +33,7 @@
 
     <color name="track_name">#FFFFFF</color>
     <color name="band_name">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
 
 </resources>

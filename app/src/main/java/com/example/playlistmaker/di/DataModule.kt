@@ -1,9 +1,9 @@
 package com.example.playlistmaker.di
 
 import android.content.Context
-import com.example.playlistmaker.search.data.device_storage.SearchHistory
-import com.example.playlistmaker.search.data.device_storage.SearchHistorySharedPrefs
-import com.example.playlistmaker.search.data.device_storage.SearchHistorySharedPrefs.Companion.SEARCH_HISTORY
+import com.example.playlistmaker.search.data.devicestorage.SearchHistory
+import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs
+import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs.Companion.SEARCH_HISTORY
 import com.example.playlistmaker.search.data.network.ItunesApi
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient

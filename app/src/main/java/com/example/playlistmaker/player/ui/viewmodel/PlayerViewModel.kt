@@ -29,7 +29,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
                     _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
                     mainThreadHandler.removeCallbacks(runnable)
                 }
-
                 else -> Unit
             }
         }

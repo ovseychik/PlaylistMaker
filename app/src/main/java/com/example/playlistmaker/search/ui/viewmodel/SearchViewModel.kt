@@ -9,11 +9,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.playlistmaker.R
-import com.example.playlistmaker.search.domain.TrackInteractor
+import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 
-class SearchViewModel(application: Application, private val trackInteractor: TrackInteractor) :
+class SearchViewModel(application: Application, private val trackInteractor: SearchInteractor) :
     AndroidViewModel(application) {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
@@ -108,7 +108,7 @@ class SearchViewModel(application: Application, private val trackInteractor: Tra
         if (newSearchText.isNotEmpty()) {
             renderState(SearchScreenState.Loading)
 
-            trackInteractor.searchTrack(newSearchText, object : TrackInteractor.TracksConsumer {
+            trackInteractor.searchTrack(newSearchText, object : SearchInteractor.TracksConsumer {
                 override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
                     val trackList = mutableListOf<Track>()
                     if (foundTracks != null) {
