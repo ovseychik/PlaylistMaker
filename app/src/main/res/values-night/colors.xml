@@ -31,6 +31,9 @@
     <color name="player_attributes_names">#AEAFB4</color>
     <color name="player_attributes_values">#FFFFFF</color>
 
+    <!-- Bottom nav bar default tint-->
+    <color name="bottom_nav_bar_default">#FFFFFF</color>
+
     <color name="track_name">#FFFFFF</color>
     <color name="band_name">#FFFFFF</color>
     <color name="black">#000000</color>

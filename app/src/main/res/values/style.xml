@@ -60,7 +60,7 @@
         <item name="android:textColor">@color/no_main_menu_head</item>
         <item name="android:textSize">@dimen/head_text</item>
         <item name="android:layout_marginLeft">@dimen/margin16</item>
-        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginTop">@dimen/margin16</item>
     </style>
 
     <style name="HeadsImage">

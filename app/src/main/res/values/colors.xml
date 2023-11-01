@@ -40,6 +40,9 @@
     <color name="player_attributes_names">#AEAFB4</color>
     <color name="player_attributes_values">#1A1B22</color>
 
+    <!-- Bottom nav bar default tint-->
+    <color name="bottom_nav_bar_default">#1A1B22</color>
+
     <!-- Создается по умолчанию для Material библиотеки, НЕ УДАЛЯТЬ -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
