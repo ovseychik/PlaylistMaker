@@ -15,12 +15,6 @@ import com.example.playlistmaker.search.ui.SearchScreenState
 
 class SearchViewModel(application: Application, private val trackInteractor: SearchInteractor) :
     AndroidViewModel(application) {
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
-        private const val MAX_SEARCH_HISTORY = 10
-        private val SEARCH_REQUEST_TOKEN = Any()
-    }
-
     private var trackSearchHistory = ArrayList<Track>()
     private var recentSearchExpression: String? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -145,4 +139,9 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
         }
     }
 
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
+        private const val MAX_SEARCH_HISTORY = 10
+        private val SEARCH_REQUEST_TOKEN = Any()
+    }
 }

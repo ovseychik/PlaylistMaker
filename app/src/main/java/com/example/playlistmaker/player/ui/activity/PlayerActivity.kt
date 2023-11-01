@@ -8,15 +8,12 @@ import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.domain.model.Track
+import com.example.playlistmaker.search.ui.activity.SearchFragment.Companion.TRACK_FOR_PLAYER
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
-    companion object {
-        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
-    }
-
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
     private var bundledTrack: Track? = null
@@ -114,4 +111,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun releaseYear(string: String): String = string.removeRange(4 until string.length)
 
+    companion object {
+        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
+    }
 }

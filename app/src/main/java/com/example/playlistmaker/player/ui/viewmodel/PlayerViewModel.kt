@@ -11,10 +11,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
-    companion object {
-        private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
-    }
-
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val runnable = postCurrentTimeControl()
     private var isPlayerCreated = false
@@ -29,6 +25,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
                     _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
                     mainThreadHandler.removeCallbacks(runnable)
                 }
+
                 else -> Unit
             }
         }
@@ -107,4 +104,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
 
     fun getCoverArtWork(url: String) = url.replaceAfterLast('/', "512x512bb.jpg")
 
+    companion object {
+        private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
+    }
 }
