@@ -27,6 +27,8 @@
     <color name="band_name">#AEAFB4</color>
 
     <color name="error_placeholder">#1A1B22</color>
+    <color name="black">#1A1B22</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- Для экрана плеера -->
     <color name="player_track_and_album_name">#1A1B22</color>
@@ -44,6 +46,5 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFFFF</color>
+
 </resources>

@@ -59,7 +59,7 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textColor">@color/no_main_menu_head</item>
         <item name="android:textSize">@dimen/head_text</item>
-        <item name="android:layout_marginLeft">64dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin16</item>
         <item name="android:layout_marginTop">14dp</item>
     </style>
 
@@ -163,6 +163,11 @@
         <item name="tabTextColor">@color/black</item>
         <item name="tabSelectedTextColor">@color/black</item>
         <item name="tabIndicatorColor">@color/black</item>
+    </style>
+
+    <style name="divider_context_nav_bar">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:background">@color/white</item>
     </style>
 
 </resources>

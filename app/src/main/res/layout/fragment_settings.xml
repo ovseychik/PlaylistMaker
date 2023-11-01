@@ -7,21 +7,13 @@
     android:background="@color/settings_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".settings.ui.activity.SettingsActivity">
+    tools:context=".settings.ui.activity.SettingsFragment">
 
     <LinearLayout
         style="@style/HeadsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/settings_background">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            style="@style/HeadsImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/settings_background" />
 
         <TextView
             style="@style/HeadsText"

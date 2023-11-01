@@ -1,34 +1,45 @@
 package com.example.playlistmaker.library.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityMediaLibraryBinding
+import com.example.playlistmaker.databinding.FragmentMediaLibraryBinding
 import com.example.playlistmaker.library.ui.FavoritePlaylistsFragment
 import com.example.playlistmaker.library.ui.FavoriteTracksFragment
 import com.example.playlistmaker.library.ui.ViewPageMediaLibraryAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MediaLibraryActivity : AppCompatActivity() {
+class MediaLibraryFragment : Fragment() {
     private val fragmentList = listOf(
         FavoriteTracksFragment.newInstance(),
         FavoritePlaylistsFragment.newInstance()
     )
 
     private lateinit var fragmentListTitles: List<String>
-    private lateinit var binding: ActivityMediaLibraryBinding
+    private lateinit var binding: FragmentMediaLibraryBinding
 
     private lateinit var tabMediator: TabLayoutMediator
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentMediaLibraryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        super.onCreate(savedInstanceState)
-        binding = ActivityMediaLibraryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val adapter = ViewPageMediaLibraryAdapter(this, fragmentList)
-        binding.viewPagerLibrary.adapter = adapter
+        binding.viewPagerLibrary.adapter = ViewPageMediaLibraryAdapter(
+            childFragmentManager,
+            lifecycle,
+            fragmentList
+        )
 
         tabMediator =
             TabLayoutMediator(binding.tabLayout, binding.viewPagerLibrary) { tab, position ->
@@ -38,14 +49,10 @@ class MediaLibraryActivity : AppCompatActivity() {
                 }
             }
         tabMediator.attach()
-
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         tabMediator.detach()
     }
 }

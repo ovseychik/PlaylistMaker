@@ -7,20 +7,13 @@
     android:background="@color/search_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".search.ui.activity.SearchActivity">
+    tools:context=".search.ui.activity.SearchFragment">
 
     <LinearLayout
         style="@style/HeadsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/search_background">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            style="@style/HeadsImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/search_background" />
 
         <TextView
             style="@style/HeadsText"

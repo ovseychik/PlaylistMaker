@@ -7,11 +7,13 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.activity.PlayerActivity
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
@@ -19,14 +21,8 @@ import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
-    companion object {
-        const val SEARCH_LINE = "SEARCH LINE"
-        const val TRACK_FOR_PLAYER = "TRACK FOR PLAYER"
-        const val CLICK_DEBOUNCE_DELAY_MILLIS = 1_000L
-    }
-
-    private lateinit var binding: ActivitySearchBinding
+class SearchFragment : Fragment() {
+    private lateinit var binding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
 
     private val handler = Handler(Looper.getMainLooper())
@@ -39,21 +35,30 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackAdapter = TrackAdapter(trackList) {
         searchViewModel.putTrackToHistory(it)
+
         if (clickDebounce()) {
-            val playerIntent = Intent(this, PlayerActivity::class.java)
+            val playerIntent = Intent(requireActivity(), PlayerActivity::class.java)
             playerIntent.putExtra(PlayerActivity.TRACK_FOR_PLAYER, it)
             startActivity(playerIntent)
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
         binding.recyclerTrackList.adapter = trackAdapter
 
-        searchViewModel.stateObserver().observe(this) {
+        searchViewModel.stateObserver().observe(viewLifecycleOwner) {
             render(it)
         }
 
@@ -102,7 +107,7 @@ class SearchActivity : AppCompatActivity() {
         binding.clearTextSearch.setOnClickListener {
             binding.inputSearch.setText("")
             val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(binding.inputSearch.windowToken, 0)
 
             if (searchHistoryList.isNotEmpty()) {
@@ -110,10 +115,6 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 hideHistoryScreen()
             }
-        }
-
-        binding.btnBack.setOnClickListener {
-            finish()
         }
 
         binding.placeholderRefreshButton.setOnClickListener {
@@ -227,9 +228,14 @@ class SearchActivity : AppCompatActivity() {
         outState.putString(SEARCH_LINE, searchText)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        searchText = savedInstanceState.getString(SEARCH_LINE).toString()
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        searchText = savedInstanceState?.getString(SEARCH_LINE).toString()
     }
 
+    companion object {
+        const val SEARCH_LINE = "SEARCH LINE"
+        const val TRACK_FOR_PLAYER = "TRACK FOR PLAYER"
+        const val CLICK_DEBOUNCE_DELAY_MILLIS = 1_000L
+    }
 }
