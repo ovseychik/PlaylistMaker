@@ -199,12 +199,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
+        android:gravity="end"
         android:singleLine="true"
         android:textSize="@dimen/player_attributes_textize"
         app:layout_constraintBaseline_toBaselineOf="@id/textAlbum"
         app:layout_constraintEnd_toStartOf="@id/rightBorder16"
         app:layout_constraintStart_toEndOf="@id/guideline_track_info_start"
-        tools:text="White album, BeethovenWhite album, BeethovenWhite album, BeethovenWhite album, BeethovenWhite album, Beethoven" />
+        tools:text="White album" />
 
     <TextView
         android:id="@+id/textYear"

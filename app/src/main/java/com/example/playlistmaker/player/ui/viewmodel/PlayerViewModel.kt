@@ -77,6 +77,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun onPause() {
         mainThreadHandler.removeCallbacks(runnable)
         _statePlayerLiveData.postValue(PlayerState.STATE_PAUSED)
+        playerInteractor.pausePlayer()
     }
 
     fun onDestroy() {
