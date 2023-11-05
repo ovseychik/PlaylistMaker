@@ -146,6 +146,7 @@
         <item name="tabIndicatorColor">@color/black</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabInlineLabel">true</item>
+        <item name="android:background">@color/fragment_background</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="tabTextColor">@color/black</item>
         <item name="tabSelectedTextColor">@color/black</item>
