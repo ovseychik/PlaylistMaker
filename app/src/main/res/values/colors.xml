@@ -7,6 +7,9 @@
     <color name="main_button_text">#1A1B22</color>
     <color name="main_button_icon">#1A1B22</color>
 
+    <color name="fragment_background">#FFFFFF</color>
+    <color name="bottom_nav_menu_background">#FFFFFF</color>
+
     <!-- Экран настроек -->
     <color name="no_main_menu_head">#1A1B22</color>
     <color name="settings_background">#F5F5F5</color>

@@ -6,6 +6,9 @@
     <color name="main_button_text">#1A1B22</color>
     <color name="main_button_icon">#1A1B22</color>
 
+    <color name="fragment_background">#1A1B22</color>
+    <color name="bottom_nav_menu_background">#1A1B22</color>
+
     <color name="no_main_menu_head">#FFFFFF</color>
 
     <color name="settings_text_list">#FFFFFF</color>

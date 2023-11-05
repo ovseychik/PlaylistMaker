@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/settings_background"
+    android:background="@color/fragment_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
     tools:context=".settings.ui.activity.SettingsFragment">
@@ -12,29 +12,27 @@
     <LinearLayout
         style="@style/HeadsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/settings_background">
+        android:layout_height="wrap_content">
 
         <TextView
             style="@style/HeadsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/settings_background"
             android:text="@string/settings" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin42"
-        android:background="@color/settings_background">
+        android:layout_marginTop="@dimen/margin42">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themeSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="@string/night_theme" />
+            android:text="@string/night_theme"
+            android:textSize="16sp" />
     </FrameLayout>
 
     <TextView
@@ -42,7 +40,7 @@
         style="@style/SettingsShareStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin42"
+        android:layout_marginTop="30dp"
         android:text="@string/share_app" />
 
     <TextView
