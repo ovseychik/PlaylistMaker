@@ -83,7 +83,7 @@ class SearchFragment : Fragment() {
                 )
                 if (!s.isNullOrEmpty()) {
                     binding.recyclerTrackList.visibility = View.VISIBLE
-                    trackList.clear()
+                    trackAdapter.trackList.clear()
                     trackAdapter.trackList = trackList
                     hideHistoryScreen()
                 }
@@ -208,7 +208,7 @@ class SearchFragment : Fragment() {
         binding.placeHolder.visibility = View.VISIBLE
         binding.progressBarScreen.visibility = View.GONE
         binding.searchPlaceholderText.text = errorMessage
-        trackList.clear()
+        trackAdapter.trackList.clear()
         trackAdapter.notifyDataSetChanged()
         hideHistoryScreen()
     }
