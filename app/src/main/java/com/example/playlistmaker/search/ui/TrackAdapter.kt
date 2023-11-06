@@ -22,7 +22,4 @@ class TrackAdapter(
         }
     }
 
-    fun interface TrackClickListener {
-        fun onTrackClick(track: Track)
-    }
 }

@@ -154,7 +154,13 @@ class SearchFragment : Fragment() {
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.Success -> showContent(state.data)
+            is SearchScreenState.Success -> {
+                showContent(state.data)
+                binding.searchHistoryHeader.visibility = View.GONE
+                binding.historyClear.visibility = View.GONE
+
+            }
+
             is SearchScreenState.Error -> {
                 showError(state.message)
                 binding.searchPlaceholderText.setText(R.string.check_network)
@@ -215,8 +221,6 @@ class SearchFragment : Fragment() {
         binding.recyclerTrackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
         binding.progressBarScreen.visibility = View.GONE
-        binding.searchHistoryHeader.visibility = View.GONE
-        binding.historyClear.visibility = View.GONE
         trackAdapter.trackList.clear()
         trackAdapter.trackList.addAll(trackList)
         trackAdapter.notifyDataSetChanged()
