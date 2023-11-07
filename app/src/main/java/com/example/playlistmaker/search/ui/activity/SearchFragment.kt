@@ -31,7 +31,6 @@ class SearchFragment : Fragment() {
 
     private var searchText: String = ""
     private val trackList = ArrayList<Track>()
-    //private var searchHistoryList = ArrayList<Track>()
 
     private val trackAdapter = TrackAdapter(trackList) {
         searchViewModel.putTrackToHistory(it)
@@ -61,10 +60,17 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
+        searchViewModel.trackList.observe(viewLifecycleOwner) { tracks ->
+            trackAdapter.updateTracks(tracks)
+        }
+
         searchViewModel.fillHistory()
 
         binding.inputSearch.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus && binding.inputSearch.text.isEmpty() && trackList.isNotEmpty()) {
+            if (hasFocus &&
+                binding.inputSearch.text.isEmpty() &&
+                searchViewModel.trackList.value?.isNotEmpty() == true
+            ) {
                 showHistoryScreen()
             } else {
                 hideHistoryScreen()
@@ -83,14 +89,12 @@ class SearchFragment : Fragment() {
                 )
                 if (!s.isNullOrEmpty()) {
                     binding.recyclerTrackList.visibility = View.VISIBLE
-                    trackAdapter.trackList.clear()
-                    trackAdapter.trackList = trackList
                     hideHistoryScreen()
                 }
 
                 searchViewModel.fillHistory()
 
-                if (s?.isEmpty() == true && trackList.isNotEmpty()) {
+                if (s?.isEmpty() == true && searchViewModel.trackList.value?.isNotEmpty() == true) {
                     showHistoryScreen()
                 } else {
                     binding.recyclerTrackList.visibility = View.GONE
@@ -109,7 +113,7 @@ class SearchFragment : Fragment() {
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(binding.inputSearch.windowToken, 0)
 
-            if (trackList.isNotEmpty()) {
+            if (searchViewModel.trackList.value?.isNotEmpty() == true) {
                 showHistoryScreen()
             } else {
                 hideHistoryScreen()
@@ -123,7 +127,6 @@ class SearchFragment : Fragment() {
         binding.historyClear.setOnClickListener {
             hideHistoryScreen()
             binding.recyclerTrackList.visibility = View.VISIBLE
-            trackAdapter.notifyDataSetChanged()
             searchViewModel.clearHistory()
         }
 
@@ -153,10 +156,9 @@ class SearchFragment : Fragment() {
         when (state) {
             is SearchScreenState.Loading -> showLoading()
             is SearchScreenState.Success -> {
-                showContent(state.data)
+                showContent(state.data as ArrayList<Track>)
                 binding.searchHistoryHeader.visibility = View.GONE
                 binding.historyClear.visibility = View.GONE
-
             }
 
             is SearchScreenState.Error -> {
@@ -174,22 +176,20 @@ class SearchFragment : Fragment() {
             }
 
             is SearchScreenState.History -> {
+                showContent(state.history as ArrayList<Track>)
                 showHistoryScreen()
-                showContent(state.history)
             }
 
         }
     }
 
     private fun showHistoryScreen() {
-        if (trackList.isNotEmpty()) {
+        binding.placeHolder.visibility = View.GONE
+        if (searchViewModel.trackList.value?.isNotEmpty() == true) {
             binding.searchHistoryHeader.visibility = View.VISIBLE
             binding.historyClear.visibility = View.VISIBLE
             binding.recyclerTrackList.visibility = View.VISIBLE
         }
-        binding.placeHolder.visibility = View.GONE
-        trackAdapter.trackList = trackList
-        trackAdapter.notifyDataSetChanged()
     }
 
     private fun hideHistoryScreen() {
@@ -208,8 +208,7 @@ class SearchFragment : Fragment() {
         binding.placeHolder.visibility = View.VISIBLE
         binding.progressBarScreen.visibility = View.GONE
         binding.searchPlaceholderText.text = errorMessage
-        trackAdapter.trackList.clear()
-        trackAdapter.notifyDataSetChanged()
+        searchViewModel.clearTrackList()
         hideHistoryScreen()
     }
 
@@ -217,13 +216,11 @@ class SearchFragment : Fragment() {
         showError(emptyMessage)
     }
 
-    private fun showContent(trackList: List<Track>) {
+    private fun showContent(trackList: ArrayList<Track>) {
         binding.recyclerTrackList.visibility = View.VISIBLE
         binding.placeHolder.visibility = View.GONE
         binding.progressBarScreen.visibility = View.GONE
-        trackAdapter.trackList.clear()
-        trackAdapter.trackList.addAll(trackList)
-        trackAdapter.notifyDataSetChanged()
+        searchViewModel.updateTrackList(trackList)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

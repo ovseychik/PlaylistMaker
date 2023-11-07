@@ -24,6 +24,8 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
 
     fun stateObserver(): LiveData<SearchScreenState> = mediatorStateLiveData
 
+    val trackList: MutableLiveData<ArrayList<Track>> = MutableLiveData(ArrayList())
+
     init {
         trackSearchHistory.addAll(trackInteractor.getSearchHistory())
     }
@@ -96,6 +98,14 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
                 history = trackSearchHistory
             )
         )
+    }
+
+    fun updateTrackList(newTrackList: ArrayList<Track>) {
+        trackList.value = newTrackList
+    }
+
+    fun clearTrackList() {
+        trackList.value = ArrayList()
     }
 
     fun searchTrack(newSearchText: String) {
