@@ -31,7 +31,7 @@ class SearchFragment : Fragment() {
 
     private var searchText: String = ""
     private val trackList = ArrayList<Track>()
-    private var searchHistoryList = ArrayList<Track>()
+    //private var searchHistoryList = ArrayList<Track>()
 
     private val trackAdapter = TrackAdapter(trackList) {
         searchViewModel.putTrackToHistory(it)
@@ -64,7 +64,7 @@ class SearchFragment : Fragment() {
         searchViewModel.fillHistory()
 
         binding.inputSearch.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus && binding.inputSearch.text.isEmpty() && searchHistoryList.isNotEmpty()) {
+            if (hasFocus && binding.inputSearch.text.isEmpty() && trackList.isNotEmpty()) {
                 showHistoryScreen()
             } else {
                 hideHistoryScreen()
@@ -90,7 +90,7 @@ class SearchFragment : Fragment() {
 
                 searchViewModel.fillHistory()
 
-                if (s?.isEmpty() == true && searchHistoryList.isNotEmpty()) {
+                if (s?.isEmpty() == true && trackList.isNotEmpty()) {
                     showHistoryScreen()
                 } else {
                     binding.recyclerTrackList.visibility = View.GONE
@@ -109,7 +109,7 @@ class SearchFragment : Fragment() {
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(binding.inputSearch.windowToken, 0)
 
-            if (searchHistoryList.isNotEmpty()) {
+            if (trackList.isNotEmpty()) {
                 showHistoryScreen()
             } else {
                 hideHistoryScreen()
@@ -134,12 +134,10 @@ class SearchFragment : Fragment() {
         textWatcher?.let { binding.inputSearch.removeTextChangedListener(it) }
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+    private fun clearButtonVisibility(s: CharSequence?): Int = if (s.isNullOrEmpty()) {
+        View.GONE
+    } else {
+        View.VISIBLE
     }
 
     private fun clickDebounce(): Boolean {
@@ -184,11 +182,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun showHistoryScreen() {
-        binding.searchHistoryHeader.visibility = View.VISIBLE
-        binding.historyClear.visibility = View.VISIBLE
-        binding.recyclerTrackList.visibility = View.VISIBLE
+        if (trackList.isNotEmpty()) {
+            binding.searchHistoryHeader.visibility = View.VISIBLE
+            binding.historyClear.visibility = View.VISIBLE
+            binding.recyclerTrackList.visibility = View.VISIBLE
+        }
         binding.placeHolder.visibility = View.GONE
-        trackAdapter.trackList = searchHistoryList
+        trackAdapter.trackList = trackList
         trackAdapter.notifyDataSetChanged()
     }
 
