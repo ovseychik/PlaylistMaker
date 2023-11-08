@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragment_background"
     tools:context=".player.ui.activity.PlayerActivity">
 
     <ImageView
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/head_margin_top_image"
         android:layout_marginTop="@dimen/head_margin_top_image"
-        android:background="@color/search_background"
         android:contentDescription="@string/description_button_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
