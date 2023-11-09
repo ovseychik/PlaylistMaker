@@ -13,10 +13,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
-    companion object {
-        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
-    }
-
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModel<PlayerViewModel>()
     private var bundledTrack: Track? = null
@@ -114,4 +110,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun releaseYear(string: String): String = string.removeRange(4 until string.length)
 
+    companion object {
+        const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
+    }
 }

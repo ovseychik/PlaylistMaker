@@ -6,6 +6,9 @@
     <color name="main_button_text">#1A1B22</color>
     <color name="main_button_icon">#1A1B22</color>
 
+    <color name="fragment_background">#1A1B22</color>
+    <color name="bottom_nav_menu_background">#1A1B22</color>
+
     <color name="no_main_menu_head">#FFFFFF</color>
 
     <color name="settings_text_list">#FFFFFF</color>
@@ -30,6 +33,9 @@
     <color name="player_current_time">#FFFFFF</color>
     <color name="player_attributes_names">#AEAFB4</color>
     <color name="player_attributes_values">#FFFFFF</color>
+
+    <!-- Bottom nav bar default tint-->
+    <color name="bottom_nav_bar_default">#FFFFFF</color>
 
     <color name="track_name">#FFFFFF</color>
     <color name="band_name">#FFFFFF</color>

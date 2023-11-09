@@ -4,23 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/search_background"
+    android:background="@color/fragment_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding16"
-    tools:context=".search.ui.activity.SearchActivity">
+    tools:context=".search.ui.activity.SearchFragment">
 
     <LinearLayout
         style="@style/HeadsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/search_background">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            style="@style/HeadsImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/search_background" />
 
         <TextView
             style="@style/HeadsText"
@@ -166,7 +159,7 @@
             android:text="@string/you_searched"
             android:textColor="@color/error_placeholder"
             android:textSize="19sp"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -190,7 +183,7 @@
             android:text="@string/clear_history_button_text"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cornerRadius="54dp"
             tools:visibility="visible" />
 

@@ -22,7 +22,9 @@ class TrackAdapter(
         }
     }
 
-    fun interface TrackClickListener {
-        fun onTrackClick(track: Track)
+    fun updateTracks(newTracks: ArrayList<Track>) {
+        trackList = newTracks
+        notifyDataSetChanged()
     }
+
 }

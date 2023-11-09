@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragment_background"
     tools:context=".player.ui.activity.PlayerActivity">
 
     <ImageView
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/head_margin_top_image"
         android:layout_marginTop="@dimen/head_margin_top_image"
-        android:background="@color/search_background"
         android:contentDescription="@string/description_button_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,6 +45,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/guide_line16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_track_info_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -191,9 +198,13 @@
         style="@style/PlayerAttributesValues"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:singleLine="true"
         android:textSize="@dimen/player_attributes_textize"
         app:layout_constraintBaseline_toBaselineOf="@id/textAlbum"
         app:layout_constraintEnd_toStartOf="@id/rightBorder16"
+        app:layout_constraintStart_toEndOf="@id/guideline_track_info_start"
         tools:text="White album" />
 
     <TextView

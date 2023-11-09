@@ -8,8 +8,8 @@
     <dimen name="margin3">3dp</dimen>
     <dimen name="margin25">25dp</dimen>
     <dimen name="head_margin_start_image">4dp</dimen>
-    <dimen name="head_margin_top_image">20dp</dimen>
-    <dimen name="head_margin_title">28dp</dimen>
+    <dimen name="head_margin_top_image">16dp</dimen>
+    <dimen name="head_margin_title">0dp</dimen>
     <dimen name="margin61">61dp</dimen>
     <dimen name="switchH12">12dp</dimen>
     <dimen name="margin42">42dp</dimen>
