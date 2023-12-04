@@ -1,23 +1,31 @@
 package com.example.playlistmaker.search.ui.viewmodel
 
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
+import com.example.playlistmaker.util.debounce
+import kotlinx.coroutines.launch
 
-class SearchViewModel(application: Application, private val trackInteractor: SearchInteractor) :
+class SearchViewModel(
+    private val application: Application,
+    private val searchInteractor: SearchInteractor
+) :
     AndroidViewModel(application) {
     private var trackSearchHistory = ArrayList<Track>()
     private var recentSearchExpression: String? = null
-    private val handler = Handler(Looper.getMainLooper())
+
+    //private val handler = Handler(Looper.getMainLooper())
+    private val trackSearchDebounce =
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { changedText ->
+            searchTrack(changedText)
+        }
 
     private val _searchStateLiveData = MutableLiveData<SearchScreenState>()
     val searchStateLiveData: LiveData<SearchScreenState> = _searchStateLiveData
@@ -27,7 +35,7 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
     val trackList: MutableLiveData<ArrayList<Track>> = MutableLiveData(ArrayList())
 
     init {
-        trackSearchHistory.addAll(trackInteractor.getSearchHistory())
+        trackSearchHistory.addAll(searchInteractor.getSearchHistory())
     }
 
     private fun renderState(state: SearchScreenState) {
@@ -48,40 +56,29 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
 
     override fun onCleared() {
         super.onCleared()
-        trackInteractor.putSearchHistory(trackSearchHistory)
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+        searchInteractor.putSearchHistory(trackSearchHistory)
+        //handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     fun putTrackToHistory(track: Track) {
-        trackSearchHistory = trackInteractor.getSearchHistory() as ArrayList<Track>
+        trackSearchHistory = searchInteractor.getSearchHistory() as ArrayList<Track>
         trackSearchHistory.remove(track)
         if (trackSearchHistory.size == MAX_SEARCH_HISTORY) {
             trackSearchHistory.removeAt(trackSearchHistory.size - 1)
         }
         trackSearchHistory.add(0, track)
-        trackInteractor.putSearchHistory(trackSearchHistory)
+        searchInteractor.putSearchHistory(trackSearchHistory)
     }
 
     fun searchDebounce(changedText: String) {
-        if (recentSearchExpression == changedText) {
-            return
+        if (recentSearchExpression != changedText) {
+            recentSearchExpression = changedText
+            trackSearchDebounce(changedText)
         }
-
-        this.recentSearchExpression = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-
-        val searchRunnable = Runnable { searchTrack(changedText) }
-
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY_MILLIS
-        handler.postAtTime(
-            searchRunnable,
-            SEARCH_REQUEST_TOKEN,
-            postTime,
-        )
     }
 
     fun clearHistory() {
-        trackInteractor.clearSearchHistory()
+        searchInteractor.clearSearchHistory()
         trackSearchHistory.clear()
         renderState(
             SearchScreenState.Success(
@@ -92,7 +89,7 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
 
     fun fillHistory() {
         trackSearchHistory.clear()
-        trackSearchHistory.addAll(trackInteractor.getSearchHistory())
+        trackSearchHistory.addAll(searchInteractor.getSearchHistory())
         renderState(
             SearchScreenState.History(
                 history = trackSearchHistory
@@ -112,46 +109,49 @@ class SearchViewModel(application: Application, private val trackInteractor: Sea
         if (newSearchText.isNotEmpty()) {
             renderState(SearchScreenState.Loading)
 
-            trackInteractor.searchTrack(newSearchText, object : SearchInteractor.TracksConsumer {
-                override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                    val trackList = mutableListOf<Track>()
-                    if (foundTracks != null) {
-                        trackList.addAll(foundTracks)
+            viewModelScope.launch {
+                searchInteractor
+                    .searchTrack(newSearchText)
+                    .collect { pair ->
+                        processResult(pair.resultList, pair.error)
                     }
+            }
+        }
+    }
 
-                    when {
-                        errorMessage != null -> {
-                            renderState(
-                                SearchScreenState.Error(
-                                    message = R.string.check_network.toString()
-                                )
-                            )
-                        }
+    private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
+        val trackList = mutableListOf<Track>()
+        if (foundTracks != null) {
+            trackList.addAll(foundTracks)
+        }
 
-                        trackList.isEmpty() -> {
-                            renderState(
-                                SearchScreenState.Empty(
-                                    message = R.string.nothing_found.toString()
-                                )
-                            )
-                        }
+        when {
+            errorMessage != null -> {
+                renderState(
+                    SearchScreenState.Error(
+                        message = application.getString(
+                            R.string.error_server_error
+                        )
+                    )
+                )
+            }
 
-                        else -> {
-                            renderState(
-                                SearchScreenState.Success(
-                                    data = trackList,
-                                )
-                            )
-                        }
-                    }
-                }
-            })
+            trackList.isEmpty() -> {
+                renderState(
+                    SearchScreenState.Empty(
+                        message = application.getString(R.string.nothing_found)
+                    )
+                )
+            }
+
+            else -> {
+                renderState(SearchScreenState.Success(trackList))
+            }
         }
     }
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2_000L
         private const val MAX_SEARCH_HISTORY = 10
-        private val SEARCH_REQUEST_TOKEN = Any()
     }
 }

@@ -12,34 +12,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
+import com.example.playlistmaker.player.data.dto.TrackForPlayer
 import com.example.playlistmaker.player.ui.activity.PlayerActivity
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
+import com.example.playlistmaker.util.debounce
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
 
-    private val handler = Handler(Looper.getMainLooper())
+    //private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private var textWatcher: TextWatcher? = null
+    private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     private var searchText: String = ""
     private val trackList = ArrayList<Track>()
 
     private val trackAdapter = TrackAdapter(trackList) {
         searchViewModel.putTrackToHistory(it)
+        onTrackClickDebounce(it)
 
-        if (clickDebounce()) {
-            val playerIntent = Intent(requireActivity(), PlayerActivity::class.java)
-            playerIntent.putExtra(PlayerActivity.TRACK_FOR_PLAYER, it)
-            startActivity(playerIntent)
-        }
     }
 
     override fun onCreateView(
@@ -53,6 +55,16 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onTrackClickDebounce = debounce<Track>(
+            CLICK_DEBOUNCE_DELAY_MILLIS,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { track ->
+            val playerIntent = Intent(requireActivity(), PlayerActivity::class.java)
+            playerIntent.putExtra(TRACK_FOR_PLAYER, track)
+            startActivity(playerIntent)
+        }
 
         binding.recyclerTrackList.adapter = trackAdapter
 
@@ -143,14 +155,19 @@ class SearchFragment : Fragment() {
         View.VISIBLE
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
+    /*
+        private fun clickDebounce(): Boolean {
+            val current = isClickAllowed
+            if (isClickAllowed) {
+                isClickAllowed = false
+                viewLifecycleOwner.lifecycleScope.launch {
+                    delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                    isClickAllowed = true
+                }
+            }
+            return current
         }
-        return current
-    }
+    */
 
     private fun render(state: SearchScreenState) {
         when (state) {

@@ -36,7 +36,7 @@ class PlayerActivity : AppCompatActivity() {
             val bundledTrack = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
             val url = bundledTrack?.previewUrl
             viewModel.preparePlayer(url!!)
-            initViews(bundledTrack!!)
+            initViews(bundledTrack)
         }
 
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
