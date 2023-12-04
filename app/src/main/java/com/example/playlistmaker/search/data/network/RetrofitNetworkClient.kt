@@ -5,7 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RetrofitNetworkClient(
     private val iTunesService: ItunesApi,
@@ -13,7 +14,7 @@ class RetrofitNetworkClient(
 ) :
     NetworkClient {
 
-    override fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = -1 }
         }
@@ -21,12 +22,13 @@ class RetrofitNetworkClient(
             return Response().apply { resultCode = 400 }
         }
 
-        val response = iTunesService.search(dto.expression).execute()
-        val body = response.body()
-        return if (body != null) {
-            body.apply { resultCode = response.code() }
-        } else {
-            Response().apply { resultCode = response.code() }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = iTunesService.search(dto.expression)
+                response.apply { resultCode = 200 }
+            } catch (e: Throwable) {
+                Response().apply { resultCode = 500 }
+            }
         }
     }
 
@@ -38,7 +40,10 @@ class RetrofitNetworkClient(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             } else {
-                Log.i("RetrofitNetworkClient", "User is below Android M, skipping network check. Advise to upgrade.") //At least we don't break the app.
+                Log.i(
+                    "RetrofitNetworkClient",
+                    "User is below Android M, skipping network check. Advise to upgrade."
+                ) //At least we don't break the app.
                 return true
             }
         if (capabilities != null) {

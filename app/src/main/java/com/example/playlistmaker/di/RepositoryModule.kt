@@ -11,15 +11,16 @@ import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.data.repository.ExternalNavigator
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.scope.get
 import org.koin.dsl.module
 
 val repositoryModule = module {
     single<SearchRepository> {
-        SearchRepositoryImpl(networkClient = get(), searchHistory = get())
+        SearchRepositoryImpl(networkClient = get(), searchHistory = get(), context = get())
     }
 
     factory<PlayerRepository> {
-        PlayerRepositoryImpl(mediaPlayer = get())
+        PlayerRepositoryImpl()
     }
 
     single<SettingsRepository> {
