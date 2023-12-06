@@ -9,11 +9,11 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.playlistmaker"
+        applicationId 'com.example.playlistmaker'
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,12 +57,12 @@ dependencies {
     implementation 'io.insert-koin:koin-android:3.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     // Fragments and TabLayout
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-    def fragment_version = "1.5.5"
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    def fragment_version = '1.5.5'
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     // Jetpack Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 }
