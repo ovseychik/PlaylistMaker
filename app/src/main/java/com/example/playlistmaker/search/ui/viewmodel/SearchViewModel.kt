@@ -21,7 +21,6 @@ class SearchViewModel(
     private var trackSearchHistory = ArrayList<Track>()
     private var recentSearchExpression: String? = null
 
-    //private val handler = Handler(Looper.getMainLooper())
     private val trackSearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { changedText ->
             searchTrack(changedText)
@@ -57,7 +56,6 @@ class SearchViewModel(
     override fun onCleared() {
         super.onCleared()
         searchInteractor.putSearchHistory(trackSearchHistory)
-        //handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     fun putTrackToHistory(track: Track) {

@@ -3,8 +3,6 @@ package com.example.playlistmaker.search.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -15,22 +13,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
-import com.example.playlistmaker.player.data.dto.TrackForPlayer
 import com.example.playlistmaker.player.ui.activity.PlayerActivity
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.SearchScreenState
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
 import com.example.playlistmaker.util.debounce
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
 
-    //private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private var textWatcher: TextWatcher? = null
     private lateinit var onTrackClickDebounce: (Track) -> Unit
@@ -62,7 +56,7 @@ class SearchFragment : Fragment() {
             false
         ) { track ->
             val playerIntent = Intent(requireActivity(), PlayerActivity::class.java)
-            playerIntent.putExtra(TRACK_FOR_PLAYER, track)
+            playerIntent.putExtra(PlayerActivity.TRACK_FOR_PLAYER, track)
             startActivity(playerIntent)
         }
 
@@ -155,20 +149,6 @@ class SearchFragment : Fragment() {
         View.VISIBLE
     }
 
-    /*
-        private fun clickDebounce(): Boolean {
-            val current = isClickAllowed
-            if (isClickAllowed) {
-                isClickAllowed = false
-                viewLifecycleOwner.lifecycleScope.launch {
-                    delay(CLICK_DEBOUNCE_DELAY_MILLIS)
-                    isClickAllowed = true
-                }
-            }
-            return current
-        }
-    */
-
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Loading -> showLoading()
@@ -196,7 +176,6 @@ class SearchFragment : Fragment() {
                 showContent(state.history as ArrayList<Track>)
                 showHistoryScreen()
             }
-
         }
     }
 
