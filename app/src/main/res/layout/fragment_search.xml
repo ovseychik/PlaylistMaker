@@ -159,7 +159,7 @@
             android:text="@string/you_searched"
             android:textColor="@color/error_placeholder"
             android:textSize="19sp"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -183,7 +183,7 @@
             android:text="@string/clear_history_button_text"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cornerRadius="54dp"
             tools:visibility="visible" />
 
