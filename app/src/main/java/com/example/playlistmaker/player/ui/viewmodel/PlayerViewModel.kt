@@ -22,7 +22,8 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun preparePlayer(url: String) {
         if (!isPlayerCreated) playerInteractor.preparePlayer(url) { state ->
             when (state) {
-                PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
+                PlayerState.STATE_PREPARED,
+                PlayerState.STATE_DEFAULT -> {
                     _statePlayerLiveData.postValue(PlayerState.STATE_PREPARED)
                     timerJob?.cancel()
                 }
@@ -36,8 +37,9 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     private fun startTimer(playerState: PlayerState) {
         timerJob = viewModelScope.launch {
             while (playerState == PlayerState.STATE_PLAYING) {
-                delay(REFRESH_TRACK_PROGRESS_MILLIS)
                 getCurrentPosition()
+                _statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
+                delay(REFRESH_TRACK_PROGRESS_MILLIS)
             }
         }
         if (playerState == PlayerState.STATE_PREPARED) {
@@ -50,7 +52,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
         playerInteractor.controlPlayerState { state ->
             when (state) {
                 PlayerState.STATE_PLAYING -> {
-                    getCurrentPosition()
                     startTimer(PlayerState.STATE_PLAYING)
                     _statePlayerLiveData.postValue(PlayerState.STATE_PLAYING)
                 }
@@ -110,6 +111,6 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
     fun getCoverArtWork(url: String) = url.replaceAfterLast('/', "512x512bb.jpg")
 
     companion object {
-        private const val REFRESH_TRACK_PROGRESS_MILLIS = 100L
+        private const val REFRESH_TRACK_PROGRESS_MILLIS = 300L
     }
 }

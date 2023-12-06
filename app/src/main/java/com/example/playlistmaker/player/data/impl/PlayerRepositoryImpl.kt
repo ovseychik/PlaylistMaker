@@ -18,8 +18,8 @@ class PlayerRepositoryImpl() : PlayerRepository {
                     onStateChangedTo(PlayerState.STATE_PREPARED)
                 }
                 setOnCompletionListener {
-                    playerState = PlayerState.STATE_PREPARED
-                    onStateChangedTo(PlayerState.STATE_PREPARED)
+                    playerState = PlayerState.STATE_DEFAULT
+                    onStateChangedTo(PlayerState.STATE_DEFAULT)
                 }
             }
         }
@@ -56,7 +56,7 @@ class PlayerRepositoryImpl() : PlayerRepository {
                 onStateChangedTo(PlayerState.STATE_PAUSED)
             }
 
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
+            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED, PlayerState.STATE_DEFAULT -> {
                 startPlayer()
                 onStateChangedTo(PlayerState.STATE_PLAYING)
             }
