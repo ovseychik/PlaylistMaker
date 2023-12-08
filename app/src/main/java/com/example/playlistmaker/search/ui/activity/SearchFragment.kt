@@ -25,7 +25,6 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
 
-    private var isClickAllowed = true
     private var textWatcher: TextWatcher? = null
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
@@ -159,14 +158,14 @@ class SearchFragment : Fragment() {
             }
 
             is SearchScreenState.Error -> {
-                showError(state.message)
+                showError(state.message.toString())
                 binding.searchPlaceholderText.setText(R.string.check_network)
                 binding.searchPlaceHolderImage.setImageResource(R.drawable.no_internet)
                 binding.placeholderRefreshButton.visibility = View.VISIBLE
             }
 
             is SearchScreenState.Empty -> {
-                showEmpty(state.message)
+                showEmpty(state.message.toString())
                 binding.searchPlaceholderText.setText(R.string.nothing_found)
                 binding.searchPlaceHolderImage.setImageResource(R.drawable.nothing_found)
                 binding.placeholderRefreshButton.visibility = View.GONE

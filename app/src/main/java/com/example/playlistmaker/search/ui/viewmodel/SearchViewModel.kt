@@ -1,10 +1,9 @@
 package com.example.playlistmaker.search.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.search.domain.SearchInteractor
@@ -14,10 +13,9 @@ import com.example.playlistmaker.util.debounce
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val application: Application,
     private val searchInteractor: SearchInteractor
 ) :
-    AndroidViewModel(application) {
+    ViewModel() {
     private var trackSearchHistory = ArrayList<Track>()
     private var recentSearchExpression: String? = null
 
@@ -127,9 +125,9 @@ class SearchViewModel(
             errorMessage != null -> {
                 renderState(
                     SearchScreenState.Error(
-                        message = application.getString(
-                            R.string.error_server_error
-                        )
+                        message =
+                        R.string.error_server_error
+
                     )
                 )
             }
@@ -137,7 +135,7 @@ class SearchViewModel(
             trackList.isEmpty() -> {
                 renderState(
                     SearchScreenState.Empty(
-                        message = application.getString(R.string.nothing_found)
+                        message = R.string.nothing_found
                     )
                 )
             }

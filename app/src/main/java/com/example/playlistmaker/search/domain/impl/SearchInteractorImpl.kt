@@ -7,11 +7,9 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.concurrent.Executors
 
 class SearchInteractorImpl(private val repository: SearchRepository) : SearchInteractor {
 
-    //private val executor = Executors.newCachedThreadPool()
     override fun searchTrack(expression: String): Flow<SearchResult<List<Track>?, String?>> {
         return repository.searchTrack(expression).map { result ->
             when (result) {
