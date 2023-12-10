@@ -29,12 +29,11 @@ class SearchFragment : Fragment() {
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     private var searchText: String = ""
-    private val trackList = ArrayList<Track>()
+    //private val trackList = ArrayList<Track>()
 
-    private val trackAdapter = TrackAdapter(trackList) {
+    private val trackAdapter = TrackAdapter(ArrayList()) {
         searchViewModel.putTrackToHistory(it)
         onTrackClickDebounce(it)
-
     }
 
     override fun onCreateView(
