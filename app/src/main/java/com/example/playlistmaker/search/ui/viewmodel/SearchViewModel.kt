@@ -20,7 +20,10 @@ class SearchViewModel(
     private var recentSearchExpression: String? = null
 
     private val trackSearchDebounce =
-        debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { changedText ->
+        debounce<String>(
+            SEARCH_DEBOUNCE_DELAY_MILLIS,
+            viewModelScope, true
+        ) { changedText ->
             searchTrack(changedText)
         }
 
@@ -39,17 +42,18 @@ class SearchViewModel(
         _searchStateLiveData.postValue(state)
     }
 
-    private val mediatorStateLiveData = MediatorLiveData<SearchScreenState>().also { liveData ->
-        liveData.addSource(_searchStateLiveData) { screenState ->
-            liveData.value = when (screenState) {
-                is SearchScreenState.Success -> SearchScreenState.Success(screenState.data)
-                is SearchScreenState.History -> SearchScreenState.History(screenState.history)
-                is SearchScreenState.Loading -> screenState
-                is SearchScreenState.Error -> screenState
-                is SearchScreenState.Empty -> screenState
+    private val mediatorStateLiveData =
+        MediatorLiveData<SearchScreenState>().also { liveData ->
+            liveData.addSource(_searchStateLiveData) { screenState ->
+                liveData.value = when (screenState) {
+                    is SearchScreenState.Success -> SearchScreenState.Success(screenState.data)
+                    is SearchScreenState.History -> SearchScreenState.History(screenState.history)
+                    is SearchScreenState.Loading -> screenState
+                    is SearchScreenState.Error -> screenState
+                    is SearchScreenState.Empty -> screenState
+                }
             }
         }
-    }
 
     override fun onCleared() {
         super.onCleared()
