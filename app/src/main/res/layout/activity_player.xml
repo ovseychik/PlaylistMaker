@@ -128,15 +128,18 @@
         android:src="@drawable/ic_button_play"
         app:fabCustomSize="@dimen/player_big_button"
         app:layout_constraintBottom_toTopOf="@id/currentTime"
-        app:layout_constraintEnd_toStartOf="@id/like"
+        app:layout_constraintEnd_toStartOf="@id/like_button"
         app:layout_constraintStart_toEndOf="@id/addToPlaylist"
         app:maxImageSize="@dimen/player_big_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/like"
+        android:id="@+id/like_button"
         android:layout_width="@dimen/player_small_button"
         android:layout_height="@dimen/player_small_button"
+        android:clickable="true"
         android:contentDescription="@string/description_player_like_button"
+        android:focusable="true"
+        android:onClick="myButtonClicked"
         android:src="@drawable/ic_button_like"
         app:backgroundTint="@color/player_small_buttons"
         app:elevation="0dp"

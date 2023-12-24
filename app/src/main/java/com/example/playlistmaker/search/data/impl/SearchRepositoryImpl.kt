@@ -2,6 +2,7 @@ package com.example.playlistmaker.search.data.impl
 
 import android.content.Context
 import com.example.playlistmaker.R
+import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.search.data.network.TrackRequest
 import com.example.playlistmaker.search.data.devicestorage.SearchHistory
 import com.example.playlistmaker.search.data.network.NetworkClient
@@ -15,7 +16,8 @@ import kotlinx.coroutines.flow.flow
 class SearchRepositoryImpl(
     private val networkClient: NetworkClient,
     private val searchHistory: SearchHistory,
-    private val context: Context
+    private val context: Context,
+    private val appDatabase: AppDatabase,
 ) : SearchRepository {
     companion object {
         private const val ERROR_NO_NETWORK = 0
@@ -45,6 +47,8 @@ class SearchRepositoryImpl(
                             previewUrl = it.previewUrl,
                         )
                     }
+                    val favoriteTracksIds = appDatabase.trackDao().getFavoriteTracksIds()
+                    markFavorites(data, favoriteTracksIds)
                     emit(Resource.Success(data))
                 }
             }
@@ -79,6 +83,15 @@ class SearchRepositoryImpl(
 
     override fun clearSearchHistory() {
         searchHistory.clearSearchHistory()
+    }
+
+    private fun markFavorites(tracks: List<Track>, favoriteTracksIds: List<Int>) {
+        for (track in tracks) {
+            favoriteTracksIds.contains<Int>(track.trackId)
+            if (favoriteTracksIds.contains<Int>(track.trackId)) {
+                track.isFavorite = true
+            }
+        }
     }
 
 }

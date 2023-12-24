@@ -4,20 +4,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.library.domain.db.FavoritesInteractor
 import com.example.playlistmaker.player.domain.model.PlayerInteractor
 import com.example.playlistmaker.player.domain.model.PlayerState
+import com.example.playlistmaker.search.domain.model.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
+class PlayerViewModel(
+    private val playerInteractor: PlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor,
+) : ViewModel() {
     private var timerJob: Job? = null
     private var isPlayerCreated = false
 
     private var _statePlayerLiveData = MutableLiveData<PlayerState>()
     fun statePlayerLiveData(): LiveData<PlayerState> = _statePlayerLiveData
+
+    private var _isFavoriteLiveData = MutableLiveData<Boolean>()
+    val isFavoriteLiveData: LiveData<Boolean> = _isFavoriteLiveData
 
     fun preparePlayer(url: String) {
         if (!isPlayerCreated) playerInteractor.preparePlayer(url) { state ->
@@ -33,6 +42,34 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewMode
         }
         isPlayerCreated = true
     }
+
+    fun onFavoriteClicked(track: Track) {
+        viewModelScope.launch {
+            val newFavoriteStatus = if (!track.isFavorite) {
+                favoritesInteractor.addTrackToFavorites(track)
+                true
+            } else {
+
+                favoritesInteractor.removeTrackFromFavorites(track)
+                false
+            }
+
+            _isFavoriteLiveData.postValue(newFavoriteStatus)
+            track.isFavorite = newFavoriteStatus
+        }
+    }
+
+    suspend fun isTackFavorite(trackId: Int): Boolean {
+        val favoriteTracks: Flow<List<Int>> = favoritesInteractor.getFavoriteTracksIds()
+
+        val favoriteTracksIds: MutableList<Int> = mutableListOf()
+
+        favoriteTracks.collect { list ->
+            favoriteTracksIds.addAll(list)
+        }
+        return favoriteTracksIds.contains(trackId)
+    }
+
 
     private fun startTimer(playerState: PlayerState) {
         timerJob = viewModelScope.launch {
