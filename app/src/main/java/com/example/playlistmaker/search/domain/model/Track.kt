@@ -1,10 +1,13 @@
 package com.example.playlistmaker.search.domain.model
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
+import com.example.playlistmaker.search.data.dto.TrackDto
 
 data class Track(
-    val trackId: String,
+    val trackId: Int,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,
@@ -13,10 +16,12 @@ data class Track(
     val releaseDate: String?,
     val primaryGenreName: String,
     val country: String,
-    val previewUrl: String?
+    val previewUrl: String?,
+    var isFavorite: Boolean = false,
 ) : Parcelable {
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
+        parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readLong(),
@@ -25,13 +30,14 @@ data class Track(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readString().toString()
+        parcel.readString().toString(),
+        parcel.readString().toBoolean(),
     )
 
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast("/", "512x512bb.jpg")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(trackId)
+        parcel.writeInt(trackId)
         parcel.writeString(trackName)
         parcel.writeString(artistName)
         parcel.writeLong(trackTimeMillis)
@@ -41,6 +47,7 @@ data class Track(
         parcel.writeString(primaryGenreName)
         parcel.writeString(country)
         parcel.writeString(previewUrl)
+        parcel.writeString(isFavorite.toString())
     }
 
     override fun describeContents(): Int {
@@ -48,12 +55,29 @@ data class Track(
     }
 
     companion object CREATOR : Parcelable.Creator<Track> {
+        @RequiresApi(Build.VERSION_CODES.Q)
         override fun createFromParcel(parcel: Parcel): Track {
             return Track(parcel)
         }
 
         override fun newArray(size: Int): Array<Track?> {
             return arrayOfNulls(size)
+        }
+
+        fun mappingPlayerTrack(track: Track): Track {
+            return Track(
+                trackId = track.trackId,
+                trackName = track.trackName,
+                artistName = track.artistName,
+                trackTimeMillis = track.trackTimeMillis,
+                artworkUrl100 = track.artworkUrl100,
+                collectionName = track.collectionName,
+                releaseDate = track.releaseDate,
+                primaryGenreName = track.primaryGenreName,
+                country = track.country,
+                previewUrl = track.previewUrl,
+                isFavorite = track.isFavorite,
+            )
         }
     }
 }

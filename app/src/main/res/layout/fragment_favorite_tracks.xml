@@ -5,12 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fragment_background"
-    tools:context="com.example.playlistmaker.library.ui.FavoriteTracksFragment">
+    tools:context="com.example.playlistmaker.library.ui.fragment.FavoriteTracksFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/favorite_tracks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/fragment_background">
+        android:background="@color/fragment_background"
+        tools:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_favorite_tracklist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/image_no_favorite_tracks"

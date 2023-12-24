@@ -1,6 +1,8 @@
 package com.example.playlistmaker.di
 
 import android.content.Context
+import androidx.room.Room
+import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.search.data.devicestorage.SearchHistory
 import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs
 import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs.Companion.SEARCH_HISTORY
@@ -22,6 +24,11 @@ val dataModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ItunesApi::class.java)
+    }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "playlistmaker-database.db")
+            .build()
     }
 
     single {

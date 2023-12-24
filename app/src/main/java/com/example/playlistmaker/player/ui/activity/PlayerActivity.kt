@@ -2,12 +2,15 @@ package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
+import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.domain.model.Track
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -37,6 +40,21 @@ class PlayerActivity : AppCompatActivity() {
             val url = bundledTrack?.previewUrl
             viewModel.preparePlayer(url!!)
             initViews(bundledTrack)
+        }
+
+        viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
+            changeFavoriteIcon(isFavorite)
+            bundledTrack?.isFavorite = isFavorite
+        }
+
+        lifecycleScope.launch {
+            val isFavorite = viewModel.isTackFavorite(bundledTrack!!.trackId)
+            changeFavoriteIcon(isFavorite)
+            bundledTrack!!.isFavorite = isFavorite
+        }
+
+        binding.likeButton.setOnClickListener {
+            viewModel.onFavoriteClicked(mappingFromPlayerTrack(bundledTrack!!))
         }
 
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
@@ -103,6 +121,19 @@ class PlayerActivity : AppCompatActivity() {
             genre.text = track.primaryGenreName
             albumName.text = track.collectionName
         }
+    }
+
+    private fun mappingFromPlayerTrack(bundledTrack: Track): Track {
+        return Track.mappingPlayerTrack(bundledTrack)
+    }
+
+    private fun changeFavoriteIcon(isFavorite: Boolean) {
+        val buttonImageResource = if (isFavorite) {
+            R.drawable.ic_button_like_pressed
+        } else {
+            R.drawable.ic_button_like
+        }
+        binding.likeButton.setImageResource(buttonImageResource)
     }
 
     private fun millisFormat(track: Track): String =

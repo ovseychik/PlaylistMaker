@@ -63,9 +63,25 @@ class SearchViewModel(
     fun putTrackToHistory(track: Track) {
         trackSearchHistory = searchInteractor.getSearchHistory() as ArrayList<Track>
         trackSearchHistory.remove(track)
+        if (trackSearchHistory.size > 0) {
+            var foundTrack: Track? = null
+
+            for (historyTrack in trackSearchHistory) {
+                if (historyTrack.equals(track.trackId)) {
+                    foundTrack = historyTrack
+                    break
+                }
+            }
+
+            if (foundTrack.toString().isNotEmpty()) {
+                trackSearchHistory.remove(foundTrack)
+            }
+        }
+
         if (trackSearchHistory.size == MAX_SEARCH_HISTORY) {
             trackSearchHistory.removeAt(trackSearchHistory.size - 1)
         }
+
         trackSearchHistory.add(0, track)
         searchInteractor.putSearchHistory(trackSearchHistory)
     }
@@ -128,19 +144,13 @@ class SearchViewModel(
         when {
             errorMessage != null -> {
                 renderState(
-                    SearchScreenState.Error(
-                        message =
-                        R.string.error_server_error
-
-                    )
+                    SearchScreenState.Error(message = R.string.error_server_error)
                 )
             }
 
             trackList.isEmpty() -> {
                 renderState(
-                    SearchScreenState.Empty(
-                        message = R.string.nothing_found
-                    )
+                    SearchScreenState.Empty(message = R.string.nothing_found)
                 )
             }
 

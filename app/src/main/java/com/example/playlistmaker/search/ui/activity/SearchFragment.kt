@@ -29,7 +29,6 @@ class SearchFragment : Fragment() {
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     private var searchText: String = ""
-    //private val trackList = ArrayList<Track>()
 
     private val trackAdapter = TrackAdapter(ArrayList()) {
         searchViewModel.putTrackToHistory(it)
@@ -229,7 +228,6 @@ class SearchFragment : Fragment() {
 
     companion object {
         const val SEARCH_LINE = "SEARCH LINE"
-        const val TRACK_FOR_PLAYER = "TRACK FOR PLAYER"
         const val CLICK_DEBOUNCE_DELAY_MILLIS = 1_000L
     }
 }
