@@ -49,7 +49,6 @@ class PlayerViewModel(
                 favoritesInteractor.addTrackToFavorites(track)
                 true
             } else {
-
                 favoritesInteractor.removeTrackFromFavorites(track)
                 false
             }

@@ -8,7 +8,6 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
-import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.domain.model.Track
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,13 +47,15 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val isFavorite = viewModel.isTackFavorite(bundledTrack!!.trackId)
-            changeFavoriteIcon(isFavorite)
-            bundledTrack!!.isFavorite = isFavorite
+            bundledTrack?.let { track ->
+                val isFavorite = viewModel.isTackFavorite(track.trackId)
+                changeFavoriteIcon(isFavorite)
+                track.isFavorite = isFavorite
+            }
         }
 
         binding.likeButton.setOnClickListener {
-            viewModel.onFavoriteClicked(mappingFromPlayerTrack(bundledTrack!!))
+            bundledTrack?.let { track -> viewModel.onFavoriteClicked(track) }
         }
 
         binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
@@ -121,10 +122,6 @@ class PlayerActivity : AppCompatActivity() {
             genre.text = track.primaryGenreName
             albumName.text = track.collectionName
         }
-    }
-
-    private fun mappingFromPlayerTrack(bundledTrack: Track): Track {
-        return Track.mappingPlayerTrack(bundledTrack)
     }
 
     private fun changeFavoriteIcon(isFavorite: Boolean) {
