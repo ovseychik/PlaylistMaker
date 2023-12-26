@@ -16,7 +16,6 @@ class FavoriteTracksFragmentViewModel(
 ) : ViewModel() {
     private val _favoriteStateLiveData = MutableLiveData<FavoritesScreenState>()
     fun observeState(): LiveData<FavoritesScreenState> = _favoriteStateLiveData
-    private var screenState: FavoritesScreenState? = null
 
     fun fillData() {
         viewModelScope.launch {
