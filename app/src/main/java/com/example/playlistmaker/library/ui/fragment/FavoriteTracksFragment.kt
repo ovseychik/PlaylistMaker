@@ -23,10 +23,9 @@ class FavoriteTracksFragment : Fragment() {
     private var _binding: FragmentFavoriteTracksBinding? = null
     private val binding get() = _binding!!
 
-    private val _trackList = ArrayList<Track>()
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
-    private val trackAdapter = TrackAdapter(_trackList) {
+    private val trackAdapter = TrackAdapter(ArrayList()) {
         onTrackClickDebounce(it)
     }
 
