@@ -51,7 +51,7 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             binding.likeButton.setOnClickListener {
-                viewModel.onFavoriteClicked(Track.mappingPlayerTrack(track))
+                viewModel.onFavoriteClicked(track)
             }
 
             binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
@@ -59,8 +59,6 @@ class PlayerActivity : AppCompatActivity() {
             binding.btnBackPlayer.setOnClickListener {
                 finish()
             }
-        } ?: run {
-            finish()
         }
     }
 
@@ -124,12 +122,11 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun changeFavoriteIcon(isFavorite: Boolean) {
-        var buttonImageResource = if (isFavorite) {
+        val buttonImageResource = if (isFavorite) {
             R.drawable.ic_button_like_pressed
         } else {
             R.drawable.ic_button_like
         }
-        Log.d("PlayerActivity", "Changing favorite icon to $buttonImageResource")
         binding.likeButton.setImageResource(buttonImageResource)
     }
 
