@@ -31,7 +31,8 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFavoriteTracksBinding.inflate(inflater, container, false)
@@ -67,7 +68,7 @@ class FavoriteTracksFragment : Fragment() {
     private fun render(state: FavoritesScreenState) {
         when (state) {
             is FavoritesScreenState.Content -> showContent(state.tracks)
-            is FavoritesScreenState.Empty -> showEmpty(state.emptyMessage)
+            is FavoritesScreenState.Empty -> showEmpty(state.emptyMessageRes.toString())
         }
     }
 

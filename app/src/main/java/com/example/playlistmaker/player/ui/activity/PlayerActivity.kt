@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -123,11 +124,12 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun changeFavoriteIcon(isFavorite: Boolean) {
-        val buttonImageResource = if (isFavorite) {
+        var buttonImageResource = if (isFavorite) {
             R.drawable.ic_button_like_pressed
         } else {
             R.drawable.ic_button_like
         }
+        Log.d("PlayerActivity", "Changing favorite icon to $buttonImageResource")
         binding.likeButton.setImageResource(buttonImageResource)
     }
 

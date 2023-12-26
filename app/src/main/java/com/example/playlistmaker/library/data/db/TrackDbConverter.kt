@@ -7,14 +7,14 @@ class TrackDbConverter {
     fun map(track: Track): TrackEntity {
         return TrackEntity(
             track.trackId,
-            track.artworkUrl100,
             track.trackName,
             track.artistName,
+            track.trackTimeMillis,
+            track.artworkUrl100,
             track.collectionName,
             track.releaseDate.toString(),
             track.primaryGenreName,
             track.country,
-            track.trackTimeMillis,
             track.previewUrl
         )
     }
@@ -22,10 +22,10 @@ class TrackDbConverter {
     fun map(track: TrackEntity): Track {
         return Track(
             track.id,
-            track.artworkUrl100,
             track.trackName,
-            track.trackTimeMillis,
             track.artistName,
+            track.trackTimeMillis,
+            track.artworkUrl100,
             track.collectionName,
             track.releaseDate,
             track.primaryGenreName,

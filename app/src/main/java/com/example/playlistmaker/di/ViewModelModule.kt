@@ -31,6 +31,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        FavoriteTracksFragmentViewModel(favoritesInteractor = get(), application = get())
+        FavoriteTracksFragmentViewModel(favoritesInteractor = get())
     }
 }

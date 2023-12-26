@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 
 class FavoriteTracksFragmentViewModel(
     private val favoritesInteractor: FavoritesInteractor,
-    private val application: Application,
 ) : ViewModel() {
     private val _favoriteStateLiveData = MutableLiveData<FavoritesScreenState>()
     fun observeState(): LiveData<FavoritesScreenState> = _favoriteStateLiveData
+    private var screenState: FavoritesScreenState? = null
 
     fun fillData() {
         viewModelScope.launch {
@@ -30,7 +30,7 @@ class FavoriteTracksFragmentViewModel(
 
     private fun processResult(tracks: List<Track>) {
         if (tracks.isEmpty()) {
-            renderState(FavoritesScreenState.Empty(application.getString(R.string.placeholder_no_favorite_tracks)))
+            renderState(FavoritesScreenState.Empty(R.string.placeholder_no_favorite_tracks))
         } else {
             renderState(FavoritesScreenState.Content(tracks))
         }
