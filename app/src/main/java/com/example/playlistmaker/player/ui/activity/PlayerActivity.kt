@@ -28,39 +28,37 @@ class PlayerActivity : AppCompatActivity() {
             changeState(state)
         }
 
-        bundledTrack = savedInstanceState?.getParcelable(TRACK_FOR_PLAYER)
+        bundledTrack =
+            savedInstanceState?.getParcelable(TRACK_FOR_PLAYER)
+                ?: intent.getParcelableExtra(TRACK_FOR_PLAYER)
 
-        if (bundledTrack != null) {
-            val url = bundledTrack?.previewUrl
-            viewModel.preparePlayer(url!!)
-            initViews(bundledTrack!!)
-        } else {
-            val bundledTrack = intent.getParcelableExtra<Track>(TRACK_FOR_PLAYER)
-            val url = bundledTrack?.previewUrl
-            viewModel.preparePlayer(url!!)
-            initViews(bundledTrack)
-        }
+        // Такая обёртка, чтобы не расставлять везде безопасный или принудительный вызов
+        // (track? track!!)
+        bundledTrack?.let { track ->
+            viewModel.preparePlayer(track.previewUrl ?: return)
+            initViews(track)
 
-        viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
-            changeFavoriteIcon(isFavorite)
-            bundledTrack?.isFavorite = isFavorite
-        }
+            viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
+                changeFavoriteIcon(isFavorite)
+                track.isFavorite = isFavorite
+            }
 
-        lifecycleScope.launch {
-            bundledTrack?.let { track ->
+            lifecycleScope.launch {
                 val isFavorite = viewModel.isTackFavorite(track.trackId)
                 changeFavoriteIcon(isFavorite)
                 track.isFavorite = isFavorite
             }
-        }
 
-        binding.likeButton.setOnClickListener {
-            bundledTrack?.let { track -> viewModel.onFavoriteClicked(track) }
-        }
+            binding.likeButton.setOnClickListener {
+                viewModel.onFavoriteClicked(Track.mappingPlayerTrack(track))
+            }
 
-        binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
+            binding.btnPlay.setOnClickListener { viewModel.controlPlayerState() }
 
-        binding.btnBackPlayer.setOnClickListener {
+            binding.btnBackPlayer.setOnClickListener {
+                finish()
+            }
+        } ?: run {
             finish()
         }
     }
