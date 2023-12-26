@@ -60,7 +60,6 @@ class PlayerViewModel(
 
     suspend fun isTackFavorite(trackId: Int): Boolean {
         val favoriteTracks: Flow<List<Int>> = favoritesInteractor.getFavoriteTracksIds()
-
         val favoriteTracksIds: MutableList<Int> = mutableListOf()
 
         favoriteTracks.collect { list ->
