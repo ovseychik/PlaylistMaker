@@ -21,6 +21,7 @@ import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
 import com.example.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+// TODO: rename package to ui.fragment
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()

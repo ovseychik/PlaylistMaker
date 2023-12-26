@@ -101,6 +101,7 @@
         app:layout_constraintStart_toStartOf="@id/leftBorder"
         tools:text="Summer in Omsk" />
 
+    <!-- TODO change to ImageButton-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addToPlaylist"
         android:layout_width="@dimen/player_small_button"
@@ -132,24 +133,16 @@
         app:layout_constraintStart_toEndOf="@id/addToPlaylist"
         app:maxImageSize="@dimen/player_big_button" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/like_button"
         android:layout_width="@dimen/player_small_button"
         android:layout_height="@dimen/player_small_button"
-        android:clickable="true"
-        android:contentDescription="@string/description_player_like_button"
-        android:focusable="true"
-        android:onClick="myButtonClicked"
+        android:backgroundTint="@android:color/transparent"
         android:src="@drawable/ic_button_like"
-        app:backgroundTint="@color/player_small_buttons"
-        app:elevation="0dp"
-        app:fabCustomSize="@dimen/player_small_button"
         app:layout_constraintBottom_toBottomOf="@id/btnPlay"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintStart_toEndOf="@id/btnPlay"
-        app:layout_constraintTop_toTopOf="@id/btnPlay"
-        app:maxImageSize="@dimen/player_small_button"
-        app:tint="@color/white" />
+        app:layout_constraintTop_toTopOf="@id/btnPlay" />
 
     <TextView
         android:id="@+id/currentTime"

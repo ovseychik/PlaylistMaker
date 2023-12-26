@@ -19,12 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
+            android:paddingHorizontal="12dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/image_no_favorite_tracks"
