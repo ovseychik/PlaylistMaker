@@ -126,6 +126,7 @@
                 android:src="@drawable/ic_button_add_to_playlist"
                 app:layout_constraintBottom_toBottomOf="@id/btnPlay"
                 app:layout_constraintEnd_toStartOf="@id/btnPlay"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="@id/leftBorder"
                 app:layout_constraintTop_toTopOf="@id/btnPlay" />
 
@@ -151,6 +152,7 @@
                 android:src="@drawable/ic_button_like"
                 app:layout_constraintBottom_toBottomOf="@id/btnPlay"
                 app:layout_constraintEnd_toStartOf="@id/rightBorder"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toEndOf="@id/btnPlay"
                 app:layout_constraintTop_toTopOf="@id/btnPlay" />
 
@@ -319,10 +321,10 @@
             android:id="@+id/btn_new_playlist"
             style="@style/button_create_new_playlist"
             android:layout_marginTop="28dp"
+            android:gravity="center"
             android:text="@string/new_playlist"
             android:textAllCaps="false"
             android:visibility="visible"
-            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

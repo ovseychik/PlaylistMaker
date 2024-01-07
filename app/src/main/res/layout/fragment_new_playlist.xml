@@ -7,27 +7,30 @@
     android:background="@color/fragment_background"
     tools:context=".library.ui.fragment.NewPlaylistFragment">
 
-    <ImageView
-        android:id="@+id/btn_back_new_playlist"
-        style="@style/HeadsImage"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/new_playlist_heading"
+        style="@style/HeadsLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/head_margin_top_image"
-        android:layout_marginTop="@dimen/head_margin_top_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/margin16"
+        android:background="@color/fragment_background"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textview_new_playlist"
-        style="@style/HeadsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/head_margin_start_image"
-        android:layout_marginTop="@dimen/margin16"
-        android:text="@string/new_playlist"
-        app:layout_constraintStart_toEndOf="@id/btn_back_new_playlist"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/btn_back_new_playlist"
+            style="@style/HeadsImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/textview_new_playlist"
+            style="@style/HeadsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/new_playlist" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="@dimen/zero_size"
@@ -37,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_new_playlist">
+        app:layout_constraintTop_toBottomOf="@id/new_playlist_heading">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -62,7 +65,7 @@
                 android:layout_width="@dimen/zero_size"
                 android:layout_height="@dimen/zero_size"
                 android:layout_marginHorizontal="@dimen/padding16"
-                android:backgroundTint="?attr/colorSecondary"
+                android:backgroundTint="@color/blue"
                 app:cardCornerRadius="@dimen/album_cover_round_list"
                 app:cardElevation="@dimen/zero_size"
                 app:layout_constraintDimensionRatio="H,1:1"
@@ -71,7 +74,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/ivPlaylistCover"
+                    android:id="@+id/imageview_playlist_cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/fragment_background"
@@ -82,17 +85,17 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutTitle"
+                android:id="@+id/text_input_layout_title"
                 style="@style/NewPlaylistEditTextStyle"
                 android:layout_marginTop="@dimen/layout_margin_32"
                 android:hint="@string/playlist_title"
                 android:paddingHorizontal="@dimen/margin16"
-                app:layout_constraintEnd_toEndOf="@+id/rightGuideline16"
-                app:layout_constraintStart_toStartOf="@+id/leftGuideline16"
-                app:layout_constraintTop_toBottomOf="@+id/cardView_cover">
+                app:layout_constraintEnd_toEndOf="@id/rightGuideline16"
+                app:layout_constraintStart_toStartOf="@id/leftGuideline16"
+                app:layout_constraintTop_toBottomOf="@id/cardView_cover">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPlaylistTitle"
+                    android:id="@+id/edittext_playlist_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
@@ -105,17 +108,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutDescription"
+                android:id="@+id/textinput_layout_description"
                 style="@style/NewPlaylistEditTextStyle"
                 android:layout_marginTop="@dimen/margin16"
                 android:hint="@string/playlist_description"
                 android:paddingHorizontal="@dimen/margin16"
-                app:layout_constraintEnd_toEndOf="@+id/rightGuideline16"
-                app:layout_constraintStart_toStartOf="@+id/leftGuideline16"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
+                app:layout_constraintEnd_toEndOf="@id/rightGuideline16"
+                app:layout_constraintStart_toStartOf="@id/leftGuideline16"
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_title">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPlaylistDescription"
+                    android:id="@+id/edittext_playlist_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
@@ -128,7 +131,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/tvCreatePlaylist"
+                android:id="@+id/textview_create_playlist"
                 android:layout_width="@dimen/zero_size"
                 android:layout_height="@dimen/layout_height_44"
                 android:layout_gravity="center"
@@ -146,7 +149,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/rightGuideline16"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline16"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDescription"
+                app:layout_constraintTop_toBottomOf="@+id/textinput_layout_description"
                 app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

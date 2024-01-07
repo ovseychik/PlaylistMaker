@@ -22,13 +22,13 @@
         style="@style/PlaylistViewTextStyle"
         android:layout_marginTop="@dimen/margin4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_playlist_cover"
+        app:layout_constraintTop_toBottomOf="@id/imageview_playlist_cover"
         tools:text="Best songs 2021" />
 
     <TextView
         android:id="@+id/textview_number_of_tracks"
         style="@style/PlaylistViewTextStyle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_playlist_title"
+        app:layout_constraintTop_toBottomOf="@id/textview_playlist_title"
         tools:text="Описание " />
 </androidx.constraintlayout.widget.ConstraintLayout>

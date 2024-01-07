@@ -58,7 +58,7 @@ class NewPlaylistFragment : Fragment() {
                             requireContext().resources.getDimensionPixelSize(R.dimen.album_cover_round_player)
                         )
                     )
-                    .into(binding.ivPlaylistCover)
+                    .into(binding.imageviewPlaylistCover)
 
                 imagePath = uri.toString()
             }
@@ -87,11 +87,11 @@ class NewPlaylistFragment : Fragment() {
             checkDataForDialog()
         }
 
-        binding.ivPlaylistCover.setOnClickListener {
+        binding.imageviewPlaylistCover.setOnClickListener {
             askPermissions()
         }
 
-        binding.tvCreatePlaylist.setOnClickListener {
+        binding.textviewCreatePlaylist.setOnClickListener {
             createPlaylist()
         }
 
@@ -117,7 +117,7 @@ class NewPlaylistFragment : Fragment() {
                         requireContext().resources.getDimensionPixelSize(R.dimen.album_cover_round_player)
                     )
                 )
-                .into(binding.ivPlaylistCover)
+                .into(binding.imageviewPlaylistCover)
         }
     }
 
@@ -128,13 +128,13 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun setupTextChangeListener() {
-        binding.etPlaylistTitle.addTextChangedListener(object : TextWatcher {
+        binding.edittextPlaylistTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                binding.tvCreatePlaylist.isEnabled = s?.isNotEmpty() == true
+                binding.textviewCreatePlaylist.isEnabled = s?.isNotEmpty() == true
             }
         })
     }
@@ -174,8 +174,8 @@ class NewPlaylistFragment : Fragment() {
     private fun createPlaylist() {
         val playlist = Playlist(
             id = 0,
-            playlistTitle = binding.etPlaylistTitle.text.toString(),
-            playlistDescription = binding.etPlaylistDescription.text.toString(),
+            playlistTitle = binding.edittextPlaylistTitle.text.toString(),
+            playlistDescription = binding.edittextPlaylistDescription.text.toString(),
             playlistCoverPath = imagePath,
             trackIds = null,
             numberOfTracks = 0
@@ -194,8 +194,8 @@ class NewPlaylistFragment : Fragment() {
 
     private fun checkDataForDialog() {
         if (imagePath != null ||
-            !binding.etPlaylistTitle.text.isNullOrEmpty() ||
-            !binding.etPlaylistDescription.text.isNullOrEmpty()
+            !binding.edittextPlaylistTitle.text.isNullOrEmpty() ||
+            !binding.edittextPlaylistDescription.text.isNullOrEmpty()
         ) {
             confirmDialog?.show()
         } else {

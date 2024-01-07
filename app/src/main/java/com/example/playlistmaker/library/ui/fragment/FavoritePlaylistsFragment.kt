@@ -63,6 +63,7 @@ class FavoritePlaylistsFragment : Fragment() {
 
     private fun showEmpty() {
         binding.recyclerviewPlaylists.isVisible = false
+        binding.buttonCreateNewPlaylist.isVisible = true
         binding.textPlaceholder.isVisible = true
         binding.imageNoFavoriteTracks.isVisible = true
         binding.textPlaceholder.setText(R.string.placeholder_no_playlists_yet)
@@ -70,7 +71,9 @@ class FavoritePlaylistsFragment : Fragment() {
 
     private fun showContent(playlists: List<Playlist>) {
         binding.recyclerviewPlaylists.isVisible = true
+        binding.buttonCreateNewPlaylist.isVisible = false
         binding.textPlaceholder.isVisible = false
+        binding.imageNoFavoriteTracks.isVisible = false
         binding.textPlaceholder.isVisible = false
 
         playlistAdapter.playlists.clear()
