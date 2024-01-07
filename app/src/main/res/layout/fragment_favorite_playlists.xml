@@ -17,8 +17,9 @@
             style="@style/button_create_new_playlist"
             android:layout_marginTop="26dp"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:text="@string/button_new_playlist"
+            android:text="@string/new_playlist"
             android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@id/image_no_favorite_tracks"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +54,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_no_favorite_tracks" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_playlists"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_create_new_playlist"
+            app:spanCount="2"
+            tools:itemCount="3"
+            tools:listitem="@layout/view_playlist" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

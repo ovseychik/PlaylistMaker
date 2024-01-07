@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="margin24">24dp</dimen>
     <dimen name="margin16">16dp</dimen>
+    <dimen name="margin8">8dp</dimen>
+    <dimen name="margin4">4dp</dimen>
     <dimen name="margin17">17dp</dimen>
     <dimen name="margin34">34dp</dimen>
     <dimen name="margin15">15dp</dimen>
     <dimen name="radius16">16dp</dimen>
     <dimen name="margin3">3dp</dimen>
     <dimen name="margin25">25dp</dimen>
+    <dimen name="margin_top">14dp</dimen>
     <dimen name="head_margin_start_image">4dp</dimen>
     <dimen name="head_margin_top_image">16dp</dimen>
     <dimen name="head_margin_title">0dp</dimen>
@@ -15,6 +19,7 @@
     <dimen name="margin42">42dp</dimen>
     <dimen name="head_text">22sp</dimen>
     <dimen name="text16">16sp</dimen>
+    <dimen name="text12">12sp</dimen>
     <dimen name="padding16">16dp</dimen>
     <dimen name="padding14">14dp</dimen>
     <dimen name="padding22">22dp</dimen>
@@ -23,7 +28,7 @@
     <dimen name="album_cover_round_player">8dp</dimen>
     <dimen name="track_margin8">8dp</dimen>
     <dimen name="track_margin16">16dp</dimen>
-    <dimen name="player_attributes_textize">12sp</dimen>
+    <dimen name="player_attributes_textsize">12sp</dimen>
     <dimen name="player_small_button">52dp</dimen>
     <dimen name="player_big_button">84dp</dimen>
     <dimen name="player_height_attributes">32dp</dimen>
@@ -31,4 +36,14 @@
     <dimen name="guide_line16">16dp</dimen>
     <dimen name="player_artist_text_size">22sp</dimen>
     <dimen name="player_song_text_size">14sp</dimen>
+    <dimen name="zero_size">0dp</dimen>
+    <dimen name="cover_margin_top">42dp</dimen>
+    <dimen name="layout_height_54">54dp</dimen>
+    <dimen name="layout_height_44">44dp</dimen>
+    <dimen name="layout_margin_32">32dp</dimen>
+    <dimen name="root_layout_height">61dp</dimen>
+    <dimen name="album_cover_size">45dp</dimen>
+    <dimen name="album_cover_margin_start">13dp</dimen>
+    <dimen name="album_cover_margin_vertical">8dp</dimen>
+    <dimen name="margin_top_medium">46dp</dimen>
 </resources>

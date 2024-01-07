@@ -5,6 +5,7 @@ import com.example.playlistmaker.di.dataModule
 import com.example.playlistmaker.di.interactorModule
 import com.example.playlistmaker.di.repositoryModule
 import com.example.playlistmaker.di.viewModelModule
+import com.markodevcic.peko.PermissionRequester
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -21,6 +22,8 @@ class App : Application() {
         }
         val sharedPrefs = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
         darkTheme = sharedPrefs.getBoolean(DARK_THEME, false)
+
+        PermissionRequester.initialize(applicationContext)
     }
 
 }

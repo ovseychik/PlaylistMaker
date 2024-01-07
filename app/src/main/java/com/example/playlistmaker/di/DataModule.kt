@@ -3,6 +3,9 @@ package com.example.playlistmaker.di
 import android.content.Context
 import androidx.room.Room
 import com.example.playlistmaker.library.data.db.AppDatabase
+import com.example.playlistmaker.library.data.db.AppDatabase.Companion.DB_NAME
+import com.example.playlistmaker.library.data.storage.ImageStorage
+import com.example.playlistmaker.library.data.storage.ImageStorageImpl
 import com.example.playlistmaker.search.data.devicestorage.SearchHistory
 import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs
 import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPrefs.Companion.SEARCH_HISTORY
@@ -27,7 +30,7 @@ val dataModule = module {
     }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "playlistmaker-database.db")
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, DB_NAME)
             .build()
     }
 
@@ -45,6 +48,10 @@ val dataModule = module {
 
     single<NetworkClient> {
         RetrofitNetworkClient(iTunesService = get(), androidContext())
+    }
+
+    single<ImageStorage> {
+        ImageStorageImpl(get())
     }
 
 }

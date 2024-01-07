@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId 'com.example.playlistmaker'
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName '1.0'
@@ -68,7 +68,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     // DB: Room
     def room_version = "2.5.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation 'com.markodevcic:peko:3.0.2'
 }
