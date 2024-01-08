@@ -37,7 +37,7 @@ class PlaylistsRepositoryImpl(
         return playlistDbConverter.map(appDatabase.playlistDao().getPlaylistById(playlistId))
     }
 
-    override suspend fun insertTrack(track: Track) {
+    private suspend fun insertTrack(track: Track) {
         val trackInPlaylist = convertFromTrack(track)
         appDatabase.trackInPlaylistDao().insertTrack(trackInPlaylist = trackInPlaylist)
     }
