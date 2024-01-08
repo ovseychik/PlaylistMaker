@@ -244,7 +244,7 @@ class PlayerActivity : AppCompatActivity() {
 
             is AddTrackState.Added -> {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                binding.addToPlaylist.setImageResource(R.drawable.ic_btn_add_to_playlist_on_success)
+                //binding.addToPlaylist.setImageResource(R.drawable.ic_btn_add_to_playlist_on_success)
                 viewModel.showToast("${getString(R.string.added_to_playlist)} ${state.playlistTitle}")
             }
         }

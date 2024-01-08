@@ -65,8 +65,8 @@
                 android:layout_width="@dimen/zero_size"
                 android:layout_height="@dimen/zero_size"
                 android:layout_marginHorizontal="@dimen/padding16"
-                app:cardCornerRadius="@dimen/album_cover_round_list"
                 android:backgroundTint="@color/fragment_background"
+                app:cardCornerRadius="@dimen/album_cover_round_list"
                 app:cardElevation="@dimen/zero_size"
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -103,6 +103,7 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     tools:text="Название Название Название Название Название Название Название Название" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,6 +127,7 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     tools:text="Описание Описание Описание Описание Описание Описание Описание" />
 
             </com.google.android.material.textfield.TextInputLayout>

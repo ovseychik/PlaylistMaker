@@ -26,8 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin42">
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/themeSwitcher"
+            style="@style/SwitchCompatStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"

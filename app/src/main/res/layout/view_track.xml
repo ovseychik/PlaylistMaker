@@ -14,7 +14,6 @@
         android:layout_marginTop="@dimen/track_margin8"
         android:layout_marginEnd="@dimen/track_margin8"
         android:layout_marginBottom="@dimen/track_margin8"
-        tools:layout_marginStart="13dp"
         tools:src="@drawable/ic_album_cover_placeholder" />
 
     <LinearLayout
@@ -43,8 +42,7 @@
                 style="@style/ForwardIconStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/track_margin16"
-                android:layout_marginEnd="4dp" />
+                android:layout_marginTop="@dimen/track_margin16" />
         </LinearLayout>
 
         <LinearLayout
