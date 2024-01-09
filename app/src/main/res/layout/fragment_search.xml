@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/fragment_background"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/padding16"
     tools:context=".search.ui.activity.SearchFragment">
 
     <LinearLayout
         style="@style/HeadsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/search_background">
+        android:background="@color/search_background"
+        android:paddingHorizontal="@dimen/padding16">
 
         <TextView
             style="@style/HeadsText"
@@ -26,6 +26,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin16"
         android:layout_marginTop="24dp"
         android:gravity="center_vertical"
         app:cardBackgroundColor="@color/search_background_searchline"
@@ -58,7 +59,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/search_text_searchline"
-                android:textColorHint="@color/search_hint_text_searchline" />
+                android:textColorHint="@color/search_hint_text_searchline"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
             <ImageView
                 android:id="@+id/clearTextSearch"
@@ -126,6 +128,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/placeholderRefreshButton"
+            style="@style/PlaceholderButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -146,6 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
+        android:paddingHorizontal="12dp"
         android:visibility="visible"
         tools:visibility="visible">
 
@@ -166,13 +170,13 @@
             android:id="@+id/recyclerTrackList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/historyClear"
+            style="@style/PlaceholderButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

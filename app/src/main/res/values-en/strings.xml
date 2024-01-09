@@ -36,5 +36,23 @@
     <string name="tab_playlists">Playlists</string>
     <string name="placeholder_no_favorite_tracks">Your library is empty</string>
     <string name="placeholder_no_playlists_yet">You haven\'t created any playlists yet</string>
-    <string name="button_new_playlist">New playlist</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="playlist_title">Name*</string>
+    <string name="playlist_description">Description</string>
+    <string name="create_playlist">Create</string>
+    <string name="permission_rationale">The app needs a permission to access media files in order to be able to pick a playlist cover</string>
+    <string name="playlist_created">Plalist "%s" created</string>
+    <string name="complete_playlist_creation">Create a playlist?</string>
+    <string name="data_loss_warning">All unsaved changes will be lost</string>
+    <string name="cancel">Dismiss</string>
+    <string name="complete">Confirm</string>
+    <string name="added_to_playlist">Added to playlist</string>
+    <string name="already_in_playlist">Track is already in the playlist</string>
+    <string name="add_to_playlist">Add to a playlist</string>
+    <string name="track_count">track</string>
+
+    <plurals name="track_count">
+        <item quantity="one">%1$d track</item>
+        <item quantity="other">%1$d tracks</item>
+    </plurals>
 </resources>
