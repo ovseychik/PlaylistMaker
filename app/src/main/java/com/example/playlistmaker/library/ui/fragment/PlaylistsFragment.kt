@@ -12,12 +12,12 @@ import com.example.playlistmaker.databinding.FragmentFavoritePlaylistsBinding
 import com.example.playlistmaker.library.domain.model.Playlist
 import com.example.playlistmaker.library.ui.PlaylistAdapter
 import com.example.playlistmaker.library.ui.PlaylistsScreenState
-import com.example.playlistmaker.library.ui.viewmodel.FavoritePlaylistsFragmentViewModel
+import com.example.playlistmaker.library.ui.viewmodel.PlaylistsFragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoritePlaylistsFragment : Fragment() {
+class PlaylistsFragment : Fragment() {
 
-    private val viewModel by viewModel<FavoritePlaylistsFragmentViewModel>()
+    private val viewModel by viewModel<PlaylistsFragmentViewModel>()
 
     private var _binding: FragmentFavoritePlaylistsBinding? = null
     private val binding get() = _binding!!
@@ -82,6 +82,6 @@ class FavoritePlaylistsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = FavoritePlaylistsFragment()
+        fun newInstance() = PlaylistsFragment()
     }
 }
