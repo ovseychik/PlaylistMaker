@@ -60,4 +60,8 @@
         <item quantity="many">%1$d треков</item>
         <item quantity="other">%1$d треков</item>
     </plurals>
+
+    <string name="share_playlist">Поделиться</string>
+    <string name="update_playlist">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
 </resources>

@@ -55,4 +55,8 @@
         <item quantity="one">%1$d track</item>
         <item quantity="other">%1$d tracks</item>
     </plurals>
+
+    <string name="share_playlist">Share</string>
+    <string name="update_playlist">Edit info</string>
+    <string name="delete_playlist">Delete playlist</string>
 </resources>
