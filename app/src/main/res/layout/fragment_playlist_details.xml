@@ -166,7 +166,6 @@
         android:id="@+id/playlist_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent_black"
         android:visibility="visible" />
 
     <LinearLayout
@@ -178,7 +177,7 @@
         app:behavior_hideable="true"
         app:behavior_peekHeight="450dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <View
             android:layout_width="50dp"

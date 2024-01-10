@@ -37,7 +37,9 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun getPlaylistById(playlistId: Int): Playlist {
-        return playlistDbConverter.map(appDatabase.playlistDao().getPlaylistById(playlistId))
+        return playlistDbConverter.mapFromPlaylistEntityToPlaylist(
+            appDatabase.playlistDao().getPlaylistById(playlistId)
+        )
     }
 
     private suspend fun insertTrack(track: Track) {
@@ -83,7 +85,7 @@ class PlaylistsRepositoryImpl(
         val flowPlaylist = appDatabase.playlistDao().getFlowPlaylistById(id)
         return (flowPlaylist.map { playlist ->
             if (playlist != null) {
-                playlistDbConverter.map(playlist)
+                playlistDbConverter.mapFromPlaylistEntityToPlaylist(playlist)
             } else {
                 null
             }
@@ -165,15 +167,19 @@ class PlaylistsRepositoryImpl(
 
     private suspend fun getAllPlaylists(): List<Playlist> {
         return appDatabase.playlistDao().getPlaylists()
-            .map { playlistEntity -> playlistDbConverter.map(playlistEntity) }
+            .map { playlistEntity ->
+                playlistDbConverter.mapFromPlaylistEntityToPlaylist(
+                    playlistEntity
+                )
+            }
     }
 
     private fun convertFromPlaylistDb(playlists: List<PlaylistEntity>): List<Playlist> {
-        return playlists.map(playlistDbConverter::map)
+        return playlists.map(playlistDbConverter::mapFromPlaylistEntityToPlaylist)
     }
 
     private fun convertFromPlaylist(playlist: Playlist): PlaylistEntity {
-        return playlistDbConverter.map(playlist)
+        return playlistDbConverter.mapFromPlaylistToPlaylistEntity(playlist)
     }
 
     private fun convertFromTrack(track: Track): TrackInPlaylist {

@@ -33,20 +33,26 @@ import com.markodevcic.peko.PermissionResult.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewPlaylistFragment : Fragment() {
-    private val viewModel by viewModel<NewPlaylistViewModel>()
+
+open class NewPlaylistFragment : Fragment() {
+    open val viewModel by viewModel<NewPlaylistViewModel>()
     private var _binding: FragmentNewPlaylistBinding? = null
-    private val binding get() = _binding!!
+    open val binding get() = _binding!!
 
     private val newPlaylistViewModel by viewModel<NewPlaylistViewModel>()
 
     private val requester = PermissionRequester.instance()
-
     private var imagePath: String? = null
 
     private var confirmDialog: MaterialAlertDialogBuilder? = null
 
-    private var pickMedia =
+    var playlistTitleTemp: String = ""
+    var playlistDescriptionTemp: String? = null
+    var playlistCoverTemp: String? = null
+    var playlistTrackIdsTemp: List<String>? = null
+    var playlistNumberOfTracksTemp: Int? = null
+
+    private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 Glide.with(this)
@@ -60,7 +66,7 @@ class NewPlaylistFragment : Fragment() {
                     )
                     .into(binding.imageviewPlaylistCover)
 
-                imagePath = uri.toString()
+                playlistCoverTemp = uri.toString()
             }
         }
 
@@ -83,6 +89,14 @@ class NewPlaylistFragment : Fragment() {
                 navigateBack()
             }
 
+        binding.edittextPlaylistTitle.addTextChangedListener(
+            getTextWatcherForPlaylistTitle()
+        )
+
+        binding.edittextPlaylistDescription.addTextChangedListener(
+            getTextWatcherForPlaylistDescription()
+        )
+
         binding.btnBackNewPlaylist.setOnClickListener {
             checkDataForDialog()
         }
@@ -95,10 +109,9 @@ class NewPlaylistFragment : Fragment() {
             createPlaylist()
         }
 
-        setupTextChangeListener()
-
-        onBackPress()
+        onBackPress(true)
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("imagePath", imagePath)
@@ -106,18 +119,21 @@ class NewPlaylistFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        imagePath = savedInstanceState?.getString("imagePath")
-        if (imagePath != null) {
-            Glide.with(this)
-                .load(imagePath)
-                .placeholder(R.drawable.placeholder_add_photo)
-                .transform(
-                    CenterCrop(),
-                    RoundedCorners(
-                        requireContext().resources.getDimensionPixelSize(R.dimen.album_cover_round_player)
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("imagePath") != "null") {
+                Glide.with(this)
+                    .load(savedInstanceState.getString("imagePath"))
+                    .placeholder(R.drawable.placeholder_add_photo)
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(
+                            requireContext().resources.getDimensionPixelSize(R.dimen.album_cover_round_player)
+                        )
                     )
-                )
-                .into(binding.imageviewPlaylistCover)
+                    .into(binding.imageviewPlaylistCover)
+
+                playlistCoverTemp = savedInstanceState.getString("imagePath")!!
+            }
         }
     }
 
@@ -125,6 +141,35 @@ class NewPlaylistFragment : Fragment() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             Manifest.permission.READ_MEDIA_IMAGES
         else Manifest.permission.READ_EXTERNAL_STORAGE
+    }
+
+    private fun getTextWatcherForPlaylistTitle(): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                playlistTitleTemp = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                binding.textviewCreatePlaylist.isEnabled = s?.isNotEmpty() == true
+            }
+        }
+    }
+
+    private fun getTextWatcherForPlaylistDescription(): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                playlistDescriptionTemp = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
     }
 
     private fun setupTextChangeListener() {
@@ -174,11 +219,11 @@ class NewPlaylistFragment : Fragment() {
     private fun createPlaylist() {
         val playlist = Playlist(
             id = 0,
-            playlistTitle = binding.edittextPlaylistTitle.text.toString(),
-            playlistDescription = binding.edittextPlaylistDescription.text.toString(),
-            playlistCoverPath = imagePath,
-            trackIds = null,
-            numberOfTracks = 0
+            playlistTitle = playlistTitleTemp,
+            playlistDescription = playlistDescriptionTemp,
+            playlistCoverPath = playlistCoverTemp,
+            trackIds = playlistTrackIdsTemp,
+            numberOfTracks = playlistNumberOfTracksTemp
         )
 
         newPlaylistViewModel.createPlaylist(playlist)
@@ -193,9 +238,9 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun checkDataForDialog() {
-        if (imagePath != null ||
-            !binding.edittextPlaylistTitle.text.isNullOrEmpty() ||
-            !binding.edittextPlaylistDescription.text.isNullOrEmpty()
+        if (playlistCoverTemp != null ||
+            playlistTitleTemp.isNotEmpty() ||
+            playlistDescriptionTemp?.isNotEmpty() == true
         ) {
             confirmDialog?.show()
         } else {
@@ -203,10 +248,10 @@ class NewPlaylistFragment : Fragment() {
         }
     }
 
-    private fun onBackPress() {
+    open fun onBackPress(switch: Boolean) {
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
+            object : OnBackPressedCallback(switch) {
                 override fun handleOnBackPressed() {
                     checkDataForDialog()
                 }

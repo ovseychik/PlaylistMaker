@@ -3,6 +3,7 @@ package com.example.playlistmaker.sharing.data.impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.ContextCompat.startActivity
 import com.example.playlistmaker.sharing.data.repository.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.model.EmailFields
 
@@ -36,12 +37,17 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
     }
 
     override fun sharePlaylist(message: String) {
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            type = "text/plain"
+        val shareIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, message)
+            type = "text/plain"
         }
-        context.startActivity(shareIntent)
+
+        val sendIntent = Intent.createChooser(shareIntent, null).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        context.startActivity(sendIntent)
     }
 
 }
