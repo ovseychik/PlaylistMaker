@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId 'com.example.playlistmaker'
-        minSdk 23
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName '1.0'
@@ -28,6 +28,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
     compileOptions {

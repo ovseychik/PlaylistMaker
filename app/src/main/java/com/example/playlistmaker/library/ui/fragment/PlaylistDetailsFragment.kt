@@ -1,4 +1,6 @@
 package com.example.playlistmaker.library.ui.fragment
 
-class PlaylistDetailsFragment {
+import androidx.fragment.app.Fragment
+
+class PlaylistDetailsFragment : Fragment() {
 }
