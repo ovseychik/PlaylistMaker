@@ -3,7 +3,6 @@ package com.example.playlistmaker.sharing.data.impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
 import com.example.playlistmaker.sharing.data.repository.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.model.EmailFields
 
