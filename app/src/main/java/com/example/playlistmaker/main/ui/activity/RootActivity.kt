@@ -29,6 +29,7 @@ class RootActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.newPlaylistFragment -> hideBottomNavigation()
                 R.id.playlistDetailsFragment -> hideBottomNavigation()
+                R.id.playlistEditingFragment -> hideBottomNavigation()
                 else -> showBottomNavigation()
             }
         }

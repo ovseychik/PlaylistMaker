@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin16"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_share_day"
+                android:src="@drawable/ic_btn_share_black"
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/textview_tracks_time" />
 

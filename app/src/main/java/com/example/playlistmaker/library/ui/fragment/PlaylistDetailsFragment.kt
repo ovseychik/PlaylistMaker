@@ -205,8 +205,6 @@ class PlaylistDetailsFragment : Fragment() {
         tracks.clear()
         tracks.addAll(updatedTracks)
         trackInPlaylistAdapter?.notifyDataSetChanged()
-
-        //if (playlist.trackIds?.isEmpty() == true) showMistakeDialog()
     }
 
     private fun showStateDeletedPlaylist() {
@@ -264,7 +262,7 @@ class PlaylistDetailsFragment : Fragment() {
                     playlist?.id?.let {
                         playlistDetailsViewModel.removeTrackFromPlaylist(
                             it,
-                            track.trackId.toInt()
+                            track.trackId
                         )
                     }
                 })

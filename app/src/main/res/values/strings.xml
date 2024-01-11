@@ -20,6 +20,7 @@
     <string name="refresh_button_text">Обновить</string>
     <string name="clear_history_button_text">Очистить историю</string>
     <string name="you_searched">Вы искали</string>
+    <string name="player_start_time" translatable="false">00:00</string>
     <string name="player_attributes_length">Длительность</string>
     <string name="player_attributes_album">Альбом</string>
     <string name="player_attributes_year">Год</string>

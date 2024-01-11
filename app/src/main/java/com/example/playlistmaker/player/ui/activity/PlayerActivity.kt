@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.library.domain.model.Playlist
@@ -181,7 +182,7 @@ class PlayerActivity : AppCompatActivity() {
         }
         if (state == PlayerState.STATE_DEFAULT) {
             binding.btnPlay.setImageResource(R.drawable.ic_button_play)
-            binding.currentTime.text = "00:00"
+            binding.currentTime.text = getString(R.string.player_start_time)
         }
     }
 
@@ -194,6 +195,7 @@ class PlayerActivity : AppCompatActivity() {
             Glide.with(songArtwork)
                 .load(viewModel.getCoverArtWork(track.artworkUrl100))
                 .placeholder(R.drawable.ic_album_cover_placeholder_hires)
+                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.album_cover_round_player)))
                 .into(songArtwork)
             country.text = track.country
             year.text = releaseYear(track.releaseDate ?: R.string.no_info.toString())
@@ -244,7 +246,6 @@ class PlayerActivity : AppCompatActivity() {
 
             is AddTrackState.Added -> {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                //binding.addToPlaylist.setImageResource(R.drawable.ic_btn_add_to_playlist_on_success)
                 viewModel.showToast("${getString(R.string.added_to_playlist)} ${state.playlistTitle}")
             }
         }
