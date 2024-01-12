@@ -1,6 +1,5 @@
 package com.example.playlistmaker.main.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,12 +20,10 @@ class MainViewModel(private val settingsInteractor: SettingsInteractor) : ViewMo
     }
 
     fun setPlaylist(playlist: Playlist) {
-        Log.d("MainViewModel.setPlaylist()", playlist.toString())
         playlistLiveData.postValue(playlist)
     }
 
     fun getPlaylist(): LiveData<Playlist> {
-        //Log.d("MainViewModel.getPlaylist()", playlistLiveData.toString())
         return playlistLiveData
     }
 

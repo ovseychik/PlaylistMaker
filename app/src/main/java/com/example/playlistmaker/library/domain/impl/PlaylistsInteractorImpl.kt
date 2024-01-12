@@ -1,9 +1,9 @@
 package com.example.playlistmaker.library.domain.impl
 
-import android.util.Log
 import com.example.playlistmaker.library.domain.db.PlaylistsInteractor
 import com.example.playlistmaker.library.domain.db.PlaylistsRepository
 import com.example.playlistmaker.library.domain.model.Playlist
+import com.example.playlistmaker.library.domain.model.QueryHandlingResult
 import com.example.playlistmaker.library.ui.PlaylistDetailsScreenState
 import com.example.playlistmaker.search.domain.model.Track
 import kotlinx.coroutines.flow.Flow
@@ -66,14 +66,10 @@ class PlaylistsInteractorImpl(private val playlistsRepository: PlaylistsReposito
         return (minutes).toInt()
     }
 
-    override suspend fun deletePlaylistById(playlistId: Int): Flow<PlaylistDetailsScreenState> {
-        return playlistsRepository.deletePlaylistById(playlistId).map {
-            when (it) {
-                null -> PlaylistDetailsScreenState.Error
-                else -> PlaylistDetailsScreenState.DeletedPlaylist
-            }
-        }
+    override suspend fun deletePlaylistById(playlistId: Int): Flow<QueryHandlingResult> {
+        return playlistsRepository.deletePlaylistById(playlistId)
     }
+
 
     override suspend fun getFlowPlaylistById(id: Int): Flow<PlaylistDetailsScreenState> {
         return playlistsRepository.getFlowPlaylistById(id).map {
@@ -90,7 +86,6 @@ class PlaylistsInteractorImpl(private val playlistsRepository: PlaylistsReposito
     ): Flow<PlaylistDetailsScreenState> {
         val flowTrack = playlistsRepository.removeTrackFromPlaylist(playlistId, trackId)
         val newPlaylist = playlistsRepository.getPlaylistById(playlistId)
-        Log.d("PLAYLIST newPlaylist", newPlaylist.toString())
 
         if (flowTrack == null) {
             return flow { emit(PlaylistDetailsScreenState.Error) }

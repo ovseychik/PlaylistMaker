@@ -2,11 +2,11 @@ package com.example.playlistmaker.library.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -58,7 +58,6 @@ class PlaylistDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         playlist = mainViewModel.getPlaylist().value!!
-        Log.d("PLAYLIST oncreate", playlist.toString())
         playlistDetailsViewModel.getFlowPlaylistById(playlist!!.id)
 
         playlistDetailsViewModel.getStatePlaylistLiveData().observe(viewLifecycleOwner) {
@@ -118,7 +117,6 @@ class PlaylistDetailsFragment : Fragment() {
         }
 
         binding.imageviewShareButton.setOnClickListener {
-            Log.d("PLAYLIST onclick", playlist.toString())
             share()
         }
     }
@@ -145,10 +143,13 @@ class PlaylistDetailsFragment : Fragment() {
 
             is PlaylistDetailsScreenState.InitPlaylist -> initPlaylist(state.playlist)
 
-            is PlaylistDetailsScreenState.Error -> Log.e(
-                "ErrorQueryOnDb",
-                getString(R.string.empty_playlist)
-            )
+            is PlaylistDetailsScreenState.Error -> {
+                Toast.makeText(
+                    context,
+                    getString(R.string.error_on_query_processing),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -189,8 +190,6 @@ class PlaylistDetailsFragment : Fragment() {
         counterTracks: Int,
         playlist: Playlist
     ) {
-        Log.d("PLAYLIST SSDT playlist ", playlist.toString())
-        Log.d("PLAYLIST SSDT counter", counterTracks.toString())
         val updatedTracks = listTracks.map { track ->
             track.copy(artworkUrl100 = track.artworkUrl100.replaceAfterLast('/', "60x60bb.jpg"))
         }
@@ -337,7 +336,6 @@ class PlaylistDetailsFragment : Fragment() {
     }
 
     private fun share() {
-        Log.d("PLAYLIST SHARE", playlist.toString())
         if (playlist?.numberOfTracks!! > 0) trackInPlaylistAdapter?.let {
             playlistDetailsViewModel.sharePlaylist(
                 playlist!!,

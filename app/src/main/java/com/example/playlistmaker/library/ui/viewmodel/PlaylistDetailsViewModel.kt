@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.library.domain.db.PlaylistsInteractor
 import com.example.playlistmaker.library.domain.model.Playlist
+import com.example.playlistmaker.library.domain.model.QueryHandlingResult
 import com.example.playlistmaker.library.ui.PlaylistDetailsScreenState
 import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.sharing.domain.interactor.SharingInteractor
@@ -96,8 +97,17 @@ class PlaylistDetailsViewModel(
     fun deletePlaylist(playlist: Playlist) {
         playlistObserveJob?.cancel()
         viewModelScope.launch {
-            playlistsInteractor.deletePlaylistById(playlist.id).collect {
-                renderStateTracksInPlaylist(it)
+            playlistsInteractor.deletePlaylistById(playlist.id).collect { result ->
+                when (result) {
+                    QueryHandlingResult.QuerySuccess -> {
+                        statePlaylistLiveData.postValue(PlaylistDetailsScreenState.DeletedPlaylist)
+                    }
+
+                    QueryHandlingResult.QueryHandlingError -> {
+                        statePlaylistLiveData.postValue(PlaylistDetailsScreenState.Error)
+                    }
+                }
+
             }
         }
     }

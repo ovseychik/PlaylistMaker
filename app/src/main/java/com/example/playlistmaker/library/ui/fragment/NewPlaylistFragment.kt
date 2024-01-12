@@ -43,7 +43,6 @@ open class NewPlaylistFragment : Fragment() {
 
     private val requester = PermissionRequester.instance()
     private var imagePath: String? = null
-
     private var confirmDialog: MaterialAlertDialogBuilder? = null
 
     var playlistTitleTemp: String = ""
@@ -114,15 +113,15 @@ open class NewPlaylistFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("imagePath", imagePath)
+        outState.putString(IMAGE_PATH_KEY, imagePath)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            if (savedInstanceState.getString("imagePath") != "null") {
+            if (savedInstanceState.getString(IMAGE_PATH_KEY) != "null") {
                 Glide.with(this)
-                    .load(savedInstanceState.getString("imagePath"))
+                    .load(savedInstanceState.getString(IMAGE_PATH_KEY))
                     .placeholder(R.drawable.placeholder_add_photo)
                     .transform(
                         CenterCrop(),
@@ -132,9 +131,14 @@ open class NewPlaylistFragment : Fragment() {
                     )
                     .into(binding.imageviewPlaylistCover)
 
-                playlistCoverTemp = savedInstanceState.getString("imagePath")!!
+                playlistCoverTemp = savedInstanceState.getString(IMAGE_PATH_KEY)!!
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        playlistCoverTemp = null
     }
 
     private fun getCheckedStorageConst(): String {
@@ -269,6 +273,7 @@ open class NewPlaylistFragment : Fragment() {
     }
 
     companion object {
+        private const val IMAGE_PATH_KEY = "imagePath"
         private var parentPlayerActivity = false
         fun newInstance(flagParentPlayerActivity: Boolean): NewPlaylistFragment {
             parentPlayerActivity = flagParentPlayerActivity

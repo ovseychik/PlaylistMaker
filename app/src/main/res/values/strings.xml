@@ -76,6 +76,7 @@
     <string name="delete">Удалить</string>
     <string name="save">Сохранить</string>
     <string name="edit">Редактировать</string>
+    <string name="error_on_query_processing">Ошибка при удалении</string>
 
     <plurals name="minutes">
         <item quantity="zero">%1$d минут</item>

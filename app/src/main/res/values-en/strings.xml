@@ -41,7 +41,7 @@
     <string name="playlist_description">Description</string>
     <string name="create_playlist">Create</string>
     <string name="permission_rationale">The app needs a permission to access media files in order to be able to pick a playlist cover</string>
-    <string name="playlist_created">Plalist "%s" created</string>
+    <string name="playlist_created">Playlist "%s" created</string>
     <string name="complete_playlist_creation">Create a playlist?</string>
     <string name="data_loss_warning">All unsaved changes will be lost</string>
     <string name="cancel">Dismiss</string>
@@ -62,7 +62,7 @@
     <string name="delete_track">Remove track</string>
     <string name="delete_track_warning">Are you sure you want to remove the track form the playlist?</string>
     <string name="delete_playlist_warning">Are you sure you want to delete the playlist?</string>
-    <string name="share_empty_playlist">There is no list of tracks in thist playlist that you can share</string>
+    <string name="share_empty_playlist">There is no list of tracks in this playlist that you can share</string>
     <string name="empty_playlist">There are no tracks in this playlist</string>
     <string name="ok">OK</string>
     <string name="yes">YES</string>
@@ -70,6 +70,7 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
+    <string name="error_on_query_processing">Sorry, couldn\'t delete</string>
 
     <plurals name="minutes">
         <item quantity="one">%1$d minute</item>

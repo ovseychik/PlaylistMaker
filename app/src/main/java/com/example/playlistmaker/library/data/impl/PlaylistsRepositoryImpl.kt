@@ -8,6 +8,7 @@ import com.example.playlistmaker.library.data.entity.TrackInPlaylist
 import com.example.playlistmaker.library.data.storage.ImageStorage
 import com.example.playlistmaker.library.domain.db.PlaylistsRepository
 import com.example.playlistmaker.library.domain.model.Playlist
+import com.example.playlistmaker.library.domain.model.QueryHandlingResult
 import com.example.playlistmaker.search.domain.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -92,22 +93,22 @@ class PlaylistsRepositoryImpl(
         })
     }
 
-    override suspend fun deletePlaylistById(playlistId: Int): Flow<Unit?> {
+    override suspend fun deletePlaylistById(playlistId: Int): Flow<QueryHandlingResult> {
         try {
             val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
             val listTrackIds = getFromJson(playlist.trackIds)
             return if (listTrackIds.isEmpty()) {
                 appDatabase.playlistDao().deletePlaylistById(playlist.id)
-                flow { emit(Unit) }
+                flow { emit(QueryHandlingResult.QuerySuccess) }
             } else {
                 for (i in 0 until listTrackIds.size) {
                     removeTrackFromCommonTable(listTrackIds[i])
                 }
                 appDatabase.playlistDao().deletePlaylistById(playlistId)
-                flow { emit(Unit) }
+                flow { emit(QueryHandlingResult.QuerySuccess) }
             }
         } catch (ext: Throwable) {
-            return flow { emit(null) }
+            return flow { emit(QueryHandlingResult.QueryHandlingError) }
         }
     }
 
