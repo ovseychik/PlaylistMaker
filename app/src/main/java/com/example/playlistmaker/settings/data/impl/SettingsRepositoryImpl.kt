@@ -6,11 +6,6 @@ import com.example.playlistmaker.settings.domain.SettingsRepository
 import com.example.playlistmaker.settings.domain.model.ThemeToggle
 
 class SettingsRepositoryImpl(private val sharedPrefsSettings: SharedPreferences) : SettingsRepository {
-    companion object {
-        const val SETTINGS_PREFERENCES = "settings_preferences"
-        private const val SWITCH_DARK_THEME = "switch_dark_theme"
-    }
-
     val darkTheme = sharedPrefsSettings.getBoolean(SWITCH_DARK_THEME, false)
 
     override fun getThemeToggle(): ThemeToggle {
@@ -33,4 +28,10 @@ class SettingsRepositoryImpl(private val sharedPrefsSettings: SharedPreferences)
             .putBoolean(SWITCH_DARK_THEME, toggle.darkTheme)
             .apply()
     }
+
+    companion object {
+        const val SETTINGS_PREFERENCES = "settings_preferences"
+        private const val SWITCH_DARK_THEME = "switch_dark_theme"
+    }
+
 }
