@@ -1,6 +1,5 @@
 package com.example.playlistmaker.library.data.impl
 
-import android.util.Log
 import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.library.data.db.PlaylistDbConverter
 import com.example.playlistmaker.library.data.db.TrackInPlaylistConverter
@@ -152,16 +151,13 @@ class PlaylistsRepositoryImpl(
             val listTrackIds: List<String> = newPlaylistTrackIds.map { it.toString() }
 
             return if (listTrackIds.isEmpty()) {
-                Log.d("checkDataIntegrity", "!!! Checking data integrity 1")
                 checkDataIntegrity()
                 flow { emit(ArrayList<Track>()) }
             } else {
-                Log.d("checkDataIntegrity", "!!! Checking data integrity 2")
                 checkDataIntegrity()
                 getTracksFromPlaylistByIds(listTrackIds)
             }
         } catch (exp: Throwable) {
-            Log.d("checkDataIntegrity", "!!! Checking data integrity 3")
             checkDataIntegrity()
             return null
         }
@@ -191,7 +187,6 @@ class PlaylistsRepositoryImpl(
 
         tracks?.forEach { track ->
             if (track.id !in playlistTrackIds) {
-                Log.d("checkDataIntegrity", "Had to remove track ${track.id}, ${track.trackName}, ${track.artistName}")
                 appDatabase.trackInPlaylistDao().deleteTrackByIdFromTracksInPlaylists(track.id)
             }
         }
