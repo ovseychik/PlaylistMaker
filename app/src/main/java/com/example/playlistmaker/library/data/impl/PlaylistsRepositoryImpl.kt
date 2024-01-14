@@ -1,5 +1,6 @@
 package com.example.playlistmaker.library.data.impl
 
+import android.util.Log
 import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.library.data.db.PlaylistDbConverter
 import com.example.playlistmaker.library.data.db.TrackInPlaylistConverter
@@ -123,6 +124,8 @@ class PlaylistsRepositoryImpl(
             }
         }
 
+        checkDataIntegrity()
+
         if (trackEntry > 1) return else
             appDatabase.trackInPlaylistDao().deleteTrackByIdFromTracksInPlaylists(trackId)
     }
@@ -149,11 +152,17 @@ class PlaylistsRepositoryImpl(
             val listTrackIds: List<String> = newPlaylistTrackIds.map { it.toString() }
 
             return if (listTrackIds.isEmpty()) {
+                Log.d("checkDataIntegrity", "!!! Checking data integrity 1")
+                checkDataIntegrity()
                 flow { emit(ArrayList<Track>()) }
             } else {
+                Log.d("checkDataIntegrity", "!!! Checking data integrity 2")
+                checkDataIntegrity()
                 getTracksFromPlaylistByIds(listTrackIds)
             }
         } catch (exp: Throwable) {
+            Log.d("checkDataIntegrity", "!!! Checking data integrity 3")
+            checkDataIntegrity()
             return null
         }
     }
@@ -173,6 +182,20 @@ class PlaylistsRepositoryImpl(
                     playlistEntity
                 )
             }
+    }
+
+    private suspend fun checkDataIntegrity() {
+        val playlists = appDatabase.playlistDao().getPlaylists()
+        val playlistTrackIds = playlists.flatMap { getFromJson(it.trackIds) }.toSet()
+        val tracks = appDatabase.trackInPlaylistDao().getTracksFromPlaylists()
+
+        tracks?.forEach { track ->
+            if (track.id !in playlistTrackIds) {
+                Log.d("checkDataIntegrity", "Had to remove track ${track.id}, ${track.trackName}, ${track.artistName}")
+                appDatabase.trackInPlaylistDao().deleteTrackByIdFromTracksInPlaylists(track.id)
+            }
+        }
+
     }
 
     private fun convertFromPlaylistDb(playlists: List<PlaylistEntity>): List<Playlist> {
@@ -199,4 +222,5 @@ class PlaylistsRepositoryImpl(
         }
         return ArrayList<Int>()
     }
+
 }
