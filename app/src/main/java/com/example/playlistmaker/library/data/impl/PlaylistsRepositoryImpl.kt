@@ -15,6 +15,8 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class PlaylistsRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -22,6 +24,8 @@ class PlaylistsRepositoryImpl(
     private val trackInPlaylistConverter: TrackInPlaylistConverter,
     private val imageStorage: ImageStorage
 ) : PlaylistsRepository {
+    private val mutex = Mutex()
+
     override suspend fun createPlaylist(playlist: Playlist) {
         val playlistEntity = convertFromPlaylist(playlist)
         appDatabase.playlistDao().insertPlaylist(playlistEntity = playlistEntity)
@@ -49,11 +53,13 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun addTrackToPlaylist(playlistId: Int, track: Track) {
-        insertTrack(track)
-        val gottenPlaylist = getPlaylistById(playlistId)
-        gottenPlaylist.trackIds = gottenPlaylist.trackIds?.plus(track.trackId.toString())
-        gottenPlaylist.numberOfTracks = gottenPlaylist.numberOfTracks?.plus(1)
-        updatePlaylist(gottenPlaylist)
+        mutex.withLock {
+            insertTrack(track)
+            val gottenPlaylist = getPlaylistById(playlistId)
+            gottenPlaylist.trackIds = gottenPlaylist.trackIds?.plus(track.trackId.toString())
+            gottenPlaylist.numberOfTracks = gottenPlaylist.numberOfTracks?.plus(1)
+            updatePlaylist(gottenPlaylist)
+        }
     }
 
     override fun saveImageToPrivateStorage(uriFile: String?): String? {
