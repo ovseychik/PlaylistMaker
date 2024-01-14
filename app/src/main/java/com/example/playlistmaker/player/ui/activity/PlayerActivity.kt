@@ -129,6 +129,8 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             binding.btnNewPlaylist.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.playerScrollView.isVisible = false
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(
                     R.id.player_fragment_container,
@@ -137,8 +139,6 @@ class PlayerActivity : AppCompatActivity() {
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
 
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                binding.playerScrollView.isVisible = false
                 binding.playerFragmentContainer.isVisible = true
             }
         }
