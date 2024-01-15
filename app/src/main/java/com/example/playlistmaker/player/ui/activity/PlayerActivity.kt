@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.library.domain.model.Playlist
@@ -19,7 +20,6 @@ import com.example.playlistmaker.player.ui.BottomSheetPlaylistsAdapter
 import com.example.playlistmaker.player.ui.PlayerToastState
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.domain.model.Track
-import com.example.playlistmaker.util.debounce
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +35,7 @@ class PlayerActivity : AppCompatActivity() {
     private var playlists = ArrayList<Playlist>()
 
     private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
+    private var isClickBeingProcessed = false
 
     private val playlistsAdapter = BottomSheetPlaylistsAdapter(playlists) {
         onPlaylistClickDebounce(it)
@@ -84,13 +85,12 @@ class PlayerActivity : AppCompatActivity() {
 
             binding.rvTracks.adapter = playlistsAdapter
 
-            onPlaylistClickDebounce = debounce<Playlist>(
-                CLICK_DEBOUNCE_DELAY_MILLIS,
-                lifecycleScope,
-                false
-            ) { playlist ->
-                viewModel.onPlaylistClicked(playlist, track)
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            onPlaylistClickDebounce = { playlist: Playlist ->
+                if (!isClickBeingProcessed) {
+                    isClickBeingProcessed = true
+                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    viewModel.onPlaylistClicked(playlist, track)
+                }
             }
 
             viewModel.isFavoriteLiveData.observe(this) { isFavorite ->
@@ -128,6 +128,8 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             binding.btnNewPlaylist.setOnClickListener {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.playerScrollView.isVisible = false
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(
                     R.id.player_fragment_container,
@@ -136,8 +138,6 @@ class PlayerActivity : AppCompatActivity() {
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
 
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                binding.playerScrollView.isVisible = false
                 binding.playerFragmentContainer.isVisible = true
             }
         }
@@ -181,7 +181,7 @@ class PlayerActivity : AppCompatActivity() {
         }
         if (state == PlayerState.STATE_DEFAULT) {
             binding.btnPlay.setImageResource(R.drawable.ic_button_play)
-            binding.currentTime.text = "00:00"
+            binding.currentTime.text = getString(R.string.player_start_time)
         }
     }
 
@@ -194,6 +194,7 @@ class PlayerActivity : AppCompatActivity() {
             Glide.with(songArtwork)
                 .load(viewModel.getCoverArtWork(track.artworkUrl100))
                 .placeholder(R.drawable.ic_album_cover_placeholder_hires)
+                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.album_cover_round_player)))
                 .into(songArtwork)
             country.text = track.country
             year.text = releaseYear(track.releaseDate ?: R.string.no_info.toString())
@@ -244,10 +245,13 @@ class PlayerActivity : AppCompatActivity() {
 
             is AddTrackState.Added -> {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                //binding.addToPlaylist.setImageResource(R.drawable.ic_btn_add_to_playlist_on_success)
                 viewModel.showToast("${getString(R.string.added_to_playlist)} ${state.playlistTitle}")
+                // Обновить информацию о плейлистах именно тут, т.к. в ветке выше мы и
+                // так уверены, что id уже есть в плейлисте
+                viewModel.fillData()
             }
         }
+        isClickBeingProcessed = false
     }
 
     private fun showMessage(message: String) {
@@ -273,6 +277,5 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         const val TRACK_FOR_PLAYER = "TRACK_FOR_PLAYER"
-        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

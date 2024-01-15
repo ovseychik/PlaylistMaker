@@ -24,7 +24,7 @@ class ImageStorageImpl(private val context: Context) : ImageStorage {
             }
 
             val timeStamp =
-                SimpleDateFormat("dd.MM.yyyy_hh:mm", Locale.getDefault()).format(Date().time)
+                SimpleDateFormat("dd.MM.yyyy_hh:mm:SS", Locale.getDefault()).format(Date().time).toString()
 
             val file = File(filePath, "$IMAGE_NAME$timeStamp.jpg")
 

@@ -12,13 +12,12 @@ import com.example.playlistmaker.search.data.devicestorage.SearchHistorySharedPr
 import com.example.playlistmaker.search.data.network.ItunesApi
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
+import com.example.playlistmaker.util.GlobalConstants.iTunesUrl
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-const val iTunesUrl = "https://itunes.apple.com"
 
 val dataModule = module {
     single<ItunesApi> {

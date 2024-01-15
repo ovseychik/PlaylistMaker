@@ -188,6 +188,7 @@ class SearchFragment : Fragment() {
 
     private fun hideHistoryScreen() {
         binding.searchHistoryHeader.visibility = View.GONE
+        binding.recyclerTrackList.visibility = View.GONE
         binding.historyClear.visibility = View.GONE
     }
 

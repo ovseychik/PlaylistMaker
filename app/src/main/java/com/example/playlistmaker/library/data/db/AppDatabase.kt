@@ -8,10 +8,16 @@ import com.example.playlistmaker.library.data.dao.TrackInPlaylistDao
 import com.example.playlistmaker.library.data.entity.PlaylistEntity
 import com.example.playlistmaker.library.data.entity.TrackEntity
 import com.example.playlistmaker.library.data.entity.TrackInPlaylist
+import com.example.playlistmaker.library.data.entity.TracksToPlaylistLinkEntity
 
 @Database(
-    version = 1,
-    entities = [TrackEntity::class, PlaylistEntity::class, TrackInPlaylist::class],
+    version = 2,
+    entities = [
+        TrackEntity::class,
+        PlaylistEntity::class,
+        TrackInPlaylist::class,
+        TracksToPlaylistLinkEntity::class
+    ],
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

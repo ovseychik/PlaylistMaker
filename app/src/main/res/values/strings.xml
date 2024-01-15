@@ -20,6 +20,7 @@
     <string name="refresh_button_text">Обновить</string>
     <string name="clear_history_button_text">Очистить историю</string>
     <string name="you_searched">Вы искали</string>
+    <string name="player_start_time" translatable="false">00:00</string>
     <string name="player_attributes_length">Длительность</string>
     <string name="player_attributes_album">Альбом</string>
     <string name="player_attributes_year">Год</string>
@@ -60,4 +61,30 @@
         <item quantity="many">%1$d треков</item>
         <item quantity="other">%1$d треков</item>
     </plurals>
+
+    <string name="share_playlist">Поделиться</string>
+    <string name="update_playlist">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="delete_track">Удалить трек</string>
+    <string name="delete_track_warning">Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="delete_playlist_warning">Вы уверены, что хотите удалить этот плейлист?</string>
+    <string name="share_empty_playlist">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="empty_playlist">В этом плейлисте нет треков</string>
+    <string name="ok">OK</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="delete">Удалить</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="error_on_query_processing">Ошибка при удалении</string>
+
+    <plurals name="minutes">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+
 </resources>
