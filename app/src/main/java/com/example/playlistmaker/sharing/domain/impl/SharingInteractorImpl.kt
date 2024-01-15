@@ -34,4 +34,8 @@ class SharingInteractorImpl(
         )
     }
 
+    override fun sharePlaylist(message: String) {
+        externalNavigator.sharePlaylist(message)
+    }
+
 }

@@ -11,7 +11,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.library.domain.model.Playlist
 
 class BottomSheetPlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val cover: ImageView = view.findViewById(R.id.imageview_playlist_cover)
+    private val cover: ImageView = view.findViewById(R.id.imageview_playlist_cover_small)
     private val title: TextView = view.findViewById(R.id.textview_playlist_title)
     private val numberOfTracks: TextView = view.findViewById(R.id.textview_number_of_tracks)
     

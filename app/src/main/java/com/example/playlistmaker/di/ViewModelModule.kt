@@ -1,8 +1,10 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.library.ui.viewmodel.FavoritePlaylistsFragmentViewModel
+import com.example.playlistmaker.library.ui.viewmodel.PlaylistsFragmentViewModel
 import com.example.playlistmaker.library.ui.viewmodel.FavoriteTracksFragmentViewModel
 import com.example.playlistmaker.library.ui.viewmodel.NewPlaylistViewModel
+import com.example.playlistmaker.library.ui.viewmodel.PlaylistDetailsViewModel
+import com.example.playlistmaker.library.ui.viewmodel.PlaylistEditingViewModel
 import com.example.playlistmaker.main.ui.viewmodel.MainViewModel
 import com.example.playlistmaker.player.ui.viewmodel.PlayerViewModel
 import com.example.playlistmaker.search.ui.viewmodel.SearchViewModel
@@ -32,7 +34,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        FavoritePlaylistsFragmentViewModel(playlistsInteractor = get())
+        PlaylistsFragmentViewModel(playlistsInteractor = get())
     }
 
     viewModel {
@@ -42,4 +44,17 @@ val viewModelModule = module {
     viewModel {
         NewPlaylistViewModel(playlistsInteractor = get())
     }
+
+    viewModel {
+        PlaylistDetailsViewModel(
+            playlistsInteractor = get(),
+            sharingInteractor = get(),
+            application = get(),
+        )
+    }
+
+    viewModel {
+        PlaylistEditingViewModel(playlistsInteractor = get())
+    }
+
 }

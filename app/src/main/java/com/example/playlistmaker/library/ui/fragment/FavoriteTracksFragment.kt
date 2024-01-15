@@ -16,10 +16,11 @@ import com.example.playlistmaker.search.domain.model.Track
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteTracksFragment : Fragment() {
 
-    private val favoriteTracksFragmentViewModel: FavoriteTracksFragmentViewModel by activityViewModel()
+    private val favoriteTracksFragmentViewModel: FavoriteTracksFragmentViewModel by viewModel()
     private var _binding: FragmentFavoriteTracksBinding? = null
     private val binding get() = _binding!!
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMediaLibraryBinding
-import com.example.playlistmaker.library.ui.fragment.FavoritePlaylistsFragment
+import com.example.playlistmaker.library.ui.fragment.PlaylistsFragment
 import com.example.playlistmaker.library.ui.fragment.FavoriteTracksFragment
 import com.example.playlistmaker.library.ui.ViewPageMediaLibraryAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,7 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MediaLibraryFragment : Fragment() {
     private val fragmentList = listOf(
         FavoriteTracksFragment.newInstance(),
-        FavoritePlaylistsFragment.newInstance()
+        PlaylistsFragment.newInstance()
     )
 
     private lateinit var fragmentListTitles: List<String>

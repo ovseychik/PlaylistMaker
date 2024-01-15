@@ -6,24 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoritePlaylistsBinding
 import com.example.playlistmaker.library.domain.model.Playlist
 import com.example.playlistmaker.library.ui.PlaylistAdapter
 import com.example.playlistmaker.library.ui.PlaylistsScreenState
-import com.example.playlistmaker.library.ui.viewmodel.FavoritePlaylistsFragmentViewModel
+import com.example.playlistmaker.library.ui.viewmodel.PlaylistsFragmentViewModel
+import com.example.playlistmaker.main.ui.viewmodel.MainViewModel
+import com.example.playlistmaker.util.debounce
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoritePlaylistsFragment : Fragment() {
+class PlaylistsFragment : Fragment() {
 
-    private val viewModel by viewModel<FavoritePlaylistsFragmentViewModel>()
+    private val playlistViewModel by viewModel<PlaylistsFragmentViewModel>()
+    private val mainViewModel by activityViewModel<MainViewModel>()
+
 
     private var _binding: FragmentFavoritePlaylistsBinding? = null
     private val binding get() = _binding!!
 
     private var playlists = ArrayList<Playlist>()
-    private val playlistAdapter = PlaylistAdapter(playlists)
+    private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
+    private val playlistAdapter = PlaylistAdapter(playlists) { onPlaylistClickDebounce(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,20 +45,31 @@ class FavoritePlaylistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerviewPlaylists.adapter = playlistAdapter
 
-        viewModel.fillData()
+        playlistViewModel.fillData()
 
-        viewModel.observeState().observe(viewLifecycleOwner) {
+        playlistViewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
 
         binding.buttonCreateNewPlaylist.setOnClickListener {
             findNavController().navigate(R.id.newPlaylistFragment)
         }
+
+        onPlaylistClickDebounce = debounce<Playlist>(
+            CLICK_DEBOUNCE_DELAY_MILLIS,
+            lifecycleScope,
+            false
+        ) { playlist ->
+            mainViewModel.setPlaylist(playlist)
+            findNavController().navigate(
+                R.id.playlistDetailsFragment,
+            )
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.fillData()
+        playlistViewModel.fillData()
     }
 
     private fun render(state: PlaylistsScreenState) {
@@ -82,6 +100,7 @@ class FavoritePlaylistsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = FavoritePlaylistsFragment()
+        fun newInstance() = PlaylistsFragment()
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

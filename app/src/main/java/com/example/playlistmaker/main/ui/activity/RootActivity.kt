@@ -28,6 +28,8 @@ class RootActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.newPlaylistFragment -> hideBottomNavigation()
+                R.id.playlistDetailsFragment -> hideBottomNavigation()
+                R.id.playlistEditingFragment -> hideBottomNavigation()
                 else -> showBottomNavigation()
             }
         }
